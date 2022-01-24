@@ -56,5 +56,7 @@ train(np.asarray([amazon_xs]), EPOCHS)
 noise = tf.random.normal([1, 100])
 generated = generator(noise)
 
+print(generated.shape)
+
 data = PIL.Image.fromarray(generated.numpy())
 data.save('output.png')
