@@ -10,6 +10,8 @@ import tensorflow as tf
 
 from IPython import display
 
+cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
+
 def make_generator_model():
     model = tf.keras.Sequential()
     model.add(layers.Dense(7*7*256, use_bias=False, input_shape=(100,)))
@@ -29,3 +31,6 @@ def make_generator_model():
     model.add(layers.Conv2DTranspose(1, (5, 5), strides=(2, 2), padding='same', use_bias=False, activation='tanh'))
 
     return model
+
+def generator_loss(fake_output):
+    return cross_entropy(tf.ones_like(fake_output), fake_output)
