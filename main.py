@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pretty_errors
 import tensorflow as tf
 
 from office_31 import office_31_subset
