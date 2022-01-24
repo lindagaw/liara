@@ -30,10 +30,7 @@ def train_step(images):
     noise = tf.random.normal([BATCH_SIZE, noise_dim])
 
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
-        print(images.shape)
-
         generated_images = generator(noise, training=True)
-        print(generated_images.shape)
         real_output = discriminator(images, training=True)
         fake_output = discriminator(generated_images, training=True)
 
@@ -47,22 +44,11 @@ def train_step(images):
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
 
 def train(dataset, epochs):
-  for epoch in range(epochs):
-    start = time.time()
+    for epoch in range(epochs):
+        start = time.time()
 
     for image_batch in dataset:
-      train_step(image_batch)
-
-    # Produce images for the GIF as you go
-    display.clear_output(wait=True)
-    generate_and_save_images(generator,
-                             epoch + 1,
-                             seed)
-
-    # Save the model every 15 epochs
-    if (epoch + 1) % 15 == 0:
-      checkpoint.save(file_prefix = checkpoint_prefix)
-
+        train_step(image_batch)
     print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 
 train(np.asarray([amazon_xs]), EPOCHS)
