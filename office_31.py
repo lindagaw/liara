@@ -12,7 +12,7 @@ def office_31_subset(dataset):
 
         category_index = os.listdir(dataset_path).index(category)
         for image_name in os.listdir(category_path):
-            standard_size = (100, 100)
+            standard_size = (56, 56)
             image = np.asarray(Image.open(os.path.join('office-31', dataset, 'images', category, image_name)).resize(standard_size))
             xs.append(image)
             ys.append(category_index)
