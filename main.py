@@ -13,9 +13,9 @@ num_examples_to_generate = 16
 
 seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
-office_31_subset('amazon')
-office_31_subset('dslr')
-office_31_subset('webcam')
+amazon_xs, amazon_ys = office_31_subset('amazon')
+dslr_xs, dlsr_ys = office_31_subset('dslr')
+webcam_xs, webcam_ys = office_31_subset('webcam')
 
 #noise = tf.random.normal([1, 100])
 
@@ -61,3 +61,5 @@ def train(dataset, epochs):
       checkpoint.save(file_prefix = checkpoint_prefix)
 
     print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+
+train(amazon_xs, EPOCHS)

@@ -22,6 +22,7 @@ def office_31_subset(dataset):
 
     print("{} of office 31 has xs of shape {} and ys of shape {}".format(dataset, xs.shape, ys.shape))
 
+return xs, ys
 #office_31_subset('amazon')
 #office_31_subset('dslr')
 #office_31_subset('webcam')
