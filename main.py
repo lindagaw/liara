@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pretty_errors
 import tensorflow as tf
-
+import time
 from office_31 import office_31_subset
 from dcgan_generator import make_generator_model, generator_loss
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
@@ -14,8 +14,8 @@ num_examples_to_generate = 16
 seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
 amazon_xs, amazon_ys = office_31_subset('amazon')
-dslr_xs, dlsr_ys = office_31_subset('dslr')
-webcam_xs, webcam_ys = office_31_subset('webcam')
+#dslr_xs, dlsr_ys = office_31_subset('dslr')
+#webcam_xs, webcam_ys = office_31_subset('webcam')
 
 #noise = tf.random.normal([1, 100])
 
