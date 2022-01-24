@@ -7,7 +7,7 @@ from office_31 import office_31_subset
 from dcgan_generator import make_generator_model, generator_loss
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
 import PIL
-EPOCHS = 500
+EPOCHS = 5000
 BATCH_SIZE = 32
 noise_dim = 100
 num_examples_to_generate = 16
