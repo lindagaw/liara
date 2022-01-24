@@ -63,7 +63,7 @@ def train(dataset, epochs):
 
     print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 
-train(amazon_xs, EPOCHS)
+train(amazon_xs.reshape(-1, 300, 300, 3), EPOCHS)
 
 noise = tf.random.normal([1, 100])
 generated = generator(noise)
