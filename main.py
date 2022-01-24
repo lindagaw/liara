@@ -8,6 +8,7 @@ from dcgan_generator import make_generator_model, generator_loss
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
 
 EPOCHS = 50
+BATCH_SIZE = 32
 noise_dim = 100
 num_examples_to_generate = 16
 
