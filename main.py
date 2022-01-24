@@ -63,3 +63,9 @@ def train(dataset, epochs):
     print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 
 train(amazon_xs, EPOCHS)
+
+noise = tf.random.normal([1, 100])
+generated = generator(noise)
+
+data = PIL.Image.fromarray(array)
+data.save('output.png')
