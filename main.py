@@ -47,14 +47,14 @@ def train(dataset, epochs):
     for epoch in range(epochs):
         start = time.time()
 
-    for image_batch in dataset:
-        train_step(image_batch)
-        print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+        for image_batch in dataset:
+            train_step(image_batch)
+            print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
 noise = tf.random.normal([1, 100])
 generated = generator(noise)
 
-data = PIL.Image.fromarray(generated)
+data = PIL.Image.fromarray(generated.numpy())
 data.save('output.png')
