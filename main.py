@@ -54,7 +54,7 @@ def train(dataset, epochs):
 train(np.asarray([amazon_xs]), EPOCHS)
 
 noise = tf.random.normal([1, 100])
-generated = np.squeeze(generator(noise
+generated = np.squeeze(generator(noise))
 
 
 data = PIL.Image.fromarray(generated.reshape((3, 28, 28)))
