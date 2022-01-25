@@ -42,7 +42,7 @@ history = model.fit(
     X_train,
     y_train,
     batch_size=64,
-    epochs=200,
+    epochs=400,
     # We pass some validation for
     # monitoring validation loss and metrics
     # at the end of each epoch
@@ -50,6 +50,6 @@ history = model.fit(
 )
 
 y_pred = model.predict(X_test)
-acc = accuracy_score(np.argmax(y_test, axis=1)), np.argmax(y_pred, axis=1))
+acc = accuracy_score(np.argmax(y_test, axis=1), np.argmax(y_pred, axis=1))
 
 print(acc)
