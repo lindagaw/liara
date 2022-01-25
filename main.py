@@ -44,7 +44,7 @@ def tuned_resnet(X, y):
         X_train,
         y_train,
         batch_size=64,
-        epochs=200,
+        epochs=1000,
         # We pass some validation for
         # monitoring validation loss and metrics
         # at the end of each epoch
