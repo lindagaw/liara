@@ -11,3 +11,5 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
     include_top=True, weights='imagenet', input_tensor=None,
     input_shape=(224, 224, 3), pooling=None, classes=1000
 )
+
+results = resnet_model.predict(amazon)
