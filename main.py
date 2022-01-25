@@ -12,4 +12,4 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
     input_shape=(224, 224, 3), pooling=None, classes=1000
 )
 
-results = resnet_model.predict(amazon)
+results = resnet_model.predict(amazon_xs)
