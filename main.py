@@ -33,12 +33,11 @@ def tuned_resnet(X, y):
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
 
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(1e-5),  # Optimizer
+        optimizer=tf.keras.optimizers.Adam(5e-6),  # Optimizer
         # Loss function to minimize
-        #loss=tf.keras.losses.CategoricalCrossentropy(),
-        loss = mil_squared_error,
+        loss=tf.keras.losses.CategoricalCrossentropy(),
         # List of metrics to monitor
-        metrics=[tf.keras.metrics.CategoricalAccuracy()],
+        metrics=[tf.keras.metrics.CategoricalAccuracy(), mil_squared_error],
     )
 
     history = model.fit(
