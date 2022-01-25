@@ -45,6 +45,7 @@ def train_step(images):
     with tf.GradientTape() as F_tape, tf.GradientTape() as disc_F_tape, \
         tf.GradientTape() as G_tape, tf.GradientTape() as disc_G_tape:
 
+        print('helllllllllllllllllllllllllllllllllllllllllllllll')
         translated = G(noise, training=True)
         real_output = disc_G(noise, training=True)
         fake_output = disc_G(translated, training=True)
