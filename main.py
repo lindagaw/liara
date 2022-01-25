@@ -16,7 +16,7 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
 )
 
 inputs = tf.keras.Input(shape=(224, 224, 3))
-x = base_model(x, training=False)
+x = resnet_model(x, training=False)
 x = tf.keras.layers.Dropout(0.2)(x)
 outputs = layers.Dense(31)(x)
 model = tf.keras.Model(inputs, outputs)
