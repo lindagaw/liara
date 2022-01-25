@@ -16,6 +16,10 @@ amazon_xs, amazon_ys = office_31_subset('amazon')
 dslr_xs, dlsr_ys = office_31_subset('dslr')
 webcam_xs, webcam_ys = office_31_subset('webcam')
 
+def mil_squared_error(y_true, y_pred):
+    return tf.keras.backend.square(tf.keras.backend.max(y_pred) - tf.keras.backend.max(y_true))
+
+
 def tuned_resnet(X, y):
     resnet_model = tf.keras.applications.inception_resnet_v2.InceptionResNetV2(
         include_top=False, weights='imagenet', input_tensor=None,
@@ -29,9 +33,10 @@ def tuned_resnet(X, y):
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
 
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(1e-4),  # Optimizer
+        optimizer=tf.keras.optimizers.Adam(1e-5),  # Optimizer
         # Loss function to minimize
-        loss=tf.keras.losses.CategoricalCrossentropy(),
+        #loss=tf.keras.losses.CategoricalCrossentropy(),
+        loss = mil_squared_error,
         # List of metrics to monitor
         metrics=[tf.keras.metrics.CategoricalAccuracy()],
     )
@@ -40,7 +45,7 @@ def tuned_resnet(X, y):
         X_train,
         y_train,
         batch_size=64,
-        epochs=400,
+        epochs=200,
         # We pass some validation for
         # monitoring validation loss and metrics
         # at the end of each epoch
