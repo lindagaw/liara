@@ -23,6 +23,11 @@ amazon_xs, amazon_ys = office_31_subset('amazon')
 generator = make_generator_model()
 discriminator = make_discriminator_model()
 
+G = make_generator_model()
+disc_G = make_discriminator_model()
+F = make_generator_model()
+disc_F = make_discriminator_model()
+
 generator_optimizer = tf.keras.optimizers.Adam(1e-5)
 discriminator_optimizer = tf.keras.optimizers.Adam(1e-5)
 
@@ -44,19 +49,32 @@ def train_step(images):
         tf.GradientTape() as F_tape, tf.GradientTape() as disc_F_tape, \
         tf.GradientTape() as G_tape, tf.GradientTape() as disc_G_tape:
 
-        generated_images = generator(noise, training=True)
+        translated = G(noise, training=True)
+        real_output = disc_G(noise, training=True)
+        fake_output = disc_G(translated, training=True)
+        gen_G_loss = generator_loss(fake_output)
+        disc_G_loss = discriminator_loss(real_output, fake_output)
 
-        real_output = discriminator(images, training=True)
-        fake_output = discriminator(generated_images, training=True)
 
-        gen_loss = generator_loss(fake_output)
-        disc_loss = discriminator_loss(real_output, fake_output)
+        translated_back = F(translated, train=True)
+        real_output = disc_F(images, training=True)
+        fake_output = disc_F(translated_back, training=True)
+        gen_F_loss = generator_loss(fake_output)
+        disc_F_loss = discriminator_loss(real_output, fake_output)
 
-    gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
-    gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
+        c_loss = cycle_loss(translated, images, translated_back, noise)
 
-    generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
-    discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
+
+    gradients_of_F = F_tape.gradient(gen_F_loss+c_loss, F.trainable_variables)
+    gradients_of_disc_F = disc_F_tape.gradient(disc_F_loss, disc_F.trainable_variables)
+    gradients_of_G = G_tape.gradient(gen_G_loss+c_loss, G.trainable_variables)
+    gradients_of_disc_G = disc_G_tape.gradient(disc_G_loss, disc_G.trainable_variables)
+
+
+    G_optimizer.apply_gradients(zip(gradients_of_G , G.trainable_variables))
+    disc_G_optimizer.apply_gradients(zip(gradients_of_disc_G, disc_G.trainable_variables))
+    F_optimizer.apply_gradients(zip(gradients_of_F , F.trainable_variables))
+    disc_F_optimizer.apply_gradients(zip(gradients_of_disc_F, disc_F.trainable_variables))
 
 def train(dataset, epochs):
     for epoch in range(epochs):
@@ -68,8 +86,7 @@ def train(dataset, epochs):
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
-noise = tf.random.normal([1, 100])
-generated = np.squeeze(generator(noise))
+generated = np.squeeze(G(amazon_xs[0]))
 
 print(generated.shape)
 
