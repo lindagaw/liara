@@ -50,6 +50,6 @@ history = model.fit(
 )
 
 y_pred = model.predict(X_test)
-acc = accuracy_score(np.squeeze(y_test), np.squeeze(y_pred))
+acc = accuracy_score(np.argmax(y_test, axis=1)), np.argmax(y_pred, axis=1))
 
 print(acc)
