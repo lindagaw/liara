@@ -17,6 +17,6 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
 )
 
 
-results = eesnet_model.predict(amazon_xs)
+results = resnet_model.predict(amazon_xs)
 
 print(results.shape)
