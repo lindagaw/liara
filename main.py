@@ -15,7 +15,7 @@ dslr_xs, dlsr_ys = office_31_subset('dslr')
 webcam_xs, webcam_ys = office_31_subset('webcam')
 
 X = amazon_xs
-y = amazon_ys
+y = tf.keras.utils.to_categorical(amazon_ys)
 
 resnet_model = tf.keras.applications.resnet50.ResNet50(
     include_top=False, weights='imagenet', input_tensor=None,
