@@ -19,9 +19,9 @@ webcam_xs, webcam_ys = office_31_subset('webcam')
 X = amazon_xs
 y = tf.keras.utils.to_categorical(amazon_ys)
 
-resnet_model = tf.keras.applications.resnet101.ResNet50(
+resnet_model = tf.keras.applications.resnet.ResNet101(
     include_top=False, weights='imagenet', input_tensor=None,
-    input_shape=(32, 32, 3), pooling=None)
+    input_shape=(128, 128, 3), pooling=None)
 
 flattened = tf.keras.layers.Flatten()(resnet_model.output)
 dense = tf.keras.layers.Dense(31, activation='softmax', name="AddedDense2")(flattened)
