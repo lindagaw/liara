@@ -15,6 +15,8 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
     input_shape=(224, 224, 3), pooling=None, classes=1000
 )
 
+x = amazon_xs
+
 inputs = tf.keras.Input(shape=(224, 224, 3))
 x = resnet_model(x, training=False)
 x = tf.keras.layers.Dropout(0.2)(x)
