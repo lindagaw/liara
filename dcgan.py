@@ -7,7 +7,7 @@ from office_31 import office_31_subset
 from dcgan_generator import make_generator_model, generator_loss
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
 import PIL
-EPOCHS = 2000
+EPOCHS = 200
 BATCH_SIZE = 320
 noise_dim = 100
 num_examples_to_generate = 16
@@ -23,14 +23,29 @@ amazon_xs, amazon_ys = office_31_subset('amazon')
 generator = make_generator_model()
 discriminator = make_discriminator_model()
 
-generator_optimizer = tf.keras.optimizers.Adam(1e-4)
-discriminator_optimizer = tf.keras.optimizers.Adam(1e-4)
+generator_optimizer = tf.keras.optimizers.Adam(1e-5)
+discriminator_optimizer = tf.keras.optimizers.Adam(1e-5)
+
+G_optimizer = tf.keras.optimizers.Adam(1e-5)
+disc_G_optimizer = tf.keras.optimizers.Adam(1e-5)
+F_optimizer = tf.keras.optimizers.Adam(1e-5)
+disc_F_optimizer = tf.keras.optimizers.Adam(1e-5)
+
+def cycle_loss(translated, second, translated_back, first):
+    a = np.linalg.norm(translated-second)
+    b = np.linalg.norm(translated_back-first)
+    return a+b
 
 def train_step(images):
-    noise = tf.random.normal([BATCH_SIZE, noise_dim])
+    #noise = tf.random.normal([BATCH_SIZE, noise_dim])
+    noise = amazon_xs
 
-    with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
+    with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape, \
+        tf.GradientTape() as F_tape, tf.GradientTape() as disc_F_tape, \
+        tf.GradientTape() as G_tape, tf.GradientTape() as disc_G_tape:
+
         generated_images = generator(noise, training=True)
+
         real_output = discriminator(images, training=True)
         fake_output = discriminator(generated_images, training=True)
 
