@@ -9,5 +9,5 @@ webcam_xs, webcam_ys = office_31_subset('webcam')
 
 resnet_model = tf.keras.applications.resnet50.ResNet50(
     include_top=True, weights='imagenet', input_tensor=None,
-    input_shape=None, pooling=None, classes=1000, **kwargs
+    input_shape=[56, 56, 3], pooling=None, classes=31
 )
