@@ -28,9 +28,6 @@ disc_G = make_discriminator_model()
 F = make_generator_model()
 disc_F = make_discriminator_model()
 
-generator_optimizer = tf.keras.optimizers.Adam(1e-5)
-discriminator_optimizer = tf.keras.optimizers.Adam(1e-5)
-
 G_optimizer = tf.keras.optimizers.Adam(1e-5)
 disc_G_optimizer = tf.keras.optimizers.Adam(1e-5)
 F_optimizer = tf.keras.optimizers.Adam(1e-5)
@@ -43,10 +40,9 @@ def cycle_loss(translated, second, translated_back, first):
 
 def train_step(images):
     #noise = tf.random.normal([BATCH_SIZE, noise_dim])
-    noise = amazon_xs
+    noise = amazon_xs[:100]
 
-    with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape, \
-        tf.GradientTape() as F_tape, tf.GradientTape() as disc_F_tape, \
+    with tf.GradientTape() as F_tape, tf.GradientTape() as disc_F_tape, \
         tf.GradientTape() as G_tape, tf.GradientTape() as disc_G_tape:
 
         translated = G(noise, training=True)
