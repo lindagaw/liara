@@ -1,5 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras import layers
+import numpy as np
 
 from office_31 import office_31_subset
 from dcgan_generator import make_generator_model, generator_loss
