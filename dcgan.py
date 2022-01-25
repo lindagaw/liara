@@ -86,6 +86,9 @@ def train(dataset, epochs):
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
+data = PIL.Image.fromarray(amazon_xs[0], 'RGB')
+data.save('input.png')
+
 generated = np.squeeze(G(amazon_xs[0]))
 
 print(generated.shape)
