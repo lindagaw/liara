@@ -28,6 +28,14 @@ model = tf.keras.models.Model(inputs=resnet_model.input, outputs=dense)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
 
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(1e-4),  # Optimizer
+    # Loss function to minimize
+    loss=tf.keras.losses.CategoricalCrossentropy(),
+    # List of metrics to monitor
+    metrics=[tf.keras.metrics.CategoricalAccuracy()],
+)
+
 history = model.fit(
     X_train,
     y_train,
