@@ -2,6 +2,8 @@ import tensorflow as tf
 from tensorflow.keras import layers
 import numpy as np
 
+import pretty_errors
+
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
@@ -17,7 +19,7 @@ webcam_xs, webcam_ys = office_31_subset('webcam')
 X = amazon_xs
 y = tf.keras.utils.to_categorical(amazon_ys)
 
-resnet_model = tf.keras.applications.resnet50.ResNet50(
+resnet_model = tf.keras.applications.resnet101.ResNet50(
     include_top=False, weights='imagenet', input_tensor=None,
     input_shape=(32, 32, 3), pooling=None)
 
