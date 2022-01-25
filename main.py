@@ -15,14 +15,9 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
     input_shape=(224, 224, 3), pooling=None, classes=1000
 )
 
-x = amazon_xs
+model = tf.keras.Sequential()
+model.add(layers.Dense(31))
 
-inputs = tf.keras.Input(shape=(224, 224, 3))
-x = resnet_model(x, training=False)
-x = tf.keras.layers.Dropout(0.2)(x)
-outputs = layers.Dense(31)(x)
-model = tf.keras.Model(inputs, outputs)
-
-results = model.predict(amazon_xs)
+results = model.predict(resnet_model.predict(amazon_xs))
 
 print(results.shape)
