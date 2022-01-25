@@ -16,7 +16,7 @@ resnet_model = tf.keras.applications.resnet50.ResNet50(
     input_shape=(32, 32, 3), pooling=None)
 
 flattened = tf.keras.layers.Flatten()(resnet_model.output)
-dense = tf.keras.layers.Dense(31, activation='softmax', name="AddedDense2")(fc1)
+dense = tf.keras.layers.Dense(31, activation='softmax', name="AddedDense2")(flattened)
 model = tf.keras.models.Model(inputs=resnet_model.input, outputs=dense)
 
 
