@@ -7,7 +7,7 @@ import PIL
 from tensorflow.keras import layers
 import time
 import tensorflow as tf
-
+import tensorflow
 from IPython import display
 
 # example of defining a 70x70 patchgan discriminator model
