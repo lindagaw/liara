@@ -79,7 +79,7 @@ dataset = dset.ImageFolder(root=dataroot,
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
-
+print('finished loading the dataset')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
@@ -120,8 +120,6 @@ print("Starting Training Loop...")
 for epoch in range(num_epochs):
     # For each batch in the dataloader
     for i, data in enumerate(dataloader, 0):
-
-        print('entering the loop')
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
