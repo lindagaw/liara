@@ -12,17 +12,17 @@ from IPython import display
 
 
 # example of an encoder-decoder generator for the cyclegan
-from keras.optimizers import Adam
-from keras.models import Model
-from keras.models import Input
-from keras.layers import Conv2D
-from keras.layers import Conv2DTranspose
-from keras.layers import Activation
-from keras.initializers import RandomNormal
-from keras.layers import Concatenate
-from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
-from keras.utils.vis_utils import plot_model
- 
+from tf.keras.optimizers import Adam
+from tf.keras.models import Model
+from tf.keras.models import Input
+from tf.keras.layers import Conv2D
+from tf.keras.layers import Conv2DTranspose
+from tf.keras.layers import Activation
+from tf.keras.initializers import RandomNormal
+from tf.keras.layers import Concatenate
+from tf.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+from tf.keras.utils.vis_utils import plot_model
+
 
 def resnet_block(n_filters, input_layer):
 	# weight initialization
@@ -75,10 +75,10 @@ def define_generator(image_shape=(256,256,3), n_resnet=9):
 	return model
 
 
-cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
+cross_entropy = tf.tf.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_generator_model():
-    model = tf.keras.Sequential()
+    model = tf.tf.keras.Sequential()
     model.add(layers.Dense(7*7*256, use_bias=False, input_shape=(100,)))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())

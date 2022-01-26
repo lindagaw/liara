@@ -11,17 +11,17 @@ import tensorflow as tf
 from IPython import display
 
 # example of defining a 70x70 patchgan discriminator model
-from keras.optimizers import Adam
-from keras.initializers import RandomNormal
-from keras.models import Model
-from keras.models import Input
-from keras.layers import Conv2D
-from keras.layers import LeakyReLU
-from keras.layers import Activation
-from keras.layers import Concatenate
-from keras.layers import BatchNormalization
-from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
-from keras.utils.vis_utils import plot_model
+from tf.keras.optimizers import Adam
+from tf.keras.initializers import RandomNormal
+from tf.keras.models import Model
+from tf.keras.models import Input
+from tf.keras.layers import Conv2D
+from tf.keras.layers import LeakyReLU
+from tf.keras.layers import Activation
+from tf.keras.layers import Concatenate
+from tf.keras.layers import BatchNormalization
+from tf.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+from tf.keras.utils.vis_utils import plot_model
 
 # define the discriminator model
 def define_discriminator(image_shape):
@@ -55,11 +55,11 @@ def define_discriminator(image_shape):
 	# compile model
 	model.compile(loss='mse', optimizer=Adam(lr=0.0002, beta_1=0.5), loss_weights=[0.5])
 	return model
- 
-cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
+
+cross_entropy = tf.tf.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_discriminator_model():
-    model = tf.keras.Sequential()
+    model = tf.tf.keras.Sequential()
     model.add(layers.Conv2D(64, (5, 5), strides=(2, 2), padding='same',
                                      input_shape=[56, 56, 3]))
     model.add(layers.LeakyReLU())
