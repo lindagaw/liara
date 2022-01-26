@@ -14,7 +14,7 @@ from IPython import display
 # example of an encoder-decoder generator for the cyclegan
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Model
-from tensorflow.keras.models import Input
+from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Conv2DTranspose
 from tensorflow.keras.layers import Activation
