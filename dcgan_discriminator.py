@@ -20,7 +20,7 @@ from tensorflow.keras.layers import LeakyReLU
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.layers import BatchNormalization
-from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+#from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
 from tensorflow.keras.utils.vis_utils import plot_model
 
 # define the discriminator model
@@ -34,19 +34,19 @@ def define_discriminator(image_shape):
 	d = LeakyReLU(alpha=0.2)(d)
 	# C128
 	d = Conv2D(128, (4,4), strides=(2,2), padding='same', kernel_initializer=init)(d)
-	d = InstanceNormalization(axis=-1)(d)
+	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# C256
 	d = Conv2D(256, (4,4), strides=(2,2), padding='same', kernel_initializer=init)(d)
-	d = InstanceNormalization(axis=-1)(d)
+	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# C512
 	d = Conv2D(512, (4,4), strides=(2,2), padding='same', kernel_initializer=init)(d)
-	d = InstanceNormalization(axis=-1)(d)
+	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# second last output layer
 	d = Conv2D(512, (4,4), padding='same', kernel_initializer=init)(d)
-	d = InstanceNormalization(axis=-1)(d)
+	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# patch output
 	patch_out = Conv2D(1, (4,4), padding='same', kernel_initializer=init)(d)
