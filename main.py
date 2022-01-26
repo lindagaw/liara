@@ -85,21 +85,11 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 
 # Create the generator
 netG = Generator(ngpu).to(device)
-# Handle multi-gpu if desired
-if (device.type == 'cuda') and (ngpu > 1):
-    netG = nn.DataParallel(netG, list(range(ngpu)))
-# Apply the weights_init function to randomly initialize all weights
-#  to mean=0, stdev=0.02.
 netG.apply(weights_init)
 
 
 # Create the Discriminator
 netD = Discriminator(ngpu).to(device)
-# Handle multi-gpu if desired
-if (device.type == 'cuda') and (ngpu > 1):
-    netD = nn.DataParallel(netD, list(range(ngpu)))
-# Apply the weights_init function to randomly initialize all weights
-#  to mean=0, stdev=0.2.
 netD.apply(weights_init)
 
 # Initialize BCELoss function
