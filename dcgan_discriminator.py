@@ -21,7 +21,7 @@ from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.layers import BatchNormalization
 #from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
-from tensorflow.keras.utils.vis_utils import plot_model
+#from tensorflow.keras.utils.vis_utils import plot_model
 
 # define the discriminator model
 def define_discriminator(image_shape):

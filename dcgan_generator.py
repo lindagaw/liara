@@ -21,7 +21,7 @@ from tensorflow.keras.layers import Activation
 from tensorflow.keras.initializers import RandomNormal
 from tensorflow.keras.layers import Concatenate
 #from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
-from tensorflow.keras.utils.vis_utils import plot_model
+#from tensorflow.keras.utils.vis_utils import plot_model
 
 
 def resnet_block(n_filters, input_layer):
