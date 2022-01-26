@@ -35,9 +35,6 @@ def train_step(images):
 
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
         generated_images = generator(noise, training=True)
-
-        print(generated_images.shape)
-        print(noise.shape)
         real_output = discriminator(images, training=True)
         fake_output = discriminator(generated_images, training=True)
 
@@ -62,7 +59,7 @@ def train(dataset, epochs):
 train(np.asarray([amazon_xs]), EPOCHS)
 
 noise = tf.random.normal([56, 56, 3])
-generated = np.squeeze(generator(noise))
+generated = np.squeeze(generator(np.asarray([noise])))
 
 print(generated.shape)
 
