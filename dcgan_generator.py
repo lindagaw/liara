@@ -20,7 +20,7 @@ from tensorflow.keras.layers import Conv2DTranspose
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.initializers import RandomNormal
 from tensorflow.keras.layers import Concatenate
-from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+from tensorflow.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
 from tensorflow.keras.utils.vis_utils import plot_model
 
 
