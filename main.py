@@ -121,6 +121,8 @@ for epoch in range(num_epochs):
     # For each batch in the dataloader
     for i, data in enumerate(dataloader, 0):
 
+        print('entering the loop')
+
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
         ###########################
