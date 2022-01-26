@@ -5,10 +5,12 @@ import tensorflow as tf
 import time
 from office_31 import office_31_subset
 from dcgan_generator import make_generator_model, generator_loss
+from dcgan_generator import define_generator
+from dcgan_discriminator import define_discriminator
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
 import PIL
 EPOCHS = 500
-BATCH_SIZE = 512
+BATCH_SIZE = 16
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -20,8 +22,10 @@ amazon_xs, amazon_ys = office_31_subset('amazon')
 
 #noise = tf.random.normal([1, 100])
 
-generator = make_generator_model()
-discriminator = make_discriminator_model()
+#generator = make_generator_model()
+generator = define_generator()
+discriminator = define_discriminator((256,256,3))
+#discriminator = make_discriminator_model()
 
 generator_optimizer = tf.keras.optimizers.Adam(1e-4)
 discriminator_optimizer = tf.keras.optimizers.Adam(1e-4)
@@ -50,7 +54,7 @@ def train(dataset, epochs):
 
         for image_batch in dataset:
             gen_loss, disc_loss = train_step(image_batch)
-            print("Epoch {} out of {}: generator_loss is {}, disc_loss is {}".format(epoch, EPOCHS, gen_loss, disc_loss))
+            print("Epoch {}/{}: generator_loss is {}, disc_loss is {}".format(epoch, EPOCHS, gen_loss, disc_loss))
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
