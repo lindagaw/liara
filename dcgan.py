@@ -5,12 +5,10 @@ import tensorflow as tf
 import time
 from office_31 import office_31_subset
 from dcgan_generator import make_generator_model, generator_loss
-from dcgan_generator import define_generator
-from dcgan_discriminator import define_discriminator
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
 import PIL
 EPOCHS = 500
-BATCH_SIZE = 1
+BATCH_SIZE = 512
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -22,16 +20,14 @@ amazon_xs, amazon_ys = office_31_subset('amazon')
 
 #noise = tf.random.normal([1, 100])
 
-#generator = make_generator_model()
-generator = define_generator()
-discriminator = define_discriminator((56,56,3))
-#discriminator = make_discriminator_model()
+generator = make_generator_model()
+discriminator = make_discriminator_model()
 
 generator_optimizer = tf.keras.optimizers.Adam(1e-4)
 discriminator_optimizer = tf.keras.optimizers.Adam(1e-4)
 
 def train_step(images):
-    noise = tf.random.normal([BATCH_SIZE, 56, 56, 3])
+    noise = tf.random.normal([BATCH_SIZE, noise_dim])
 
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
         generated_images = generator(noise, training=True)
@@ -58,8 +54,8 @@ def train(dataset, epochs):
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
-noise = tf.random.normal([56, 56, 3])
-generated = np.squeeze(generator(np.asarray([noise])))
+noise = tf.random.normal([1, 100])
+generated = np.squeeze(generator(noise))
 
 print(generated.shape)
 
