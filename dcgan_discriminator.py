@@ -19,28 +19,21 @@ cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_discriminator_model():
     model = Sequential()
-    model.add(Conv2D(128, 3, strides=2, input_shape=(32, 32, 3), padding='same',
-                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+    model.add(Conv2D(128, 3, strides=2, input_shape=(32, 32, 3), padding='same', kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2D(256, 3, strides=2, padding='same',
-                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
-    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(Conv2D(256, 3, strides=2, padding='same', kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2D(512, 3, strides=2, padding='same',
-                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
-    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(Conv2D(512, 3, strides=2, padding='same', kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2D(1024, 3, strides=2, padding='same',
-                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
-    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(Conv2D(1024, 3, strides=2, padding='same', kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+
     model.add(LeakyReLU(alpha=0.2))
 
     model.add(Flatten())
     model.add(Dense(1, kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
-    self.generator_model.add(BatchNormalization(momentum=0.5))
     model.add(Activation('sigmoid'))
 
     return model
