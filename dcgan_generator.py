@@ -38,7 +38,7 @@ def resnet_block(n_filters, input_layer):
 	g = Concatenate()([g, input_layer])
 	return g
 
-def define_generator(image_shape=(300,300,3), n_resnet=9):
+def define_generator(image_shape=(56,56,3), n_resnet=9):
 	# weight initialization
 	init = RandomNormal(stddev=0.02)
 	# image input
@@ -59,11 +59,11 @@ def define_generator(image_shape=(300,300,3), n_resnet=9):
 	for _ in range(n_resnet):
 		g = resnet_block(256, g)
 	# u128
-	g = Conv2DTranspose(128, (3,3), strides=(2,2), padding='same', kernel_initializer=init)(g)
+	g = Conv2DTranspose(128, (3,3), strides=(1,1), padding='same', kernel_initializer=init)(g)
 	#g = InstanceNormalization(axis=-1)(g)
 	g = Activation('relu')(g)
 	# u64
-	g = Conv2DTranspose(64, (3,3), strides=(2,2), padding='same', kernel_initializer=init)(g)
+	g = Conv2DTranspose(64, (3,3), strides=(1,1), padding='same', kernel_initializer=init)(g)
 	#g = InstanceNormalization(axis=-1)(g)
 	g = Activation('relu')(g)
 	# c7s1-3

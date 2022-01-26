@@ -37,11 +37,11 @@ def define_discriminator(image_shape):
 	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# C256
-	d = Conv2D(256, (4,4), strides=(2,2), padding='same', kernel_initializer=init)(d)
+	d = Conv2D(256, (4,4), strides=(1,1), padding='same', kernel_initializer=init)(d)
 	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# C512
-	d = Conv2D(512, (4,4), strides=(2,2), padding='same', kernel_initializer=init)(d)
+	d = Conv2D(512, (4,4), strides=(1,1), padding='same', kernel_initializer=init)(d)
 	#d = InstanceNormalization(axis=-1)(d)
 	d = LeakyReLU(alpha=0.2)(d)
 	# second last output layer

@@ -10,7 +10,7 @@ from dcgan_discriminator import define_discriminator
 from dcgan_discriminator import make_discriminator_model, discriminator_loss
 import PIL
 EPOCHS = 500
-BATCH_SIZE = 16
+BATCH_SIZE = 1
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -24,7 +24,7 @@ amazon_xs, amazon_ys = office_31_subset('amazon')
 
 #generator = make_generator_model()
 generator = define_generator()
-discriminator = define_discriminator((300,300,3))
+discriminator = define_discriminator((56,56,3))
 #discriminator = make_discriminator_model()
 
 generator_optimizer = tf.keras.optimizers.Adam(1e-4)
@@ -58,7 +58,7 @@ def train(dataset, epochs):
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
-noise = tf.random.normal([300, 300, 3])
+noise = tf.random.normal([56, 56, 3])
 generated = np.squeeze(generator(noise))
 
 print(generated.shape)
