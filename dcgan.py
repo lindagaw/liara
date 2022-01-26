@@ -31,7 +31,7 @@ generator_optimizer = tf.keras.optimizers.Adam(1e-4)
 discriminator_optimizer = tf.keras.optimizers.Adam(1e-4)
 
 def train_step(images):
-    noise = tf.random.normal([256, 256, 3])
+    noise = tf.random.normal([1, 256, 256, 3])
 
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
         generated_images = generator(noise, training=True)
