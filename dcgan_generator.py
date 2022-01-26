@@ -12,16 +12,16 @@ from IPython import display
 
 
 # example of an encoder-decoder generator for the cyclegan
-from tf.keras.optimizers import Adam
-from tf.keras.models import Model
-from tf.keras.models import Input
-from tf.keras.layers import Conv2D
-from tf.keras.layers import Conv2DTranspose
-from tf.keras.layers import Activation
-from tf.keras.initializers import RandomNormal
-from tf.keras.layers import Concatenate
-from tf.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
-from tf.keras.utils.vis_utils import plot_model
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.models import Model
+from tensorflow.keras.models import Input
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Conv2DTranspose
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.initializers import RandomNormal
+from tensorflow.keras.layers import Concatenate
+from tensorflow.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+from tensorflow.keras.utils.vis_utils import plot_model
 
 
 def resnet_block(n_filters, input_layer):
@@ -75,10 +75,10 @@ def define_generator(image_shape=(256,256,3), n_resnet=9):
 	return model
 
 
-cross_entropy = tf.tf.keras.losses.BinaryCrossentropy(from_logits=True)
+cross_entropy = tensorflow.tensorflow.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_generator_model():
-    model = tf.tf.keras.Sequential()
+    model = tensorflow.tensorflow.keras.Sequential()
     model.add(layers.Dense(7*7*256, use_bias=False, input_shape=(100,)))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
@@ -106,4 +106,4 @@ def make_generator_model():
     return model
 
 def generator_loss(fake_output):
-    return cross_entropy(tf.ones_like(fake_output), fake_output)
+    return cross_entropy(tensorflow.ones_like(fake_output), fake_output)

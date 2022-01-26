@@ -11,17 +11,17 @@ import tensorflow as tf
 from IPython import display
 
 # example of defining a 70x70 patchgan discriminator model
-from tf.keras.optimizers import Adam
-from tf.keras.initializers import RandomNormal
-from tf.keras.models import Model
-from tf.keras.models import Input
-from tf.keras.layers import Conv2D
-from tf.keras.layers import LeakyReLU
-from tf.keras.layers import Activation
-from tf.keras.layers import Concatenate
-from tf.keras.layers import BatchNormalization
-from tf.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
-from tf.keras.utils.vis_utils import plot_model
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.initializers import RandomNormal
+from tensorflow.keras.models import Model
+from tensorflow.keras.models import Input
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import Concatenate
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+from tensorflow.keras.utils.vis_utils import plot_model
 
 # define the discriminator model
 def define_discriminator(image_shape):
@@ -56,10 +56,10 @@ def define_discriminator(image_shape):
 	model.compile(loss='mse', optimizer=Adam(lr=0.0002, beta_1=0.5), loss_weights=[0.5])
 	return model
 
-cross_entropy = tf.tf.keras.losses.BinaryCrossentropy(from_logits=True)
+cross_entropy = tensorflow.tensorflow.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_discriminator_model():
-    model = tf.tf.keras.Sequential()
+    model = tensorflow.tensorflow.keras.Sequential()
     model.add(layers.Conv2D(64, (5, 5), strides=(2, 2), padding='same',
                                      input_shape=[56, 56, 3]))
     model.add(layers.LeakyReLU())
@@ -79,7 +79,7 @@ def make_discriminator_model():
     return model
 
 def discriminator_loss(real_output, fake_output):
-    real_loss = cross_entropy(tf.ones_like(real_output), real_output)
-    fake_loss = cross_entropy(tf.zeros_like(fake_output), fake_output)
+    real_loss = cross_entropy(tensorflow.ones_like(real_output), real_output)
+    fake_loss = cross_entropy(tensorflow.zeros_like(fake_output), fake_output)
     total_loss = real_loss + fake_loss
     return total_loss
