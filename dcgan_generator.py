@@ -75,7 +75,7 @@ def define_generator(image_shape=(256,256,3), n_resnet=9):
 	return model
 
 
-cross_entropy = tensorflow.tensorflow.keras.losses.BinaryCrossentropy(from_logits=True)
+cross_entropy = tensorflow.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_generator_model():
     model = tensorflow.tensorflow.keras.Sequential()

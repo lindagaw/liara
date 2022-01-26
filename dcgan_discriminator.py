@@ -56,7 +56,7 @@ def define_discriminator(image_shape):
 	model.compile(loss='mse', optimizer=Adam(lr=0.0002, beta_1=0.5), loss_weights=[0.5])
 	return model
 
-cross_entropy = tensorflow.tensorflow.keras.losses.BinaryCrossentropy(from_logits=True)
+cross_entropy = tensorflow.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_discriminator_model():
     model = tensorflow.tensorflow.keras.Sequential()
