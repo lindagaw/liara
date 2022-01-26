@@ -37,6 +37,7 @@ def train_step(images):
         gen_loss = generator_loss(fake_output)
         disc_loss = discriminator_loss(real_output, fake_output)
 
+    print("generator_loss is {}, disc_loss is {}".format(gen_loss, disc_loss))
     gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
     gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
 
