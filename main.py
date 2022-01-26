@@ -19,6 +19,8 @@ from IPython.display import HTML
 
 from helper import weights_init
 from generator import Generator
+from discriminator import Discriminator
+from mahalanobis import mahalanobis_loss
 
 # Set random seed for reproducibility
 manualSeed = 999
@@ -51,7 +53,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 5
+num_epochs = 1
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -74,7 +76,7 @@ dataset = dset.ImageFolder(root=dataroot,
                            ]))
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
-                                         shuffle=True, num_workers=workers)
+                                         shuffle=True)
 
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
