@@ -48,11 +48,11 @@ def define_generator(image_shape=(56,56,3), n_resnet=9):
 	#g = InstanceNormalization(axis=-1)(g)
 	g = Activation('relu')(g)
 	# d128
-	g = Conv2D(128, (3,3), strides=(2,2), padding='same', kernel_initializer=init)(g)
+	g = Conv2D(128, (3,3), strides=(1,1), padding='same', kernel_initializer=init)(g)
 	#g = InstanceNormalization(axis=-1)(g)
 	g = Activation('relu')(g)
 	# d256
-	g = Conv2D(256, (3,3), strides=(2,2), padding='same', kernel_initializer=init)(g)
+	g = Conv2D(256, (3,3), strides=(1,1), padding='same', kernel_initializer=init)(g)
 	#g = InstanceNormalization(axis=-1)(g)
 	g = Activation('relu')(g)
 	# R256
