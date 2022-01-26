@@ -10,25 +10,38 @@ import tensorflow as tf
 
 from IPython import display
 
+from tf.keras import Sequential
+from tf.keras.initializers import TruncatedNormal
+from tf.keras.layers import Activation, BatchNormalization, Conv2D, Conv2DTranspose, Dense, Flatten, LeakyReLU, Reshape
+from tf.keras.optimizers import SGD
+
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 
 def make_discriminator_model():
-    model = tf.keras.Sequential()
-    model.add(layers.Conv2D(64, (5, 5), strides=(2, 2), padding='same',
-                                     input_shape=[56, 56, 3]))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model = Sequential()
+    model.add(Conv2D(128, 3, strides=2, input_shape=(32, 32, 3), padding='same',
+                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(layers.Conv2D(128, (5, 5), strides=(2, 2), padding='same'))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model.add(Conv2D(256, 3, strides=2, padding='same',
+                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(layers.Conv2D(128, (5, 5), strides=(2, 2), padding='same'))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model.add(Conv2D(512, 3, strides=2, padding='same',
+                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(layers.Flatten())
-    model.add(layers.Dense(1))
+    model.add(Conv2D(1024, 3, strides=2, padding='same',
+                                        kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(LeakyReLU(alpha=0.2))
+
+    model.add(Flatten())
+    model.add(Dense(1, kernel_initializer=TruncatedNormal(mean=0.0, stddev=0.02)))
+    self.generator_model.add(BatchNormalization(momentum=0.5))
+    model.add(Activation('sigmoid'))
 
     return model
 
