@@ -37,20 +37,20 @@ def train_step(images):
         gen_loss = generator_loss(fake_output)
         disc_loss = discriminator_loss(real_output, fake_output)
 
-    print("generator_loss is {}, disc_loss is {}".format(gen_loss, disc_loss))
     gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
     gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
 
     generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
 
+    return gen_loss, disc_loss
 def train(dataset, epochs):
     for epoch in range(epochs):
         start = time.time()
 
         for image_batch in dataset:
-            train_step(image_batch)
-            #print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+            gen_loss, disc_loss = train_step(image_batch)
+            print("Epoch {}: generator_loss is {}, disc_loss is {}".format(epoch, gen_loss, disc_loss))
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
