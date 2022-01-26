@@ -50,7 +50,7 @@ def train(dataset, epochs):
 
         for image_batch in dataset:
             gen_loss, disc_loss = train_step(image_batch)
-            print("Epoch {}: generator_loss is {}, disc_loss is {}".format(epoch, gen_loss, disc_loss))
+            print("Epoch {} out of {}: generator_loss is {}, disc_loss is {}".format(epoch, EPOCHS, gen_loss, disc_loss))
 
 train(np.asarray([amazon_xs]), EPOCHS)
 
