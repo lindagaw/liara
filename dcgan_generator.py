@@ -38,7 +38,7 @@ def resnet_block(n_filters, input_layer):
 	g = Concatenate()([g, input_layer])
 	return g
 
-def define_generator(image_shape=(256,256,3), n_resnet=9):
+def define_generator(image_shape=(300,300,3), n_resnet=9):
 	# weight initialization
 	init = RandomNormal(stddev=0.02)
 	# image input
