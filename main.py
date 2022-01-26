@@ -22,6 +22,8 @@ from generator import Generator
 from discriminator import Discriminator
 from mahalanobis import mahalanobis_loss
 
+import pretty_errors
+
 # Set random seed for reproducibility
 manualSeed = 999
 #manualSeed = random.randint(1, 10000) # use if you want new results
@@ -170,9 +172,11 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
+        m_loss = mahalanobis_loss(real_cpu, netG(noise))
+
         output = netD(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = criterion(output, label)
+        errG = criterion(output, label) + m_loss
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
