@@ -20,7 +20,7 @@ def mahalanobis_loss(set, image):
 
     miu = emp_mean(set)
     sigma = emp_covar(set, miu)
-    norm = np.linalg.norm(image.detach().numpy())
+    norm = np.linalg.norm(image.cpu().detach().numpy())
     m = (norm - miu) * sigma * (norm - miu)
 
     return m
