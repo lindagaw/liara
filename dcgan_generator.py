@@ -10,10 +10,10 @@ import tensorflow as tf
 
 from IPython import display
 
-from tf.keras import Sequential
-from tf.keras.initializers import TruncatedNormal
-from tf.keras.layers import Activation, BatchNormalization, Conv2D, Conv2DTranspose, Dense, Flatten, LeakyReLU, Reshape
-from tf.keras.optimizers import SGD
+from tensorflow.keras import Sequential
+from tensorflow.keras.initializers import TruncatedNormal
+from tensorflow.keras.layers import Activation, BatchNormalization, Conv2D, Conv2DTranspose, Dense, Flatten, LeakyReLU, Reshape
+from tensorflow.keras.optimizers import SGD
 
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 
