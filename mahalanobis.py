@@ -17,11 +17,11 @@ def emp_covar(set, emp_mean):
     return np.mean(vals)
 
 def mahalanobis_loss(set, image):
-    
+
 
     miu = emp_mean(set)
     sigma = emp_covar(set, miu)
     norm = np.linalg.norm(image.detach().numpy())
-    m = (norm - miu) * sigma * (norm - miu)
+    m = (norm - miu) * sigma * (norm - miu) / 100000000
 
     return m
