@@ -32,7 +32,7 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-dataroot = "celebs//"
+dataroot = "office-31//amazon//images//"
 
 # Number of workers for dataloader
 workers = 1
