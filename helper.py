@@ -25,3 +25,13 @@ def weights_init(m):
     elif classname.find('BatchNorm') != -1:
         nn.init.normal_(m.weight.data, 1.0, 0.02)
         nn.init.constant_(m.bias.data, 0)
+
+def all_imgs_from_dataloader(dataloder, name):
+    images = []
+    for i, (inputs, labels) in enumerate(dataloder):
+        images.append(inputs.numpy())
+
+    images = np.asarray(images)
+    print('the shape of all the images in dataloader {} is {}'.format(name, images.shape) )
+
+    return images
