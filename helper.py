@@ -27,7 +27,7 @@ def weights_init(m):
         nn.init.constant_(m.bias.data, 0)
 
 def all_imgs_from_dataloader(dataloder, name):
-    images = None
+    images = []
     for i, (inputs, labels) in enumerate(dataloder):
         images.append(np.squeeze(inputs.numpy()))
 
