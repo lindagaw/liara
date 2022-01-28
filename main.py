@@ -60,7 +60,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 500
+num_epochs = 50
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -271,3 +271,7 @@ plt.title("Fake/Transferable Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
 plt.savefig('images.png')
+
+fake = netG(fixed_noise).detach().cpu()
+torch.save(fake, 'fake.pt')
+print(fake.shape)

@@ -6,3 +6,6 @@ img_align_celeba
 *.jpeg
 *.jpg
 *.gif
+
+*.npy
+*.pt
