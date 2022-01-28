@@ -56,7 +56,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 3
+num_epochs = 15
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -171,6 +171,41 @@ for epoch in range(num_epochs):
         label.fill_(fake_label)
         # Classify all fake batch with D
         output = netD_src(fake.detach()).view(-1)
+        # Calculate D's loss on the all-fake batch
+        errD_fake = criterion(output, label)
+        # Calculate the gradients for this batch, accumulated (summed) with previous gradients
+        errD_fake.backward()
+        D_G_z1 = output.mean().item()
+        # Compute error of D as sum over the fake and the real batches
+        errD = errD_real + errD_fake
+        # Update D
+        optimizerD_src.step()
+
+        ############################
+        # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
+        ###########################
+        ## Train with all-real batch
+        netD_tgt.zero_grad()
+        # Format batch
+        real_cpu = data_tgt.to(device)
+        b_size = real_cpu.size(0)
+        label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
+        # Forward pass real batch through D
+        output = netD_tgt(real_cpu).view(-1)
+        # Calculate loss on all-real batch
+        errD_real = criterion(output, label)
+        # Calculate gradients for D in backward pass
+        errD_real.backward()
+        D_x = output.mean().item()
+
+        ## Train with all-fake batch
+        # Generate batch of latent vectors
+        noise = torch.randn(b_size, nz, 1, 1, device=device)
+        # Generate fake image batch with G
+        fake = netG_tgt(noise)
+        label.fill_(fake_label)
+        # Classify all fake batch with D
+        output = netD_tgt(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
         errD_fake = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
