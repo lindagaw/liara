@@ -226,6 +226,8 @@ for epoch in range(num_epochs):
 
         output_src = netD_src(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
+        output = torch.cat((output_src, output_tgt), 0)
+        label = torch.cat((label, label), 0)
         # Calculate G's loss based on this output
         errG = criterion(output, label)
         # Calculate gradients for G
