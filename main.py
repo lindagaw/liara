@@ -32,8 +32,9 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-#dataroot = "office-31//amazon//images//"
-dataroot = "celebs//"
+dataroot_src = "office-31//amazon//images//"
+dataroot_tgt = "office-31//webcam//images//"
+#dataroot = "celebs//"
 # Number of workers for dataloader
 workers = 1
 # Batch size during training
@@ -69,28 +70,46 @@ ngpu = 4
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset = dset.ImageFolder(root=dataroot,
+dataset_src = dset.ImageFolder(root=dataroot_src,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
+
+dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+
 # Create the dataloader
-dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
+dataloader_src = torch.utils.data.DataLoader(dataset_src, batch_size=batch_size,
                                          shuffle=True)
-print('finished loading the dataset')
+dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
+                                         shuffle=True)
+
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 # Create the generator
-netG = Generator(ngpu).to(device)
-netG.apply(weights_init)
-
+netG_src = Generator(ngpu).to(device)
+netG_src.apply(weights_init)
 
 # Create the Discriminator
-netD = Discriminator(ngpu).to(device)
-netD.apply(weights_init)
+netD_src = Discriminator(ngpu).to(device)
+netD_src.apply(weights_init)
+
+# Create the generator
+netG_tgt = Generator(ngpu).to(device)
+netG_tgt.apply(weights_init)
+
+# Create the Discriminator
+netD_tgt = Discriminator(ngpu).to(device)
+netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
@@ -104,8 +123,12 @@ real_label = 1.
 fake_label = 0.
 
 # Setup Adam optimizers for both G and D
-optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_src = optim.Adam(netD_src.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerG_src = optim.Adam(netG_src.parameters(), lr=lr, betas=(beta1, 0.999))
+
+# Setup Adam optimizers for both G and D
+optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerG_tgt = optim.Adam(netG_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
 
 # Training Loop
 
@@ -114,12 +137,14 @@ img_list = []
 G_losses = []
 D_losses = []
 iters = 0
-
+'''
 print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
-    for i, data in enumerate(dataloader, 0):
+    data_zip = enumerate(zip(data_loader_src, data_loader_tgt))
+
+    for step, ((data_src, _), (data_tgt, _)) in data_zip:
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
@@ -208,3 +233,4 @@ plt.title("Fake Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
 plt.savefig('images.png')
+'''
