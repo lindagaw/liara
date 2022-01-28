@@ -133,9 +133,9 @@ print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
-    data_zip = enumerate(zip(dataloader, dataloader_tgt))
+    data_zip = enumerate(zip(dataloader_src, dataloader_tgt))
 
-    for i, ((data, _), (data_tgt, _)) in data_zip:
+    for i, (data, _), (data_tgt, _) in data_zip:
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
@@ -143,7 +143,7 @@ for epoch in range(num_epochs):
         ## Train with all-real batch
         netD.zero_grad()
         # Format batch
-        real_cpu = data.to(device)
+        real_cpu = data[0].to(device)
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
