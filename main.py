@@ -259,20 +259,20 @@ real_batch_src = next(iter(dataloader_src))
 real_batch_tgt = next(iter(dataloader_tgt))
 # Plot the real images
 plt.figure(figsize=(15,15))
-plt.subplot(1,2,1)
+plt.subplot(1,3,1)
 plt.axis("off")
 plt.title("Real Source Images")
 plt.imshow(np.transpose(vutils.make_grid(real_batch_src[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
 # Plot the real images
 plt.figure(figsize=(15,15))
-plt.subplot(1,2,1)
+plt.subplot(1,3,1)
 plt.axis("off")
 plt.title("Real Target Images")
 plt.imshow(np.transpose(vutils.make_grid(real_batch_tgt[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
 # Plot the fake images from the last epoch
-plt.subplot(1,2,3)
+plt.subplot(1,3,3)
 plt.axis("off")
 plt.title("Fake/Transferable Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
