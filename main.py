@@ -198,7 +198,7 @@ for epoch in range(num_epochs):
         fake = netG(noise)
         label.fill_(fake_label)
         # Classify all fake batch with D
-        output = netD(fake.detach()).view(-1)
+        output = netD_tgt(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
         errD_fake_tgt = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
@@ -215,9 +215,15 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
+        #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
 
-        output = netD(fake).view(-1)
+        output_src = netD(fake).view(-1)
+        output_tgt = netD_tgt(fake).view(-1)
+
+        output = torch.cat((output_src, output_tgt), 0)
+        label = torch.cat((label, label), 0)
+
+        #output = netD(fake).view(-1)
         # Calculate G's loss based on this output
         errG = criterion(output, label) + m_loss
         # Calculate gradients for G
@@ -256,7 +262,7 @@ plt.imshow(np.transpose(vutils.make_grid(real_batch_src[0].to(device)[:64], padd
 
 # Plot the real images
 plt.figure(figsize=(15,15))
-plt.subplot(1,3,1)
+plt.subplot(1,3,2)
 plt.axis("off")
 plt.title("Real Target Images")
 plt.imshow(np.transpose(vutils.make_grid(real_batch_tgt[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
