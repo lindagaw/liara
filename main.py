@@ -58,7 +58,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 150
+num_epochs = 15
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -218,8 +218,9 @@ for epoch in range(num_epochs):
         m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
 
         output = netD(fake).view(-1)
+        output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = criterion(output, label) + m_loss
+        errG = criterion(output, label) + criterion(output_tgt, label)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
