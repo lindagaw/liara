@@ -40,7 +40,7 @@ torch.manual_seed(manualSeed)
 dataroot = "office-31//amazon//images//"
 dataroot_tgt = "office-31//dslr//images//"
 
-batch_size = 128
+batch_size = 1
 image_size = 64
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset

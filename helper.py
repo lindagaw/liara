@@ -29,17 +29,9 @@ def weights_init(m):
 def all_imgs_from_dataloader(dataloder, name):
     images = None
     for i, (inputs, labels) in enumerate(dataloder):
-        try:
-            if images == None:
-                images = inputs.numpy()
-            else:
-                images = np.vstack(images,inputs.numpy())
-        except:
-            continue
+        images.append(np.squeeze(inputs.numpy()))
 
-        #images.append(inputs.numpy())
-
-    images = np.asarray(images[:-2])
+    images = np.asarray(images)
     print('the shape of all the images in dataloader {} is {}'.format(name, images.shape) )
 
     return images
