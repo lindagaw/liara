@@ -229,7 +229,7 @@ for epoch in range(num_epochs):
         output = torch.cat((output_src, output_tgt), 0)
         label = torch.cat((label, label), 0)
         # Calculate G's loss based on this output
-        errG = criterion(output, label)
+        errG = criterion(output, label)/2
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
@@ -255,19 +255,26 @@ for epoch in range(num_epochs):
         iters += 1
 
 # Grab a batch of real images from the dataloader
-real_batch = next(iter(dataloader_src))
+real_batch_src = next(iter(dataloader_src))
+real_batch_tgt = next(iter(dataloader_tgt))
+# Plot the real images
+plt.figure(figsize=(15,15))
+plt.subplot(1,2,1)
+plt.axis("off")
+plt.title("Real Source Images")
+plt.imshow(np.transpose(vutils.make_grid(real_batch_src[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
 # Plot the real images
 plt.figure(figsize=(15,15))
 plt.subplot(1,2,1)
 plt.axis("off")
-plt.title("Real Images")
-plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
+plt.title("Real Target Images")
+plt.imshow(np.transpose(vutils.make_grid(real_batch_tgt[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
 # Plot the fake images from the last epoch
-plt.subplot(1,2,2)
+plt.subplot(1,2,3)
 plt.axis("off")
-plt.title("Fake Images")
+plt.title("Fake/Transferable Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
 plt.savefig('images.png')
