@@ -66,4 +66,4 @@ dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
                                          shuffle=True)
 print('finished loading the datasets.')
 
-imgs = all_imgs_from_dataloader(dataloder, 'amazon')
+imgs = all_imgs_from_dataloader(dataloader, 'amazon')
