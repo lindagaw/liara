@@ -144,7 +144,7 @@ for epoch in range(num_epochs):
     # For each batch in the dataloader
     data_zip = enumerate(zip(dataloader_src, dataloader_tgt))
 
-    for step, ((data_src, _), (data_tgt, _)) in data_zip:
+    for i, ((data_src, _), (data_tgt, _)) in data_zip:
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
