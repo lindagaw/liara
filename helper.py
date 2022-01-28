@@ -31,7 +31,7 @@ def all_imgs_from_dataloader(dataloder, name):
     for i, (inputs, labels) in enumerate(dataloder):
         images.append(inputs.numpy())
 
-    images = np.asarray(images)
+    images = np.asarray(images[:-2])
     print('the shape of all the images in dataloader {} is {}'.format(name, images.shape) )
 
     return images
