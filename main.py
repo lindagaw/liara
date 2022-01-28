@@ -245,7 +245,7 @@ for epoch in range(num_epochs):
         iters += 1
 
 # Grab a batch of real images from the dataloader
-real_batch_src = next(iter(dataloader_src))
+real_batch_src = next(iter(dataloader))
 real_batch_tgt = next(iter(dataloader_tgt))
 # Plot the real images
 plt.figure(figsize=(15,15))
