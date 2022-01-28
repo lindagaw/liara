@@ -32,8 +32,7 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-dataroot_src = "office-31//amazon//images//"
-dataroot_tgt = "office-31//webcam//images//"
+dataroot = "office-31//amazon//images//"
 #dataroot = "celebs//"
 # Number of workers for dataloader
 workers = 1
@@ -70,7 +69,7 @@ ngpu = 4
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset_src = dset.ImageFolder(root=dataroot,
+dataset = dset.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
@@ -78,11 +77,9 @@ dataset_src = dset.ImageFolder(root=dataroot,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 # Create the dataloader
-dataloader_src = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
+dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
-dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
-                                         shuffle=True)
-
+print('finished loading the dataset')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
