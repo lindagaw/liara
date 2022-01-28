@@ -76,21 +76,33 @@ dataset = dset.ImageFolder(root=dataroot,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
+dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
-print('finished loading the dataset')
+dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
+                                         shuffle=True)
+print('finished loading the datasets.')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 # Create the generator
 netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
-
-
 # Create the Discriminator
 netD = Discriminator(ngpu).to(device)
 netD.apply(weights_init)
+
+# Create the Discriminator
+netD_tgt = Discriminator(ngpu).to(device)
+netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
@@ -119,7 +131,9 @@ print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
-    for i, data in enumerate(dataloader, 0):
+    data_zip = enumerate(zip(dataloader_src, dataloader_tgt))
+
+    for i, ((data, _), (data_tgt, _)) in data_zip:
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
@@ -127,7 +141,7 @@ for epoch in range(num_epochs):
         ## Train with all-real batch
         netD.zero_grad()
         # Format batch
-        real_cpu = data[0].to(device)
+        real_cpu = data.to(device)
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
