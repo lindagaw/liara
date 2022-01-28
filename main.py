@@ -37,7 +37,7 @@ torch.manual_seed(manualSeed)
 #dataroot = "office-31//amazon//images//"
 dataroot_tgt = "office-31//webcam//images//"
 dataroot_tgt = "office-31//webcam//images//"
-dataroot = "celebs//"
+#dataroot = "celebs//"
 # Number of workers for dataloader
 workers = 1
 # Batch size during training
