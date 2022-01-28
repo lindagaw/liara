@@ -132,7 +132,7 @@ print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
-    for i, data in enumerate(dataloader, dataloder_tgt):
+    for i, data in enumerate(dataloader, dataloader_tgt):
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
