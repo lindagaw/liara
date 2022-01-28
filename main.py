@@ -133,7 +133,7 @@ print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
-    data_zip = enumerate(zip(dataloader_src, dataloader_tgt))
+    data_zip = enumerate(zip(dataloader, dataloader_tgt))
 
     for i, ((data, _), (data_tgt, _)) in data_zip:
 
