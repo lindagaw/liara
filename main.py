@@ -56,7 +56,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 15
+num_epochs = 150
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -224,7 +224,8 @@ for epoch in range(num_epochs):
         # Since we just updated D, perform another forward pass of all-fake batch through D
         #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
 
-        output = netD_src(fake).view(-1)
+        output_src = netD_src(fake).view(-1)
+        output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
         errG = criterion(output, label)
         # Calculate gradients for G
