@@ -120,6 +120,7 @@ fake_label = 0.
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_tgt = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
 # Training Loop
@@ -134,7 +135,9 @@ print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
+    # for i, data in enumerate(dataloader, 0):
     for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
+
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
@@ -170,6 +173,41 @@ for epoch in range(num_epochs):
         errD = errD_real + errD_fake
         # Update D
         optimizerD.step()
+
+        ############################
+        # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
+        ###########################
+        ## Train with all-real batch
+        netD_tgt.zero_grad()
+        # Format batch
+        real_cpu = data_tgt[0].to(device)
+        b_size = real_cpu.size(0)
+        label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
+        # Forward pass real batch through D
+        output = netD_tgt(real_cpu).view(-1)
+        # Calculate loss on all-real batch
+        errD_real_tgt = criterion(output, label)
+        # Calculate gradients for D in backward pass
+        errD_real_tgt.backward()
+        D_x = output.mean().item()
+
+        ## Train with all-fake batch
+        # Generate batch of latent vectors
+        noise = torch.randn(b_size, nz, 1, 1, device=device)
+        # Generate fake image batch with G
+        fake = netG_tgt(noise)
+        label.fill_(fake_label)
+        # Classify all fake batch with D
+        output = netD_tgt(fake.detach()).view(-1)
+        # Calculate D's loss on the all-fake batch
+        errD_fake_tgt = criterion(output, label)
+        # Calculate the gradients for this batch, accumulated (summed) with previous gradients
+        errD_fake_tgt.backward()
+        D_G_z1 = output.mean().item()
+        # Compute error of D as sum over the fake and the real batches
+        errD = errD_real_tgt + errD_fake_tgt
+        # Update D
+        optimizerD_tgt.step()
 
         ############################
         # (2) Update G network: maximize log(D(G(z)))
@@ -211,15 +249,22 @@ real_batch = next(iter(dataloader))
 
 # Plot the real images
 plt.figure(figsize=(15,15))
-plt.subplot(1,2,1)
+plt.subplot(1,3,1)
 plt.axis("off")
-plt.title("Real Images")
-plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
+plt.title("Real Source Images")
+plt.imshow(np.transpose(vutils.make_grid(real_batch_src[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
+
+# Plot the real images
+plt.figure(figsize=(15,15))
+plt.subplot(1,3,1)
+plt.axis("off")
+plt.title("Real Target Images")
+plt.imshow(np.transpose(vutils.make_grid(real_batch_tgt[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
 # Plot the fake images from the last epoch
-plt.subplot(1,2,2)
+plt.subplot(1,3,3)
 plt.axis("off")
-plt.title("Fake Images")
+plt.title("Fake/Transferable Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
 plt.savefig('images.png')
