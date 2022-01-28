@@ -22,6 +22,8 @@ from generator import Generator
 from discriminator import Discriminator
 from mahalanobis import mahalanobis_loss
 
+from itertools import cycle
+
 import pretty_errors
 
 # Set random seed for reproducibility
@@ -132,7 +134,7 @@ print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
-    for i, data in enumerate(dataloader, dataloader_tgt):
+    for i, (data, data_tgt) in enumerate(zip(dataloader, dataloader_src), 0):
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
