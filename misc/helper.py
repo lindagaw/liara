@@ -18,6 +18,8 @@ import matplotlib.animation as animation
 from IPython.display import HTML
 from PIL import Image
 
+import torch.utils.data.Dataset
+
 import torchvision
 # custom weights initialization called on netG and netD
 def weights_init(m):
@@ -117,3 +119,13 @@ def init_model(net, restore):
         net.cuda()
 
     return net
+
+class ConcatDataset(torch.utils.data.Dataset):
+    def __init__(self, *datasets):
+        self.datasets = datasets
+
+    def __getitem__(self, i):
+        return tuple(d[i] for d in self.datasets)
+
+    def __len__(self):
+        return min(len(d) for d in self.datasets)
