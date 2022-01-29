@@ -74,14 +74,22 @@ ngpu = 4
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset = dset.ImageFolder(root=dataroot,
+dataset_amazon = dset.ImageFolder(root=dataroot_amazon,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
-dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
+dataset_dslr = dset.ImageFolder(root=dataroot_dslr,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+
+dataset_webcam = dset.ImageFolder(root=dataroot_webcam,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
