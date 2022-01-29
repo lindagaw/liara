@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from helper import weights_init
+from helper import weights_init, save_individual_images
 from generator import Generator
 from discriminator import Discriminator
 from mahalanobis import mahalanobis_loss
@@ -115,7 +115,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(64, nz, 1, 1, device=device)
+fixed_noise = torch.randn(256, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
@@ -274,5 +274,4 @@ plt.show()
 plt.savefig('images.png')
 
 fake = netG(fixed_noise).detach().cpu()
-torch.save(fake, 'fake.pt')
-print(fake.shape)
+save_individual_images('back_pack//', fake)

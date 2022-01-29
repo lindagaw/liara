@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
-
+from PIL import Image
 # custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
@@ -35,3 +35,14 @@ def all_imgs_from_dataloader(dataloder, name):
     print('the shape of all the images in dataloader {} is {}'.format(name, images.shape) )
 
     return images
+
+def save_individual_images(path_to_save_to, tensor):
+    try:
+        os.mkdir(path_to_save_to)
+    except:
+        pass
+
+    for i in range(0, len(tensor)):
+        data = image.fromarray(tensor[i].numpy())
+        path = path_to_save_to + str(i) + '.png'
+        data.save(path)
