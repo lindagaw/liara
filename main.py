@@ -42,7 +42,7 @@ dataroot_tgt = "datasets//office-31-intact//dslr//images//"
 #dataroot = "celebs//"
 
 # Batch size during training
-batch_size = 128
+batch_size = 32
 
 image_size = 64
 nc = 3
@@ -61,6 +61,10 @@ dataset_src = dset.ImageFolder(root=dataroot_src,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
+dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
+                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8]))
+
+
 dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -69,13 +73,21 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
-dataloader_src = torch.utils.data.DataLoader(dataset_src, batch_size=batch_size,
+dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
+                            [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8]))
+
+
+dataloader_src_train = torch.utils.data.DataLoader(dataset_src_train, batch_size=batch_size,
                                          shuffle=True)
-dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
+dataloader_src_test = torch.utils.data.DataLoader(dataset_src_test, batch_size=batch_size,
+                                         shuffle=True)
+dataloader_tgt_train = torch.utils.data.DataLoader(dataset_tgt_train, batch_size=batch_size,
+                                         shuffle=True)
+dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=batch_size,
                                          shuffle=True)
 
 classifier = f.cuda()
-classifier = train(classifier, dataloader_src)
+classifier = train(classifier, dataloader_src_train)
 
-acc = eval(classifier, dataloader_src)
-acc = eval(classifier, dataloader_tgt)
+acc = eval(classifier, dataloader_src_test)
+acc = eval(classifier, dataloader_tgt_test)

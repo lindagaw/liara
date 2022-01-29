@@ -65,6 +65,57 @@ def train(classifier, data_loader):
 
     return classifier
 
+def train_with_interim(classifier, data_loader_src, data_loader_tgt, data_loader_interim):
+    """Train classifier for source domain."""
+    ####################
+    # 1. setup network #
+    ####################
+
+    # set train state for Dropout and BN layers
+
+    classifier.train()
+
+    # setup criterion and optimizer
+    optimizer = optim.Adam(classifier.parameters(), lr=lr, betas=(beta1, 0.999))
+    criterion = nn.CrossEntropyLoss()
+
+    ####################
+    # 2. train network #
+    ####################
+
+    for epoch in range(num_epochs):
+        for step, (images, labels) in enumerate(data_loader):
+            try:
+                # make images and labels variable
+                images = make_variable(images)
+                labels = make_variable(labels.squeeze_())
+
+                # zero gradients for optimizer
+                optimizer.zero_grad()
+
+                # compute loss for critic
+                preds = classifier(images)
+
+                loss = criterion(preds.squeeze_(), labels.squeeze())
+
+                # optimize source classifier
+                loss.backward()
+                optimizer.step()
+
+                # print step info
+                if ((step + 1) % 10 == 0):
+                    print("Epoch [{}/{}] Step [{}/{}]: loss={}"
+                          .format(epoch + 1,
+                                  num_epochs,
+                                  step + 1,
+                                  len(data_loader),
+                                  loss.data))
+            except Exception as e:
+                pass
+
+
+    return classifier
+
 
 def eval(classifier, data_loader):
     """Evaluate classifier for source domain."""
