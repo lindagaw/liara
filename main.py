@@ -34,12 +34,12 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-dataroot = "office-31-intact//amazon//images//"
-dataroot_tgt = "office-31-intact//dslr//images//"
+#dataroot = "office-31-intact//amazon//images//"
+#dataroot_tgt = "office-31-intact//dslr//images//"
 #dataroot = "celebs//"
 
-#dataroot = "office-31//amazon//images//back_pack//"
-#dataroot_tgt = "office-31//dslr//images//back_pack//"
+dataroot = "office-31//amazon//images//back_pack//"
+dataroot_tgt = "office-31//dslr//images//back_pack//"
 # Number of workers for dataloader
 workers = 1
 # Batch size during training
@@ -223,8 +223,8 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        #errG = (criterion(output, label)+criterion(output_tgt, label))/2
-        errG = criterion(output, label)
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
