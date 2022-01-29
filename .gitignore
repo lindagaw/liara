@@ -1,6 +1,10 @@
 office-31
+office-31-intact
 celebs
 img_align_celeba
+
+__pycache__
+.DS_Store
 
 *.png
 *.jpeg
