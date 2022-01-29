@@ -62,7 +62,7 @@ dataset_src = dset.ImageFolder(root=dataroot_src,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
-                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8]))
+                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
 
 dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
@@ -74,7 +74,7 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            ]))
 
 dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
-                            [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8]))
+                            [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
 
 
 dataloader_src_train = torch.utils.data.DataLoader(dataset_src_train, batch_size=batch_size,
