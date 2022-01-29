@@ -43,8 +43,7 @@ def save_individual_images(path_to_save_to, tensor):
         pass
 
     for i in range(0, len(tensor)):
-
-        data = Image.fromarray(tensor[i].numpy() * 255)
-        data = data.astype(np.uint8)
+        data = tensor[i].numpy().astype(np.uint8)
+        data = Image.fromarray(data * 255)
         path = path_to_save_to + str(i) + '.png'
         data.save(path)
