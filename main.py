@@ -46,7 +46,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 2000
+num_epochs = 1500
 lr = 0.0002
 beta1 = 0.5
 ngpu = 4
@@ -54,7 +54,7 @@ ngpu = 4
 src = "amazon"
 tgt = "dslr"
 
-src_obj = tgt_obj = "bottle"
+src_obj = tgt_obj = "back_pack"
 
 print('available objs are {}'.format(os.listdir("office-31//amazon//images//")))
 
@@ -105,7 +105,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(256, nz, 1, 1, device=device)
+fixed_noise = torch.randn(64, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
@@ -259,7 +259,7 @@ plt.imshow(np.transpose(vutils.make_grid(real_batch_tgt[0].to(device)[:64], padd
 plt.subplot(1,3,3)
 plt.axis("off")
 plt.title("Fake/Transferable Images")
-plt.imshow(np.transpose(vutils.make_grid(img_list[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
+plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
 plt.savefig('generated_images//' + src_obj + '_images.png')
 
