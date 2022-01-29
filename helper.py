@@ -38,7 +38,7 @@ def all_imgs_from_dataloader(dataloder, name):
 
 def save_individual_images(path_to_save_to, tensor):
     try:
-        os.mkdir(path_to_save_to)
+        os.makedirs(path_to_save_to)
     except:
         pass
 
