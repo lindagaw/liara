@@ -88,10 +88,7 @@ dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=b
                                          shuffle=True)
 
 src_tgt_train_loader = torch.utils.data.DataLoader(
-             ConcatDataset(
-                 datasets.ImageFolder(dataloader_src_train,
-                 datasets.ImageFolder(dataloader_tgt_train)
-             ), batch_size=batch_size, shuffle=True))
+             ConcatDataset(dataloader_src_train, dataloader_tgt_train), batch_size=batch_size, shuffle=True)
 
 classifier = f.cuda()
 classifier = train(classifier, dataloader_src_train)
