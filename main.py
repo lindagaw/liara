@@ -19,7 +19,8 @@ from IPython.display import HTML
 
 from misc import weights_init, save_individual_images
 from models import Generator
-from models import Discriminator, classifier
+from models import Discriminator
+from models import classifier as f
 from models import mahalanobis_loss
 
 from train_and_eval import train
@@ -73,5 +74,5 @@ dataloader_src = torch.utils.data.DataLoader(dataset_src, batch_size=batch_size,
 dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
                                          shuffle=True)
 
-classifier = Classifier(ngpu).cuda()
+classifier = f
 classifier = train(classifier, dataloader_src)
