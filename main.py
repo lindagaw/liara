@@ -42,7 +42,7 @@ torch.manual_seed(manualSeed)
 # Batch size during training
 batch_size = 128
 
-image_size = 64
+image_size = 224
 nc = 3
 nz = 100
 ngf = 64
