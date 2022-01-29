@@ -76,7 +76,7 @@ dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
 
 dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
                             [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
-                            
+
 dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
 
 
@@ -92,7 +92,7 @@ dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=b
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 
 classifier = f.cuda()
-classifier = train(classifier, src_tgt_train_loader)
+classifier = train(classifier, dataset_src_train)
 
 acc = eval(classifier, dataloader_src_test)
 acc = eval(classifier, dataloader_tgt_test)
