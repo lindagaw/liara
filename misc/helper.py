@@ -56,7 +56,6 @@ import torch
 import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 
-import params
 from datasets import get_mnist, get_usps
 
 
@@ -104,14 +103,6 @@ def init_random_seed(manual_seed):
         torch.cuda.manual_seed_all(seed)
 
 
-def get_data_loader(name, train=True):
-    """Get data loader by name."""
-    if name == "MNIST":
-        return get_mnist(train)
-    elif name == "USPS":
-        return get_usps(train)
-
-
 def init_model(net, restore):
     """Init models with cuda and weights."""
     # init weights of model
@@ -129,13 +120,3 @@ def init_model(net, restore):
         net.cuda()
 
     return net
-
-
-def save_model(net, filename):
-    """Save trained model."""
-    if not os.path.exists(params.model_root):
-        os.makedirs(params.model_root)
-    torch.save(net.state_dict(),
-               os.path.join(params.model_root, filename))
-    print("save pretrained model to: {}".format(os.path.join(params.model_root,
-                                                             filename)))
