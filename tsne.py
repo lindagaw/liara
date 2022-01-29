@@ -71,7 +71,7 @@ dataset_webcam = dset.ImageFolder(root=dataroot_webcam,
 # Create the dataloader
 dataloader_amazon = torch.utils.data.DataLoader(dataset_amazon, batch_size=batch_size,
                                          shuffle=True)
-dataloader_dlsr = torch.utils.data.DataLoader(dataset_dlsr, batch_size=batch_size,
+dataloader_dslr = torch.utils.data.DataLoader(dataset_dslr, batch_size=batch_size,
                                          shuffle=True)
 dataloader_webcam = torch.utils.data.DataLoader(dataset_webcam, batch_size=batch_size,
                                          shuffle=True)
