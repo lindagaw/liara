@@ -47,8 +47,8 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 1500
-lr = 0.0001
+num_epochs = 500
+lr = 0.00002
 beta1 = 0.5
 ngpu = 4
 
@@ -112,8 +112,7 @@ for obj in os.listdir("office-31//amazon//images//"):
         netD_tgt.apply(weights_init)
 
         # Initialize BCELoss function
-        criterionD = nn.BCELoss()
-        criterion = nn.CrossEntropyLoss()
+        criterion = nn.BCELoss()
 
         # Create batch of latent vectors that we will use to visualize
         #  the progression of the generator
@@ -156,7 +155,7 @@ for obj in os.listdir("office-31//amazon//images//"):
                 # Forward pass real batch through D
                 output = netD(real_cpu).view(-1)
                 # Calculate loss on all-real batch
-                errD_real = criterionD(output, label)
+                errD_real = criterion(output, label)
                 # Calculate gradients for D in backward pass
                 errD_real.backward()
                 D_x = output.mean().item()
@@ -170,7 +169,7 @@ for obj in os.listdir("office-31//amazon//images//"):
                 # Classify all fake batch with D
                 output = netD(fake.detach()).view(-1)
                 # Calculate D's loss on the all-fake batch
-                errD_fake = criterionD(output, label)
+                errD_fake = criterion(output, label)
                 # Calculate the gradients for this batch, accumulated (summed) with previous gradients
                 errD_fake.backward()
                 D_G_z1 = output.mean().item()
@@ -191,7 +190,7 @@ for obj in os.listdir("office-31//amazon//images//"):
                 # Forward pass real batch through D
                 output = netD_tgt(real_cpu).view(-1)
                 # Calculate loss on all-real batch
-                errD_real_tgt = criterionD(output, label)
+                errD_real_tgt = criterion(output, label)
                 # Calculate gradients for D in backward pass
                 errD_real_tgt.backward()
                 D_x = output.mean().item()
@@ -205,7 +204,7 @@ for obj in os.listdir("office-31//amazon//images//"):
                 # Classify all fake batch with D
                 output = netD_tgt(fake.detach()).view(-1)
                 # Calculate D's loss on the all-fake batch
-                errD_fake_tgt = criterionD(output, label)
+                errD_fake_tgt = criterion(output, label)
                 # Calculate the gradients for this batch, accumulated (summed) with previous gradients
                 errD_fake_tgt.backward()
                 D_G_z1 = output.mean().item()
