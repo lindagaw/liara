@@ -46,7 +46,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 500
+num_epochs = 50
 lr = 0.0002
 beta1 = 0.5
 ngpu = 4
@@ -57,6 +57,9 @@ tgt = "dslr"
 src_obj = tgt_obj = "back_pack"
 #for src_obj, tgt_obj in zip(os.listdir("office-31//" + src + "//images//"),
 #                                    os.listdir("office-31//" + tgt + "//images//")):
+
+print('available objs are {}'.format(os.listdir("office-31//amazon//images//")))
+
 dataroot = "office-31//amazon//images//" + src_obj
 dataroot_tgt = "office-31//dslr//images//" + tgt_obj
 
