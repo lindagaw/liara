@@ -47,7 +47,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 1500
+num_epochs = 500
 lr = 0.0002
 beta1 = 0.5
 ngpu = 4
@@ -59,6 +59,10 @@ tgt = "dslr"
 
 print('available objs are {}'.format(os.listdir("datasets//office-31//amazon//images//")))
 
+try:
+    os.makedirs('datasets//' + src + '_' + tgt + '_fake_dataset//')
+except Exception as e:
+    print(e)
 
 for obj in os.listdir("datasets//office-31//amazon//images//"):
 
