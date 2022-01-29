@@ -51,8 +51,8 @@ lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
-for src_obj, tgt_obj in zip(os.listdir("office-31//amazon//images//",
-                                    os.listdir("office-31//dslr//images//"))):
+for src_obj, tgt_obj in zip(os.listdir("office-31//amazon//images//"),
+                                    os.listdir("office-31//dslr//images//")):
     dataroot = "office-31//amazon//images//" + src_obj
     dataroot_tgt = "office-31//dslr//images//" + tgt_obj
 
