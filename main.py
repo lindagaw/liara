@@ -37,8 +37,8 @@ torch.manual_seed(manualSeed)
 #dataroot = "office-31//amazon//images//"
 #dataroot = "celebs//"
 
-dataroot = "office-31//amazon//images//"
-dataroot_tgt = "office-31//dslr//images//"
+dataroot = "office-31//amazon//images//back_pack//"
+dataroot_tgt = "office-31//dslr//images//back_pack//"
 # Number of workers for dataloader
 workers = 1
 # Batch size during training
@@ -60,7 +60,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 200
+num_epochs = 100
 
 # Learning rate for optimizers
 lr = 0.0002
