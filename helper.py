@@ -17,6 +17,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 from PIL import Image
+
+import torchvision.utils.save_image as save_image
 # custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
@@ -43,7 +45,6 @@ def save_individual_images(path_to_save_to, tensor):
         pass
 
     for i in range(0, len(tensor)):
-        data = tensor[i].cpu().numpy()
-        img = Image.fromarray((data * 255).astype(np.uint8)).convert('RGB')
+        data = tensor[i]
         path = path_to_save_to + str(i) + '.png'
-        img.save(path)
+        save_image(data, path)
