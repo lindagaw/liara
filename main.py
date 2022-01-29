@@ -34,12 +34,12 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-#dataroot = "office-31-intact//amazon//images//"
-#dataroot_tgt = "office-31-intact//dslr//images//"
+dataroot = "office-31-intact//amazon//images//"
+dataroot_tgt = "office-31-intact//dslr//images//"
 #dataroot = "celebs//"
 
-dataroot = "office-31//amazon//images//back_pack//"
-dataroot_tgt = "office-31//dslr//images//back_pack//"
+#dataroot = "office-31//amazon//images//back_pack//"
+#dataroot_tgt = "office-31//dslr//images//back_pack//"
 # Number of workers for dataloader
 workers = 1
 # Batch size during training
@@ -61,7 +61,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 15
+num_epochs = 150
 
 # Learning rate for optimizers
 lr = 0.0002
