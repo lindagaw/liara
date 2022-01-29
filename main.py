@@ -19,7 +19,7 @@ from IPython.display import HTML
 
 from misc import weights_init, save_individual_images
 from models import Generator
-from models import Discriminator, Classifier
+from models import Discriminator, classifier
 from models import mahalanobis_loss
 
 from train_and_eval import train
