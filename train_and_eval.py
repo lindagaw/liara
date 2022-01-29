@@ -35,14 +35,14 @@ def train(classifier, data_loader):
     for epoch in range(num_epochs):
         for step, (images, labels) in enumerate(data_loader):
             # make images and labels variable
-            images = make_variable(images)
+            images = make_variable(images).squeeze_()
             labels = make_variable(labels.squeeze_())
 
             # zero gradients for optimizer
             optimizer.zero_grad()
 
             # compute loss for critic
-            preds = classifier(images)
+            preds = classifier(image)
             loss = criterion(preds, labels)
 
             # optimize source classifier
@@ -53,7 +53,7 @@ def train(classifier, data_loader):
             if ((step + 1) % 10 == 0):
                 print("Epoch [{}/{}] Step [{}/{}]: loss={}"
                       .format(epoch + 1,
-                              10,
+                              num_epochs,
                               step + 1,
                               len(data_loader),
                               loss.data))
