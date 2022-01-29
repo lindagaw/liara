@@ -60,7 +60,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 100
+num_epochs = 500
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -222,8 +222,8 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2
-        #errG = criterion(output, label)
+        #errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
