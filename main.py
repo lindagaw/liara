@@ -94,13 +94,13 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
 '''
-netG = define_G(nc, nc, ngf, 'resnet_9blocks')
+netG = define_G(nc, nc, ngf, 'resnet_9blocks').cuda()
 # Create the Discriminator
 
-netD = define_D(nc, ndf, 'pixel')
+netD = define_D(nc, ndf, 'pixel').cuda()
 
 # Create the Discriminator
-netD_tgt = define_D(nc, ndf, 'pixel')
+netD_tgt = define_D(nc, ndf, 'pixel').cuda()
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
