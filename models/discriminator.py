@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from helper import weights_init
+from misc import weights_init
 # Set random seed for reproducibility
 manualSeed = 999
 # Number of workers for dataloader
