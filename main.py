@@ -62,10 +62,6 @@ dataset_src = dset.ImageFolder(root=dataroot_src,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
-dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
-                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
-
-
 dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -73,6 +69,9 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
+                           
+dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
+                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
 dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
                             [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
@@ -88,7 +87,7 @@ dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=b
                                          shuffle=True)
 
 src_tgt_train_loader = torch.utils.data.DataLoader(
-             ConcatDataset(dataloader_src_train, dataloader_tgt_train), batch_size=batch_size, shuffle=True)
+             ConcatDataset(dataset_src_train, dataset_tgt_train), batch_size=batch_size, shuffle=True)
 
 classifier = f.cuda()
 classifier = train(classifier, src_tgt_train_loader)
