@@ -48,7 +48,7 @@ nz = 100
 ngf = 64
 ndf = 64
 num_epochs = 1500
-lr = 0.00001
+lr = 0.00002
 beta1 = 0.5
 ngpu = 4
 
@@ -57,10 +57,10 @@ tgt = "dslr"
 
 #src_obj = tgt_obj = "ring_binder"
 
-print('available objs are {}'.format(os.listdir("office-31//amazon//images//")))
+print('available objs are {}'.format(os.listdir("datasets//office-31//amazon//images//")))
 
 
-for obj in os.listdir("office-31//amazon//images//"):
+for obj in os.listdir("datasets//office-31//amazon//images//"):
 
     if os.path.isfile('generated_images//' + obj + '_images.png'):
         print('skipping {} as its already translated.'.format(obj))
@@ -71,8 +71,8 @@ for obj in os.listdir("office-31//amazon//images//"):
         src_obj = obj
         tgt_obj = obj
 
-        dataroot = "office-31//amazon//images//" + src_obj
-        dataroot_tgt = "office-31//dslr//images//" + tgt_obj
+        dataroot = "datasets//office-31//amazon//images//" + src_obj
+        dataroot_tgt = "datasets//office-31//dslr//images//" + tgt_obj
 
         # We can use an image folder dataset the way we have it setup.
         # Create the dataset
