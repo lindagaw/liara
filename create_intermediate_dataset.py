@@ -112,8 +112,8 @@ for obj in os.listdir("office-31//amazon//images//"):
         netD_tgt.apply(weights_init)
 
         # Initialize BCELoss function
-        criterion = nn.BCELoss()
-
+        #criterion = nn.BCELoss()
+        criterion = nn.CrossEntropyLoss()
         # Create batch of latent vectors that we will use to visualize
         #  the progression of the generator
         fixed_noise = torch.randn(256, nz, 1, 1, device=device)
