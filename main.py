@@ -54,7 +54,7 @@ ngpu = 4
 src = "amazon"
 tgt = "dslr"
 
-src_obj = tgt_obj = "bottle"
+src_obj = tgt_obj = "back_pack"
 
 print('available objs are {}'.format(os.listdir("office-31//amazon//images//")))
 
