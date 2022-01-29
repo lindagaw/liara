@@ -57,7 +57,8 @@ beta1 = 0.5
 ngpu = 4
 
 classifier = models.googlenet(pretrained=True)
-classifier.fc = nn.Linear(1024, 8)
+classifier.fc = nn.Linear(1024, 31)
+
 print(classifier)
 
 '''
