@@ -47,15 +47,15 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 3000
-lr = 0.0001
+num_epochs = 1500
+lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
 src = "amazon"
 tgt = "dslr"
 
-src_obj = tgt_obj = "trash_can"
+src_obj = tgt_obj = "bike_helmet"
 
 print('available objs are {}'.format(os.listdir("office-31//amazon//images//")))
 
