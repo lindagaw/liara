@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from helper import weights_init, save_individual_images
+from misc import weights_init, save_individual_images
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
