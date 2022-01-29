@@ -42,7 +42,7 @@ torch.manual_seed(manualSeed)
 # Batch size during training
 batch_size = 128
 
-image_size = 224
+image_size = 64
 nc = 3
 nz = 100
 ngf = 64
@@ -94,7 +94,7 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
 '''
-netG = define_G(nc, nc, ngf, 'resnet_9blocks').cuda()
+netG = define_G(nc, nc, ngf, 'resnet_1blocks').cuda()
 # Create the Discriminator
 
 netD = Discriminator(ngpu).to(device)
