@@ -21,7 +21,7 @@ from helper import weights_init, save_individual_images
 from generator import Generator
 from discriminator import Discriminator
 from mahalanobis import mahalanobis_loss
-from networks import define_G, define_D
+
 
 from itertools import cycle
 
@@ -89,14 +89,11 @@ dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
 print('finished loading the datasets.')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
-'''
+
 # Create the generator
 netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
-'''
-netG = define_G(nc, nc, ngf, 'resnet_1blocks').cuda()
 # Create the Discriminator
-
 netD = Discriminator(ngpu).to(device)
 netD.apply(weights_init)
 
