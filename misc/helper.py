@@ -18,7 +18,7 @@ import matplotlib.animation as animation
 from IPython.display import HTML
 from PIL import Image
 
-import torch.utils.data.Dataset
+from torch.utils.data import Dataset
 
 import torchvision
 # custom weights initialization called on netG and netD
@@ -120,7 +120,7 @@ def init_model(net, restore):
 
     return net
 
-class ConcatDataset(torch.utils.data.Dataset):
+class ConcatDataset(Dataset):
     def __init__(self, *datasets):
         self.datasets = datasets
 
