@@ -97,10 +97,12 @@ netG.apply(weights_init)
 netG = define_G(nc, nc, ngf, 'resnet_9blocks').cuda()
 # Create the Discriminator
 
-netD = define_D(nc, ndf, 'pixel').cuda()
+netD = Discriminator(ngpu).to(device)
+netD.apply(weights_init)
 
 # Create the Discriminator
-netD_tgt = define_D(nc, ndf, 'pixel').cuda()
+netD_tgt = Discriminator(ngpu).to(device)
+netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
@@ -146,9 +148,6 @@ for epoch in range(num_epochs):
         # Forward pass real batch through D
         output = netD(real_cpu).view(-1)
         # Calculate loss on all-real batch
-
-        print(output.shape)
-        print(label.shape)
         errD_real = criterion(output, label)
         # Calculate gradients for D in backward pass
         errD_real.backward()
