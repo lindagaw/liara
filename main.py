@@ -91,7 +91,7 @@ src_tgt_train_loader = torch.utils.data.DataLoader(
              ConcatDataset(dataloader_src_train, dataloader_tgt_train), batch_size=batch_size, shuffle=True)
 
 classifier = f.cuda()
-classifier = train(classifier, dataloader_src_train)
+classifier = train(classifier, src_tgt_train_loader)
 
 acc = eval(classifier, dataloader_src_test)
 acc = eval(classifier, dataloader_tgt_test)
