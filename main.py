@@ -23,7 +23,7 @@ from models import Discriminator
 from models import classifier as f
 from models import mahalanobis_loss
 
-from train_and_eval import train
+from train_and_eval import train, eval
 
 from itertools import cycle
 
@@ -76,3 +76,6 @@ dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
 
 classifier = f.cuda()
 classifier = train(classifier, dataloader_src)
+
+acc = eval(classifier, data_loader_src)
+acc = eval(classifier, data_loader_tgt)

@@ -66,7 +66,7 @@ def train(classifier, data_loader):
     return classifier
 
 
-def eval_src(classifier, data_loader):
+def eval(classifier, data_loader):
     """Evaluate classifier for source domain."""
     # set eval state for Dropout and BN layers
 
@@ -94,3 +94,5 @@ def eval_src(classifier, data_loader):
     acc /= len(data_loader.dataset)
 
     print("Avg Loss = {}, Avg Accuracy = {:2%}".format(loss, acc))
+
+    return acc
