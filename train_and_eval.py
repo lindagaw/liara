@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch.optim as optim
+from misc import make_variable
 
 batch_size = 128
 
