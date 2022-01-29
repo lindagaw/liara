@@ -17,8 +17,9 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
+from torch.utils.data import TensorDataset, ConcatDataset, DataLoader
+
 from misc import weights_init, save_individual_images
-from misc import ConcatDataset
 from models import Generator
 from models import Discriminator
 from models import classifier as f
@@ -69,7 +70,7 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
-                           
+
 dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
                             [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
