@@ -17,6 +17,11 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
+from sklearn.datasets import fetch_mldata
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+import seaborn as sns
+
 from helper import weights_init, all_imgs_from_dataloader
 from generator import Generator
 from discriminator import Discriminator
@@ -81,3 +86,10 @@ print('finished loading the datasets.')
 imgs_amazon = all_imgs_from_dataloader(dataloader_amazon, 'amazon')
 imgs_dslr = all_imgs_from_dataloader(dataloader_dslr, 'dslr')
 imgs_webcam = all_imgs_from_dataloader(dataloader_webcam, 'webcam')
+
+################################################################################
+
+time_start = time.time()
+tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
+tsne_results = tsne.fit_transform(img_dslr)
+print('t-SNE done! Time elapsed: {} seconds'.format(time.time()-time_start))
