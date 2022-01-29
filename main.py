@@ -96,12 +96,11 @@ netG.apply(weights_init)
 '''
 netG = define_G(nc, nc, ngf, 'resnet_9blocks')
 # Create the Discriminator
-netD = Discriminator(ngpu).to(device)
-netD.apply(weights_init)
+
+netD = define_D(nc, ndf, 'pixel')
 
 # Create the Discriminator
-netD_tgt = Discriminator(ngpu).to(device)
-netD_tgt.apply(weights_init)
+netD_tgt = define_D(nc, ndf, 'pixel')
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
