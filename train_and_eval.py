@@ -26,7 +26,7 @@ def train(classifier, data_loader):
 
     # setup criterion and optimizer
     optimizer = optim.Adam(classifier.parameters(), lr=lr, betas=(beta1, 0.999))
-
+    criterion = nn.CrossEntropyLoss()
 
     ####################
     # 2. train network #
