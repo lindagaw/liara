@@ -56,7 +56,7 @@ ngpu = 4
 
 class Classifier(nn.Module):
     def __init__(self, ngpu):
-        super(Discriminator, self).__init__()
+        super(Classifier, self).__init__()
         self.ngpu = ngpu
         self.main = nn.Sequential(
             # input is (nc) x 64 x 64
