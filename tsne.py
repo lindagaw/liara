@@ -17,8 +17,18 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
+import numpy as np
+from sklearn.datasets import load_digits
+from scipy.spatial.distance import pdist
+from sklearn.manifold.t_sne import _joint_probabilities
+from scipy import linalg
+from sklearn.metrics import pairwise_distances
+from scipy.spatial.distance import squareform
 from sklearn.manifold import TSNE
+from matplotlib import pyplot as plt
 import seaborn as sns
+sns.set(rc={'figure.figsize':(11.7,8.27)})
+palette = sns.color_palette("bright", 10)
 
 from helper import weights_init, all_imgs_from_dataloader
 from generator import Generator
@@ -86,8 +96,6 @@ imgs_dslr = all_imgs_from_dataloader(dataloader_dslr, 'dslr')
 imgs_webcam = all_imgs_from_dataloader(dataloader_webcam, 'webcam')
 
 ################################################################################
-
-time_start = time.time()
-tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
-tsne_results = tsne.fit_transform(img_dslr)
-print('t-SNE done! Time elapsed: {} seconds'.format(time.time()-time_start))
+tsne = TSNE()
+amazon_embedded = tsne.fit_transform(imgs_amazon)
+sns.scatterplot(amazon_embedded[:,0], amazon_embedded[:,1], hue=y, legend='full', palette=palette)
