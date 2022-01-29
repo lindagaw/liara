@@ -1,7 +1,5 @@
-office-31
-office-31-intact
-celebs
-img_align_celeba
+datasets
+generated_images
 
 __pycache__
 .DS_Store
@@ -13,3 +11,6 @@ __pycache__
 
 *.npy
 *.pt
+*.pptx
+
+~*
