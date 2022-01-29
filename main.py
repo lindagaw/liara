@@ -87,13 +87,14 @@ dataloader_tgt_train = torch.utils.data.DataLoader(dataset_tgt_train, batch_size
 dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=batch_size,
                                          shuffle=True)
 
-train_loader = torch.utils.data.DataLoader(
+src_tgt_train_loader = torch.utils.data.DataLoader(
              ConcatDataset(
                  datasets.ImageFolder(dataloader_src_train,
                  datasets.ImageFolder(dataloader_tgt_train)
              ), batch_size=batch_size, shuffle=True))
-#classifier = f.cuda()
-#classifier = train(classifier, dataloader_src_train)
 
-#acc = eval(classifier, dataloader_src_test)
-#acc = eval(classifier, dataloader_tgt_test)
+classifier = f.cuda()
+classifier = train(classifier, dataloader_src_train)
+
+acc = eval(classifier, dataloader_src_test)
+acc = eval(classifier, dataloader_tgt_test)
