@@ -56,7 +56,7 @@ def train(classifier, data_loader):
                               10,
                               step + 1,
                               len(data_loader),
-                              loss.data[0]))
+                              loss.data))
 
 
     return classifier
@@ -81,7 +81,7 @@ def eval_src(classifier, data_loader):
         labels = make_variable(labels)
 
         preds = classifier(images)
-        loss += criterion(preds, labels).data[0]
+        loss += criterion(preds, labels).data
 
         pred_cls = preds.data.max(1)[1]
         acc += pred_cls.eq(labels.data).cpu().sum()
