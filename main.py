@@ -264,7 +264,7 @@ for src_obj, tgt_obj in zip(os.listdir("office-31//" + src + "//images//"),
     plt.title("Fake/Transferable Images")
     plt.imshow(np.transpose(img_list[-1],(1,2,0)))
     plt.show()
-    #plt.savefig(src_obj + '_images.png')
+    plt.savefig(src_obj + '_images.png')
 
     fake = netG(fixed_noise).detach().cpu()
     save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
