@@ -77,5 +77,5 @@ dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
 classifier = f.cuda()
 classifier = train(classifier, dataloader_src)
 
-acc = eval(classifier, data_loader_src)
-acc = eval(classifier, data_loader_tgt)
+acc = eval(classifier, dataloader_src)
+acc = eval(classifier, dataloader_tgt)
