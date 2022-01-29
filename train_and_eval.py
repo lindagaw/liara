@@ -42,7 +42,7 @@ def train(classifier, data_loader):
             optimizer.zero_grad()
 
             # compute loss for critic
-            preds = classifier(images.cuda())
+            preds = classifier(images)
             loss = criterion(preds, labels)
 
             # optimize source classifier
