@@ -76,7 +76,8 @@ dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
 
 dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
                             [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
-dataset_src_tgt_train = ConcatDataset(dataset_src_train, dataset_tgt_train)
+                            
+dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
 
 
 dataloader_src_train = torch.utils.data.DataLoader(dataset_src_train, batch_size=batch_size,
