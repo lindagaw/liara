@@ -17,8 +17,6 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from sklearn.datasets import fetch_mldata
-from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import seaborn as sns
 
