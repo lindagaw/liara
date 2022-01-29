@@ -35,7 +35,7 @@ def train(classifier, data_loader):
     for epoch in range(num_epochs):
         for step, (images, labels) in enumerate(data_loader):
             # make images and labels variable
-            images = make_variable(images).squeeze_()
+            images = make_variable(images)
             labels = make_variable(labels.squeeze_())
 
             # zero gradients for optimizer
@@ -43,7 +43,7 @@ def train(classifier, data_loader):
 
             # compute loss for critic
             preds = classifier(images)
-            loss = criterion(preds, labels)
+            loss = criterion(preds.squeeze_(), labels)
 
             # optimize source classifier
             loss.backward()
