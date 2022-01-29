@@ -43,6 +43,9 @@ def train(classifier, data_loader):
 
             # compute loss for critic
             preds = classifier(images)
+
+            print(preds.shape)
+            print(labels.shape)
             loss = criterion(preds.squeeze_(), labels.squeeze())
 
             # optimize source classifier
