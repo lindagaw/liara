@@ -51,8 +51,11 @@ lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
-for src_obj, tgt_obj in zip(os.listdir("office-31//amazon//images//"),
-                                    os.listdir("office-31//dslr//images//")):
+src = "amazon"
+tgt = "dslr"
+
+for src_obj, tgt_obj in zip(os.listdir("office-31//" + src + "//images//"),
+                                    os.listdir("office-31//" + tgt + "//images//")):
     dataroot = "office-31//amazon//images//" + src_obj
     dataroot_tgt = "office-31//dslr//images//" + tgt_obj
 
@@ -257,6 +260,6 @@ for src_obj, tgt_obj in zip(os.listdir("office-31//amazon//images//"),
     plt.savefig(src_obj + '_images.png')
 
     fake = netG(fixed_noise).detach().cpu()
-    save_individual_images('fake_dataset//'+src_obj+'//', fake)
+    save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
 
     break
