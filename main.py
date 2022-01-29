@@ -66,6 +66,7 @@ for obj in os.listdir("office-31//amazon//images//"):
         print('skipping {} as its already translated.'.format(obj))
         continue
     else:
+        print('starting to create intermediate of {} between the domains {} and {}'.format(obj, src, tgt))
 
         src_obj = obj
         tgt_obj = obj
