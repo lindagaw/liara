@@ -18,8 +18,8 @@ import matplotlib.animation as animation
 from IPython.display import HTML
 
 from helper import weights_init, save_individual_images
-from generator import Generator
-from discriminator import Discriminator
+from models import Generator
+from models import Discriminator
 from mahalanobis import mahalanobis_loss
 
 
@@ -55,7 +55,7 @@ ngpu = 4
 src = "amazon"
 tgt = "dslr"
 
-src_obj = tgt_obj = "bike_helmet"
+src_obj = tgt_obj = "trash_can'"
 
 print('available objs are {}'.format(os.listdir("office-31//amazon//images//")))
 
