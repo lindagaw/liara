@@ -97,8 +97,8 @@ imgs_webcam = all_imgs_from_dataloader(dataloader_webcam, 'webcam')
 
 ################################################################################
 tsne = TSNE()
-nsamples, nx, ny = imgs_amazon.shape
-amazon_embedded = tsne.fit_transform(imgs_amazon.reshape((nsamples,nx*ny)))
+nsamples, nx, ny, nz = imgs_amazon.shape
+amazon_embedded = tsne.fit_transform(imgs_amazon.reshape((nsamples,nx*ny*nz)))
 plot = sns.scatterplot(amazon_embedded[:,0], amazon_embedded[:,1], hue=y, legend='full', palette=palette)
 
 fig = plot.get_figure()
