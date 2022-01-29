@@ -37,8 +37,9 @@ torch.manual_seed(manualSeed)
 #dataroot = "office-31//amazon//images//"
 #dataroot = "celebs//"
 
-dataroot = "office-31//amazon//images//"
-dataroot_tgt = "office-31//dslr//images//"
+dataroot_amazon = "office-31//amazon//images//"
+dataroot_dslr = "office-31//dslr//images//"
+dataroot_webcam = "office-31//webcam//images//"
 
 batch_size = 1
 image_size = 64
@@ -60,10 +61,15 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            ]))
 
 # Create the dataloader
-dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
+dataloader_amazon = torch.utils.data.DataLoader(dataset_amazon, batch_size=batch_size,
                                          shuffle=True)
-dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
+dataloader_dlsr = torch.utils.data.DataLoader(dataset_dlsr, batch_size=batch_size,
                                          shuffle=True)
+dataloader_webcam = torch.utils.data.DataLoader(dataset_webcam, batch_size=batch_size,
+                                         shuffle=True)
+
 print('finished loading the datasets.')
 
-imgs = all_imgs_from_dataloader(dataloader, 'amazon')
+imgs_amazon = all_imgs_from_dataloader(dataloader_amazon, 'amazon')
+imgs_dslr = all_imgs_from_dataloader(dataloader_dslr, 'dslr')
+imgs_webcam = all_imgs_from_dataloader(dataloader_webcam, 'webcam')
