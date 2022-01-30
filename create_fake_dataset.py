@@ -120,7 +120,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
 
         # Create batch of latent vectors that we will use to visualize
         #  the progression of the generator
-        fixed_noise = torch.randn(256, nz, 1, 1, device=device)
+        fixed_noise = torch.randn(1024, nz, 1, 1, device=device)
 
         # Establish convention for real and fake labels during training
         real_label = 1.
@@ -274,7 +274,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.subplot(1,3,3)
         plt.axis("off")
         plt.title("Fake/Transferable Images")
-        plt.imshow(np.transpose(img_list[-1],(1,2,0)))
+        plt.imshow(np.transpose(img_list[:64],(1,2,0)))
         plt.show()
         plt.savefig('generated_images//' + src_obj + '_images.png')
 
