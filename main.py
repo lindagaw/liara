@@ -44,7 +44,7 @@ dataroot_tgt = "datasets//office-31-intact//dslr//images//"
 #dataroot = "celebs//"
 
 # Batch size during training
-batch_size = 32
+batch_size = 64
 
 image_size = 64
 nc = 3
