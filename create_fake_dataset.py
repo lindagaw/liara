@@ -285,6 +285,8 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.show()
         plt.savefig('generated_images//' + src + '_' + tgt + '//' + src_obj + '_images.png')
 
+        print(real_batch_tgt[0].shape)
+        print(img_list[-1].shape)
 
         fake = netG(fixed_noise).detach().cpu()
         #save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
