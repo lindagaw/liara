@@ -110,7 +110,7 @@ classifier = f.cuda()
 
 print('training started ...')
 
-classifier = train(classifier, dataset_src_tgt_fake_train)
+classifier = train(classifier, dataset_src_train)
 
 src_test_acc = eval(classifier, dataloader_src_test)
 tgt_test_acc = eval(classifier, dataloader_tgt_test)

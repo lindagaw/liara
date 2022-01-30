@@ -34,33 +34,33 @@ def train(classifier, data_loader):
 
     for epoch in range(num_epochs):
         for step, (images, labels) in enumerate(data_loader):
-            # make images and labels variable
-            images = make_variable(images)
             try:
+                # make images and labels variable
+                images = make_variable(images)
                 labels = make_variable(labels.squeeze_())
-            except:
-                labels = labels
 
-            # zero gradients for optimizer
-            optimizer.zero_grad()
+                # zero gradients for optimizer
+                optimizer.zero_grad()
 
-            # compute loss for critic
-            preds = classifier(images)
+                # compute loss for critic
+                preds = classifier(images)
 
-            loss = criterion(preds.squeeze_(), labels.squeeze())
+                loss = criterion(preds.squeeze_(), labels.squeeze())
 
-            # optimize source classifier
-            loss.backward()
-            optimizer.step()
+                # optimize source classifier
+                loss.backward()
+                optimizer.step()
 
-            # print step info
-            if ((step + 1) % 10 == 0):
-                print("Epoch [{}/{}] Step [{}/{}]: loss={}"
-                      .format(epoch + 1,
-                              num_epochs,
-                              step + 1,
-                              len(data_loader),
-                              loss.data))
+                # print step info
+                if ((step + 1) % 10 == 0):
+                    print("Epoch [{}/{}] Step [{}/{}]: loss={}"
+                          .format(epoch + 1,
+                                  num_epochs,
+                                  step + 1,
+                                  len(data_loader),
+                                  loss.data))
+            except Exception as e:
+                print(e)
 
 
     return classifier
