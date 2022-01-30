@@ -71,9 +71,8 @@ except Exception as e:
 
 for obj in os.listdir("datasets//office-31//amazon//images//"):
 
-    if os.path.isfile('generated_images//' + src + '_' + tgt + '//' + obj + '_images.png') and
-        os.listdir('datasets//' + src + '_' + tgt + '_fake_dataset//'+src_obj+'//') != 0:
-        
+    if os.path.isfile('generated_images//' + src + '_' + tgt + '//' + obj + '_images.png') and os.listdir('datasets//' + src + '_' + tgt + '_fake_dataset//'+src_obj+'//') != 0:
+
         print('skipping {} as its already translated.'.format(obj))
         continue
     else:
