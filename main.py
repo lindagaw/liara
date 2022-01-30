@@ -17,8 +17,9 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
+from torch.utils.data import TensorDataset, ConcatDataset, DataLoader
+
 from misc import weights_init, save_individual_images
-from misc import ConcatDataset
 from models import Generator
 from models import Discriminator
 from models import classifier as f
@@ -62,10 +63,6 @@ dataset_src = dset.ImageFolder(root=dataroot_src,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
-dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
-                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
-
-
 dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -73,6 +70,9 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
+
+dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
+                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
 dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
                             [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
@@ -87,8 +87,11 @@ dataloader_tgt_train = torch.utils.data.DataLoader(dataset_tgt_train, batch_size
 dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=batch_size,
                                          shuffle=True)
 
+dataset_src_tgt_train = ConcatDataset(dataset_src_train, dataset_tgt_train)
+src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
+
 classifier = f.cuda()
-classifier = train(classifier, dataloader_src_train)
+classifier = train(classifier, src_tgt_train_loader)
 
 acc = eval(classifier, dataloader_src_test)
 acc = eval(classifier, dataloader_tgt_test)
