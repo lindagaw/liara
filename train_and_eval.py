@@ -38,7 +38,7 @@ def train(classifier, data_loader):
             try:
                 # make images and labels variable
                 images = make_variable(images)
-                labels = make_variable(labels.squeeze_())
+                #labels = make_variable(labels.squeeze_())
 
                 # zero gradients for optimizer
                 optimizer.zero_grad()
@@ -46,7 +46,7 @@ def train(classifier, data_loader):
                 # compute loss for critic
                 preds = classifier(images)
 
-                loss = criterion(preds.squeeze_(), labels.squeeze())
+                loss = criterion(preds, labels)
 
                 # optimize source classifier
                 loss.backward()
