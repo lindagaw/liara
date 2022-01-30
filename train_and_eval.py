@@ -34,12 +34,12 @@ def train(classifier, data_loader):
 
     for epoch in range(num_epochs):
         for step, (images, labels) in enumerate(data_loader):
-
-            print(images.shape)
-            print(labels.shape)
             # make images and labels variable
             images = make_variable(images)
-            labels = make_variable(labels.squeeze_())
+            try:
+                labels = make_variable(labels.squeeze_())
+            except:
+                labels = make_variable(labels)
 
             # zero gradients for optimizer
             optimizer.zero_grad()
