@@ -1,7 +1,6 @@
 import os
 import shutil
-dataroot_females = "..//datasets//gender_dataset//Training//female//"
-dataroot_males = "..//datasets//gender_dataset//Training//male//"
+dataroot = "..//datasets//gender_dataset//Training//"
 
 def render(dataroot):
     for category in os.listdir(dataroot):
@@ -22,5 +21,4 @@ def render(dataroot):
             except:
                 pass
 
-render(dataroot_females)
-render(dataroot_males)
+render(dataroot)
