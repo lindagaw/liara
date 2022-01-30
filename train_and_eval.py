@@ -60,7 +60,7 @@ def train(classifier, data_loader):
                                   len(data_loader),
                                   loss.data))
             except Exception as e:
-                pass
+                print(e)
 
 
     return classifier
