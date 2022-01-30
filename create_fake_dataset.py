@@ -280,7 +280,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.axis("off")
         plt.title("Fake/Transferable Images")
         transposed = np.transpose(img_list[-1],(1,2,0))
-        plt.imshow(transposed[:64])
+        plt.imshow(transposed[:128])
 
         plt.show()
         plt.savefig('generated_images//' + src + '_' + tgt + '//' + src_obj + '_images.png')
