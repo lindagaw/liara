@@ -274,7 +274,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.subplot(1,3,3)
         plt.axis("off")
         plt.title("Fake/Transferable Images")
-        plt.imshow(np.transpose(img_list[:64],(1,2,0)))
+        plt.imshow(np.transpose(img_list[-1][:64],(1,2,0)))
         plt.show()
         plt.savefig('generated_images//' + src_obj + '_images.png')
 
