@@ -58,7 +58,7 @@ tgt = "dslr"
 #src_obj = tgt_obj = "ring_binder"
 
 try:
-    os.makedirs(src + '_' + tgt + '_generated_images//')
+    os.makedirs(src + '_' + tgt + '//generated_images//')
 except:
     pass
 
@@ -71,7 +71,7 @@ except Exception as e:
 
 for obj in os.listdir("datasets//office-31//amazon//images//"):
 
-    if os.path.isfile(src + '_' + tgt + '_generated_images//' + obj + '_images.png'):
+    if os.path.isfile(src + '_' + tgt + '//generated_images//' + obj + '_images.png'):
         print('skipping {} as its already translated.'.format(obj))
         continue
     else:
@@ -281,7 +281,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.title("Fake/Transferable Images")
         plt.imshow(np.transpose(img_list[-1][:64],(1,2,0)))
         plt.show()
-        plt.savefig(src + '_' + tgt + '_generated_images//' + src_obj + '_images.png')
+        plt.savefig(src + '_' + tgt + '//generated_images//' + src_obj + '_images.png')
 
         fake = netG(fixed_noise).detach().cpu()
         #save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
