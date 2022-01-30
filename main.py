@@ -41,6 +41,7 @@ torch.manual_seed(manualSeed)
 # Root directory for dataset
 dataroot_src = "datasets//office-31-intact//amazon//images//"
 dataroot_tgt = "datasets//office-31-intact//dslr//images//"
+dataroot_fake = "datasets//amazon_dslr_fake_dataset//"
 #dataroot = "celebs//"
 
 # Batch size during training
@@ -71,6 +72,14 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
+dataset_fake = dset.ImageFolder(root=dataroot_fake,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+
 dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
                             [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
@@ -85,6 +94,8 @@ dataloader_src_test = torch.utils.data.DataLoader(dataset_src_test, batch_size=b
 dataloader_tgt_train = torch.utils.data.DataLoader(dataset_tgt_train, batch_size=batch_size,
                                          shuffle=True)
 dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=batch_size,
+                                         shuffle=True)
+dataloader_fake = torch.utils.data.DataLoader(dataset_fake, batch_size=batch_size,
                                          shuffle=True)
 
 dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
