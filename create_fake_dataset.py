@@ -279,14 +279,12 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.subplot(1,3,3)
         plt.axis("off")
         plt.title("Fake/Transferable Images")
-        #plt.imshow(np.transpose(img_list[-1][:64],(1,2,0)))
-        plt.imshow(np.transpose(vutils.make_grid(img_list[-1].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
+        transposed = np.transpose(img_list[-1],(1,2,0))
+        plt.imshow(transposed[:64])
 
         plt.show()
         plt.savefig('generated_images//' + src + '_' + tgt + '//' + src_obj + '_images.png')
 
-        print(real_batch_tgt[0].shape)
-        print(img_list[-1].shape)
 
         fake = netG(fixed_noise).detach().cpu()
         #save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
