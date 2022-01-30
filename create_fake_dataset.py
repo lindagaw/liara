@@ -48,7 +48,7 @@ nz = 100
 ngf = 64
 ndf = 64
 num_epochs = 1500
-lr = 0.0003
+lr = 0.00015
 beta1 = 0.5
 ngpu = 4
 
@@ -71,7 +71,9 @@ except Exception as e:
 
 for obj in os.listdir("datasets//office-31//amazon//images//"):
 
-    if os.path.isfile('generated_images//' + src + '_' + tgt + '//' + obj + '_images.png'):
+    if os.path.isfile('generated_images//' + src + '_' + tgt + '//' + obj + '_images.png') and
+        os.listdir('datasets//' + src + '_' + tgt + '_fake_dataset//'+src_obj+'//') != 0:
+        
         print('skipping {} as its already translated.'.format(obj))
         continue
     else:
