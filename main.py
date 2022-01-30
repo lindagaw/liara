@@ -40,7 +40,7 @@ torch.manual_seed(manualSeed)
 
 # Root directory for dataset
 dataroot_src = "datasets//office-31-intact//amazon//images//"
-dataroot_tgt = "datasets//office-31-intact//dslr//images//"
+dataroot_tgt = "datasets//office-31-intact//webcam//images//"
 dataroot_fake = "datasets//amazon_dslr_fake_dataset//"
 #dataroot = "celebs//"
 
