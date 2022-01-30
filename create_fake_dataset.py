@@ -47,7 +47,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 1000
+num_epochs = 1500
 lr = 0.0003
 beta1 = 0.5
 ngpu = 4
@@ -280,7 +280,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         plt.axis("off")
         plt.title("Fake/Transferable Images")
         transposed = np.transpose(img_list[-1],(1,2,0))
-        plt.imshow(transposed[:64*8])
+        plt.imshow(transposed)
 
         plt.show()
         plt.savefig('generated_images//' + src + '_' + tgt + '//' + src_obj + '_images.png')
