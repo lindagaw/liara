@@ -34,36 +34,31 @@ def train(classifier, data_loader):
 
     for epoch in range(num_epochs):
         for step, (images, labels) in enumerate(data_loader):
-            try:
-                # make images and labels variable
-                images = make_variable(images)
-                labels = make_variable(labels.squeeze_())
 
-                # zero gradients for optimizer
-                optimizer.zero_grad()
+            # make images and labels variable
+            images = make_variable(images)
+            labels = make_variable(labels.squeeze_())
 
-                # compute loss for critic
-                preds = classifier(images)
+            # zero gradients for optimizer
+            optimizer.zero_grad()
 
-                print(labels.shape)
-                print(preds.shape)
+            # compute loss for critic
+            preds = classifier(images)
 
-                loss = criterion(preds.squeeze_(), labels.squeeze())
+            loss = criterion(preds.squeeze_(), labels.squeeze())
 
-                # optimize source classifier
-                loss.backward()
-                optimizer.step()
+            # optimize source classifier
+            loss.backward()
+            optimizer.step()
 
-                # print step info
-                if ((step + 1) % 10 == 0):
-                    print("Epoch [{}/{}] Step [{}/{}]: loss={}"
-                          .format(epoch + 1,
-                                  num_epochs,
-                                  step + 1,
-                                  len(data_loader),
-                                  loss.data))
-            except Exception as e:
-                print(e)
+            # print step info
+            if ((step + 1) % 10 == 0):
+                print("Epoch [{}/{}] Step [{}/{}]: loss={}"
+                      .format(epoch + 1,
+                              num_epochs,
+                              step + 1,
+                              len(data_loader),
+                              loss.data))
 
 
     return classifier
