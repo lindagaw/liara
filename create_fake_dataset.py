@@ -47,8 +47,8 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 3000
-lr = 0.0002
+num_epochs = 1500
+lr = 0.00015
 beta1 = 0.5
 ngpu = 4
 
@@ -289,5 +289,3 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         fake = netG(fixed_noise).detach().cpu()
         #save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
         save_individual_images('datasets//' + src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
-
-        break
