@@ -289,5 +289,3 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
         fake = netG(fixed_noise).detach().cpu()
         #save_individual_images(src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
         save_individual_images('datasets//' + src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
-
-        break
