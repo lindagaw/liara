@@ -9,8 +9,8 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 100
-lr = 0.00002
+num_epochs = 50
+lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
