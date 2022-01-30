@@ -41,7 +41,7 @@ torch.manual_seed(manualSeed)
 # Root directory for dataset
 dataroot_src = "datasets//office-31-intact//amazon//images//"
 dataroot_tgt = "datasets//office-31-intact//dslr//images//"
-dataroot_fake = "datasets//amazon_dslr_fake_dataset//"
+dataroot_fake = "datasets//datasets//amazon_dslr_fake_dataset//"
 
 # Batch size during training
 batch_size = 32
@@ -87,9 +87,7 @@ dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
                             [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
 
 dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
-dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_tgt_train, dataset_fake))
 
-print('finished loading datasets ...')
 
 dataloader_src_train = torch.utils.data.DataLoader(dataset_src_train, batch_size=batch_size,
                                          shuffle=True)
@@ -104,13 +102,8 @@ dataloader_fake = torch.utils.data.DataLoader(dataset_fake, batch_size=batch_siz
 
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 
-print('finished loading dataloaders ...')
-
 classifier = f.cuda()
-
-print('training started ...')
-
-classifier = train(classifier, dataset_src_tgt_train)
+classifier = train(classifier, dataset_src_train)
 
 src_test_acc = eval(classifier, dataloader_src_test)
 tgt_test_acc = eval(classifier, dataloader_tgt_test)
