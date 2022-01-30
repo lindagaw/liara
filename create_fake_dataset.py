@@ -53,7 +53,7 @@ beta1 = 0.5
 ngpu = 4
 
 src = "amazon"
-tgt = "webcam"
+tgt = "dslr"
 
 #src_obj = tgt_obj = "ring_binder"
 
