@@ -59,13 +59,15 @@ tgt = "dslr"
 
 try:
     os.makedirs(src + '_' + tgt + '_generated_images//')
+except:
+    pass
 
 print('available objs are {}'.format(os.listdir("datasets//office-31//amazon//images//")))
 
 try:
     os.makedirs('datasets//' + src + '_' + tgt + '_fake_dataset//')
 except Exception as e:
-    print(e)
+    pass
 
 for obj in os.listdir("datasets//office-31//amazon//images//"):
 
