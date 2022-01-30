@@ -34,6 +34,7 @@ def train(classifier, data_loader):
 
     for epoch in range(num_epochs):
         for step, (images, labels) in enumerate(data_loader):
+            print(labels)
             try:
                 # make images and labels variable
                 images = make_variable(images)
