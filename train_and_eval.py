@@ -39,7 +39,7 @@ def train(classifier, data_loader):
             try:
                 labels = make_variable(labels.squeeze_())
             except:
-                labels = make_variable(labels)
+                labels = labels
 
             # zero gradients for optimizer
             optimizer.zero_grad()
