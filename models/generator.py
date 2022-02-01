@@ -85,40 +85,13 @@ class Generator(nn.Module):
     def forward(self, input):
         return self.main(input)
 '''
-
-class ResidualBlock(nn.Module):
-    expansion = 1
-    def __init__(self, inchannel, outchannel, stride=1):
-        super(ResidualBlock, self).__init__()
-        self.conv1 = nn.Sequential(
-                        nn.Conv2d(inchannel, outchannel, kernel_size=3, stride=stride, padding=1, bias=False),
-                        nn.BatchNorm2d(outchannel),
-                        )
-        self.conv2  = nn.Sequential(
-                        nn.Conv2d(outchannel, outchannel, kernel_size=3, stride=1, padding=1, bias=False),
-                        nn.BatchNorm2d(outchannel)
-                    )
-        self.skip = nn.Sequential()
-        if stride != 1 or inchannel != self.expansion * outchannel:
-            self.skip = nn.Sequential(
-                nn.Conv2d(inchannel, self.expansion * outchannel, kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm2d(self.expansion * outchannel)
-            )
-
-    def forward(self, X):
-        out = F.relu(self.conv1(X))
-        out = self.conv2(out)
-        out += self.skip(X)
-        out = F.relu(out)
-        return out
-
 class Generator(nn.Module):
     """Resnet-based generator that consists of Resnet blocks between a few downsampling/upsampling operations.
 
     We adapt Torch code and idea from Justin Johnson's neural style transfer project(https://github.com/jcjohnson/fast-neural-style)
     """
 
-    def __init__(self, input_nc, output_nc=nz, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, padding_type='reflect'):
+    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, padding_type='reflect'):
         """Construct a Resnet-based generator
 
         Parameters:
@@ -132,6 +105,7 @@ class Generator(nn.Module):
         """
         assert(n_blocks >= 0)
         super(Generator, self).__init__()
+
         use_bias = norm_layer == nn.InstanceNorm2d
 
         model = [nn.ReflectionPad2d(3),
@@ -149,7 +123,7 @@ class Generator(nn.Module):
         mult = 2 ** n_downsampling
         for i in range(n_blocks):       # add ResNet blocks
 
-            model += [ResidualBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
+            model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
 
         for i in range(n_downsampling):  # add upsampling layers
             mult = 2 ** (n_downsampling - i)
@@ -168,3 +142,63 @@ class Generator(nn.Module):
     def forward(self, input):
         """Standard forward"""
         return self.model(input)
+
+
+class ResnetBlock(nn.Module):
+    """Define a Resnet block"""
+
+    def __init__(self, dim, padding_type, norm_layer, use_dropout, use_bias):
+        """Initialize the Resnet block
+
+        A resnet block is a conv block with skip connections
+        We construct a conv block with build_conv_block function,
+        and implement skip connections in <forward> function.
+        Original Resnet paper: https://arxiv.org/pdf/1512.03385.pdf
+        """
+        super(ResnetBlock, self).__init__()
+        self.conv_block = self.build_conv_block(dim, padding_type, norm_layer, use_dropout, use_bias)
+
+    def build_conv_block(self, dim, padding_type, norm_layer, use_dropout, use_bias):
+        """Construct a convolutional block.
+
+        Parameters:
+            dim (int)           -- the number of channels in the conv layer.
+            padding_type (str)  -- the name of padding layer: reflect | replicate | zero
+            norm_layer          -- normalization layer
+            use_dropout (bool)  -- if use dropout layers.
+            use_bias (bool)     -- if the conv layer uses bias or not
+
+        Returns a conv block (with a conv layer, a normalization layer, and a non-linearity layer (ReLU))
+        """
+        conv_block = []
+        p = 0
+        if padding_type == 'reflect':
+            conv_block += [nn.ReflectionPad2d(1)]
+        elif padding_type == 'replicate':
+            conv_block += [nn.ReplicationPad2d(1)]
+        elif padding_type == 'zero':
+            p = 1
+        else:
+            raise NotImplementedError('padding [%s] is not implemented' % padding_type)
+
+        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), norm_layer(dim), nn.ReLU(True)]
+        if use_dropout:
+            conv_block += [nn.Dropout(0.5)]
+
+        p = 0
+        if padding_type == 'reflect':
+            conv_block += [nn.ReflectionPad2d(1)]
+        elif padding_type == 'replicate':
+            conv_block += [nn.ReplicationPad2d(1)]
+        elif padding_type == 'zero':
+            p = 1
+        else:
+            raise NotImplementedError('padding [%s] is not implemented' % padding_type)
+        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), norm_layer(dim)]
+
+        return nn.Sequential(*conv_block)
+
+    def forward(self, x):
+        """Forward function (with skip connections)"""
+        out = x + self.conv_block(x)  # add skip connections
+        return out
