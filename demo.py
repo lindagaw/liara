@@ -107,7 +107,7 @@ print('finished loading the datasets.')
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 # Create the generator
-netG = Generator().to(device) #
+netG = Generator(ngpu).to(device) #
 netG.apply(weights_init)
 # Create the Discriminator
 netD = Discriminator(ngpu).to(device)
