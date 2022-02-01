@@ -42,12 +42,12 @@ torch.manual_seed(manualSeed)
 # Batch size during training
 batch_size = 128
 
-image_size = 224
+image_size = 64
 nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 5
+num_epochs = 30
 lr = 0.0001
 beta1 = 0.5
 ngpu = 4
@@ -61,11 +61,10 @@ tgt_obj = "male"
 dataroot = "datasets/gender_dataset/Training//" + src_obj
 dataroot_tgt = "datasets/gender_dataset/Training//" + tgt_obj
 dataroot_cartoon = "datasets//cartoon//"
-dataroot_both_genders = "datasets/gender_dataset/Training//"
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 
-dataset_both_genders = dset.ImageFolder(root=dataroot_both_genders,
+dataset_both_genders = dset.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
@@ -107,7 +106,7 @@ print('finished loading the datasets.')
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 # Create the generator
-netG = Generator(ngpu).to(device) #
+netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
 # Create the Discriminator
 netD = Discriminator(ngpu).to(device)
