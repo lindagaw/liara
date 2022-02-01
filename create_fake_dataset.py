@@ -134,7 +134,7 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
 
         # Setup Adam optimizers for both G and D
         optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-        optimizerD_tgt = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
+        optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
         optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
         # Training Loop
