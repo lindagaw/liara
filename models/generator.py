@@ -72,7 +72,7 @@ class Generator(nn.Module):
             nn.ReLU(True),
             # state size. (ngf*4) x 8 x 8
 
-            for i in 9:       # add ResNet blocks
+            for i in range(0, 9):       # add ResNet blocks
                 model += [ResnetBlock(ngf * mult, padding_type='zero', norm_layer=norm_layer, use_dropout=False, use_bias=use_bias)]
 
             nn.ConvTranspose2d( ngf * 4, ngf * 2, 4, 2, 1, bias=False),
