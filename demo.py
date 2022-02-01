@@ -47,31 +47,22 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 3
-lr = 0.0002
+num_epochs = 30
+lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
 src = "amazon"
 tgt = "dslr"
 
-src_obj = "female"
-tgt_obj = "male"
+src_obj = "male"
+tgt_obj = "female"
 
 dataroot = "datasets/gender_dataset/Training//" + src_obj
 dataroot_tgt = "datasets/gender_dataset/Training//" + tgt_obj
-dataroot_cartoon = "datasets//cartoon//"
+
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-
-dataset_both_genders = dset.ImageFolder(root=dataroot,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
-
 dataset = dset.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -79,7 +70,6 @@ dataset = dset.ImageFolder(root=dataroot,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
-
 dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -88,20 +78,11 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
-dataset_cartoon = dset.ImageFolder(root=dataroot_cartoon,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
 # Create the dataloader
-dataloader = torch.utils.data.DataLoader(dataset_cartoon, batch_size=batch_size,
+dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
-
-
-dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size, shuffle=True)
-
+dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
+                                         shuffle=True)
 print('finished loading the datasets.')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
@@ -141,13 +122,12 @@ G_losses = []
 D_losses = []
 iters = 0
 
-
 print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
     # For each batch in the dataloader
     # for i, data in enumerate(dataloader, 0):
-    for i, data in enumerate(dataloader, 0):
+    for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
 
 
         ############################
@@ -185,6 +165,40 @@ for epoch in range(num_epochs):
         # Update D
         optimizerD.step()
 
+        ############################
+        # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
+        ###########################
+        ## Train with all-real batch
+        netD_tgt.zero_grad()
+        # Format batch
+        real_cpu = data_tgt[0].to(device)
+        b_size = real_cpu.size(0)
+        label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
+        # Forward pass real batch through D
+        output = netD_tgt(real_cpu).view(-1)
+        # Calculate loss on all-real batch
+        errD_real_tgt = criterion(output, label)
+        # Calculate gradients for D in backward pass
+        errD_real_tgt.backward()
+        D_x = output.mean().item()
+
+        ## Train with all-fake batch
+        # Generate batch of latent vectors
+        noise = torch.randn(b_size, nz, 1, 1, device=device)
+        # Generate fake image batch with G
+        fake = netG(noise)
+        label.fill_(fake_label)
+        # Classify all fake batch with D
+        output = netD_tgt(fake.detach()).view(-1)
+        # Calculate D's loss on the all-fake batch
+        errD_fake_tgt = criterion(output, label)
+        # Calculate the gradients for this batch, accumulated (summed) with previous gradients
+        errD_fake_tgt.backward()
+        D_G_z1 = output.mean().item()
+        # Compute error of D as sum over the fake and the real batches
+        errD = errD_real_tgt + errD_fake_tgt
+        # Update D
+        optimizerD_tgt.step()
 
         ############################
         # (2) Update G network: maximize log(D(G(z)))
@@ -197,7 +211,7 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = criterion(output_tgt, label)
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2
         #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
