@@ -47,8 +47,8 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 1500
-lr = 0.00015
+num_epochs = 500
+lr = 0.00005
 beta1 = 0.5
 ngpu = 4
 
