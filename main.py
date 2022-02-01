@@ -22,7 +22,7 @@ from torch.utils.data import TensorDataset, ConcatDataset, DataLoader
 from misc import weights_init, save_individual_images
 from models import Generator
 from models import Discriminator
-from models import classifier as f
+from models import get_classifier
 from models import mahalanobis_loss
 
 from train_and_eval import train, eval
@@ -103,6 +103,8 @@ dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_tgt_train
 
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 src_tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_fake_train, batch_size=batch_size, shuffle=True)
+
+f = get_classifier('densenet')
 
 classifier = f.cuda()
 classifier = train(classifier, src_tgt_train_loader)

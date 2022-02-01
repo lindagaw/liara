@@ -56,8 +56,22 @@ beta1 = 0.5
 # Number of GPUs available. Use 0 for CPU mode.
 ngpu = 4
 
-classifier = models.googlenet(pretrained=True)
-classifier.fc = nn.Linear(1024, 31)
+def get_classifier(name='googlenet'):
+    if name == "alexnet":
+        model = models.alexnet(pretrained=True)
+    elif name == 'resnet18':
+        model = models.resnet18(pretrained=True)
+    elif name == 'vgg16':
+        model = models.vgg16(pretrained=True)
+    elif name == 'inception_v3':
+        model = models.inception_v3(pretrained=True)
+    elif name == 'densenet':
+        model = models.densenet161(pretrained=True)
+    else:
+        model = models.googlenet(pretrained=True)
+    return model
+
+#classifier.fc = nn.Linear(1024, 31)
 
 print(classifier)
 
