@@ -110,11 +110,11 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 netG = Generator().to(device) #
 netG.apply(weights_init)
 # Create the Discriminator
-netD = Discriminator(npgu).to(device)
+netD = Discriminator(ngpu).to(device)
 netD.apply(weights_init)
 
 # Create the Discriminator
-netD_tgt = Discriminator(npgu).to(device)
+netD_tgt = Discriminator(ngpu).to(device)
 netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
