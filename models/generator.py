@@ -86,6 +86,32 @@ class Generator(nn.Module):
         return self.main(input)
 '''
 
+class ResidualBlock(nn.Module):
+    expansion = 1
+    def __init__(self, inchannel, outchannel, stride=1):
+        super(ResidualBlock, self).__init__()
+        self.conv1 = nn.Sequential(
+                        nn.Conv2d(inchannel, outchannel, kernel_size=3, stride=stride, padding=1, bias=False),
+                        nn.BatchNorm2d(outchannel),
+                        )
+        self.conv2  = nn.Sequential(
+                        nn.Conv2d(outchannel, outchannel, kernel_size=3, stride=1, padding=1, bias=False),
+                        nn.BatchNorm2d(outchannel)
+                    )
+        self.skip = nn.Sequential()
+        if stride != 1 or inchannel != self.expansion * outchannel:
+            self.skip = nn.Sequential(
+                nn.Conv2d(inchannel, self.expansion * outchannel, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(self.expansion * outchannel)
+            )
+
+    def forward(self, X):
+        out = F.relu(self.conv1(X))
+        out = self.conv2(out)
+        out += self.skip(X)
+        out = F.relu(out)
+        return out
+
 class Generator(nn.Module):
     """Resnet-based generator that consists of Resnet blocks between a few downsampling/upsampling operations.
 
@@ -123,7 +149,7 @@ class Generator(nn.Module):
         mult = 2 ** n_downsampling
         for i in range(n_blocks):       # add ResNet blocks
 
-            model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
+            model += [ResidualBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
 
         for i in range(n_downsampling):  # add upsampling layers
             mult = 2 ** (n_downsampling - i)
