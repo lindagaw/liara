@@ -47,14 +47,14 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 300
+num_epochs = 30
 lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
 
-src_obj = "male"
-tgt_obj = "female"
+src_obj = "female"
+tgt_obj = "male"
 
 dataroot = "datasets/gender_dataset/Training//" + src_obj
 dataroot_tgt = "datasets/gender_dataset/Training//" + tgt_obj
@@ -109,7 +109,7 @@ fake_label = 0.
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-optimizerD_tgt = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
 # Training Loop
@@ -178,7 +178,7 @@ for epoch in range(num_epochs):
         errD_real_tgt = criterion(output, label)
         # Calculate gradients for D in backward pass
         errD_real_tgt.backward()
-        D_x = output.mean().item()
+        D_x_tgt = output.mean().item()
 
         ## Train with all-fake batch
         # Generate batch of latent vectors
@@ -192,9 +192,9 @@ for epoch in range(num_epochs):
         errD_fake_tgt = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
         errD_fake_tgt.backward()
-        D_G_z1 = output.mean().item()
+        D_G_z1_tgt = output.mean().item()
         # Compute error of D as sum over the fake and the real batches
-        errD = errD_real_tgt + errD_fake_tgt
+        errD_tgt = errD_real_tgt + errD_fake_tgt
         # Update D
         optimizerD_tgt.step()
 
