@@ -60,7 +60,7 @@ tgt_obj = "male"
 
 dataroot = "datasets/gender_dataset/Training//" + src_obj
 dataroot_tgt = "datasets/gender_dataset/Training//" + tgt_obj
-
+dataroot_cartoon = "datasets//cartoon//"
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = dset.ImageFolder(root=dataroot,
@@ -70,6 +70,7 @@ dataset = dset.ImageFolder(root=dataroot,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
+
 dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -78,10 +79,18 @@ dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
+dataset_cartoon = dset.ImageFolder(root=dataroot_cartoon,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
-dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size,
+#dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size, shuffle=True)
+dataloader_tgt = torch.utils.data.DataLoader(dataset_cartoon, batch_size=batch_size,
                                          shuffle=True)
 print('finished loading the datasets.')
 # Decide which device we want to run on
