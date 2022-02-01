@@ -47,7 +47,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 10
+num_epochs = 3
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -98,9 +98,8 @@ dataset_cartoon = dset.ImageFolder(root=dataroot_cartoon,
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
-#dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size, shuffle=True)
-dataloader_tgt = torch.utils.data.DataLoader(dataset_cartoon, batch_size=batch_size,
-                                         shuffle=True)
+dataloader_tgt = torch.utils.data.DataLoader(dataset_tgt, batch_size=batch_size, shuffle=True)
+
 print('finished loading the datasets.')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
