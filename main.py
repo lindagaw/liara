@@ -52,7 +52,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 50
+num_epochs = 5000
 lr = 0.0002
 beta1 = 0.5
 ngpu = 4
@@ -104,7 +104,7 @@ dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_tgt_train
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 src_tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_fake_train, batch_size=batch_size, shuffle=True)
 
-f = get_classifier('resnet18')
+f = get_classifier('googlenet')
 
 classifier = f.cuda()
 classifier = train(classifier, dataloader_src_train)
