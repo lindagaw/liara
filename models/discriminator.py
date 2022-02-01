@@ -54,7 +54,7 @@ beta1 = 0.5
 # Number of GPUs available. Use 0 for CPU mode.
 ngpu = 4
 
-'''
+
 class Discriminator(nn.Module):
     def __init__(self, ngpu):
         super(Discriminator, self).__init__()
@@ -109,3 +109,4 @@ class Discriminator(nn.Module):
 
     def forward(self, input):
         return self.main(input)
+'''
