@@ -48,7 +48,7 @@ nz = 100
 ngf = 64
 ndf = 64
 num_epochs = 50
-lr = 0.0001
+lr = 0.00001
 beta1 = 0.5
 ngpu = 4
 
@@ -140,7 +140,6 @@ G_losses = []
 D_losses = []
 iters = 0
 
-name = 'cartoon_'
 
 print("Starting Training Loop...")
 # For each epoch
@@ -279,4 +278,4 @@ plt.axis("off")
 plt.title("Fake/Transferable Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
-plt.savefig('generated_images//' + name + 'demo_images.png')
+plt.savefig('generated_images//demo_images.png')
