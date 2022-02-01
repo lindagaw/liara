@@ -107,7 +107,7 @@ print('finished loading the datasets.')
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 # Create the generator
-netG = Generator().to(device)
+netG = Generator().to(device) # npgu=4
 netG.apply(weights_init)
 # Create the Discriminator
 netD = Discriminator().to(device)
@@ -159,7 +159,7 @@ for epoch in range(num_epochs):
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
-        output = netD(real_cpu).view(-1)
+        output = netD(real_cpu)
         # Calculate loss on all-real batch
         errD_real = criterion(output, label)
         # Calculate gradients for D in backward pass
@@ -173,7 +173,7 @@ for epoch in range(num_epochs):
         fake = netG(noise)
         label.fill_(fake_label)
         # Classify all fake batch with D
-        output = netD(fake.detach()).view(-1)
+        output = netD(fake.detach())
         # Calculate D's loss on the all-fake batch
         errD_fake = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
@@ -194,7 +194,7 @@ for epoch in range(num_epochs):
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
-        output = netD_tgt(real_cpu).view(-1)
+        output = netD_tgt(real_cpu)
         # Calculate loss on all-real batch
         errD_real_tgt = criterion(output, label)
         # Calculate gradients for D in backward pass
@@ -208,7 +208,7 @@ for epoch in range(num_epochs):
         fake = netG(noise)
         label.fill_(fake_label)
         # Classify all fake batch with D
-        output = netD_tgt(fake.detach()).view(-1)
+        output = netD_tgt(fake.detach())
         # Calculate D's loss on the all-fake batch
         errD_fake_tgt = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
@@ -227,8 +227,8 @@ for epoch in range(num_epochs):
         # Since we just updated D, perform another forward pass of all-fake batch through D
         m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
 
-        output = netD(fake).view(-1)
-        output_tgt = netD_tgt(fake).view(-1)
+        output = netD(fake)
+        output_tgt = netD_tgt(fake)
         # Calculate G's loss based on this output
         errG = (criterion(output, label)+criterion(output_tgt, label))/2
         #errG = criterion(output, label)
