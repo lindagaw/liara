@@ -67,6 +67,10 @@ class ResBlock(nn.Module):
 class Generator(nn.Module):
     def __init__(self, f=64, blocks=6):
         super(Generator, self).__init__()
+        nn.ConvTranspose2d( nz, ngf * 8, 4, 1, 0, bias=False),
+        nn.BatchNorm2d(ngf * 8),
+        nn.ReLU(True),
+        
         layers = [nn.ReflectionPad2d(3),
                   nn.Conv2d(  3,   f, 7, 1, 0), norm_layer(  f), nn.ReLU(True),
                   nn.Conv2d(  f, 2*f, 3, 2, 1), norm_layer(2*f), nn.ReLU(True),
