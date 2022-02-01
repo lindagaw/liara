@@ -107,14 +107,14 @@ print('finished loading the datasets.')
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 # Create the generator
-netG = Generator(ngpu).to(device)
+netG = Generator().to(device)
 netG.apply(weights_init)
 # Create the Discriminator
-netD = Discriminator(ngpu).to(device)
+netD = Discriminator().to(device)
 netD.apply(weights_init)
 
 # Create the Discriminator
-netD_tgt = Discriminator(ngpu).to(device)
+netD_tgt = Discriminator().to(device)
 netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
