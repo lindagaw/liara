@@ -57,6 +57,9 @@ beta1 = 0.5
 ngpu = 4
 
 def get_classifier(name='googlenet'):
+
+    print('using {}...'.format(name))
+
     if name == "alexnet":
         model = models.alexnet(pretrained=True)
     elif name == 'resnet18':
@@ -73,7 +76,7 @@ def get_classifier(name='googlenet'):
 
 #classifier.fc = nn.Linear(1024, 31)
 
-print(classifier)
+#print(classifier)
 
 '''
 import torchvision.models as models
