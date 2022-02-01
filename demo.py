@@ -61,8 +61,18 @@ tgt_obj = "male"
 dataroot = "datasets/gender_dataset/Training//" + src_obj
 dataroot_tgt = "datasets/gender_dataset/Training//" + tgt_obj
 dataroot_cartoon = "datasets//cartoon//"
+dataroot_both_genders = "datasets/gender_dataset/Training//"
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
+
+dataset_both_genders = dset.ImageFolder(root=dataroot_both_genders,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+
 dataset = dset.ImageFolder(root=dataroot,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
