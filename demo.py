@@ -140,6 +140,8 @@ G_losses = []
 D_losses = []
 iters = 0
 
+name = 'cartoon_'
+
 print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
@@ -229,7 +231,7 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        errG = criterion(output_tgt, label)
         #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
@@ -277,4 +279,4 @@ plt.axis("off")
 plt.title("Fake/Transferable Images")
 plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
-plt.savefig('generated_images//demo_images.png')
+plt.savefig('generated_images//' + name + 'demo_images.png')
