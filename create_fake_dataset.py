@@ -47,7 +47,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 200
+num_epochs = 1500
 lr = 0.00015
 beta1 = 0.5
 ngpu = 4
@@ -236,8 +236,8 @@ for obj in os.listdir("datasets//office-31//amazon//images//"):
                 output = netD(fake).view(-1)
                 output_tgt = netD_tgt(fake).view(-1)
                 # Calculate G's loss based on this output
-                #errG = (criterion(output, label)+criterion(output_tgt, label))/2
-                errG = criterion(output, label)
+                errG = (criterion(output, label)+criterion(output_tgt, label))/2
+                #errG = criterion(output, label)
                 # Calculate gradients for G
                 errG.backward()
                 D_G_z2 = output.mean().item()
