@@ -52,6 +52,7 @@ lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
+label = 0
 
 src_obj = "female"
 tgt_obj = "male"
@@ -70,11 +71,25 @@ dataset = datasets.CIFAR10(root='./data',
                               train='train',
                               transform=transform,
                               download=True)
+idx = dataset.train_labels == label
+dataset.train_labels = dataset.train_labels[idx]
+dataset.train_data = dataset.train_data[idx]
 
+################################################################S
 dataset_tgt = datasets.STL10(root='./data',
                               split='train',
                               transform=transform,
                               download=True)
+dataset_tgt.targets[dataset_tgt.targets == 1] = 99
+dataset_tgt.targets[dataset_tgt.targets == 2] = 1
+dataset_tgt.targets[dataset_tgt.targets == 99] = 2
+dataset_tgt.targets[dataset_tgt.targets == 7] = 99
+dataset_tgt.targets[dataset_tgt.targets == 6] = 7
+dataset_tgt.targets[dataset_tgt.targets == 99] = 6
+
+idx = dataset.train_labels == label
+dataset_tgt.train_labels = dataset_tgt.train_labels[idx]
+dataset_tgt.train_data = dataset_tgt.train_data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
