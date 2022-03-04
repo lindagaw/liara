@@ -72,8 +72,8 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-idx = dataset.labels == label
-dataset.labels = dataset.labels[idx]
+idx = dataset.targets == label
+dataset.targets = dataset.targets[idx]
 dataset.data = dataset.data[idx]
 
 ################################################################S
@@ -88,8 +88,8 @@ dataset_tgt.targets[dataset_tgt.targets == 7] = 99
 dataset_tgt.targets[dataset_tgt.targets == 6] = 7
 dataset_tgt.targets[dataset_tgt.targets == 99] = 6
 
-idx = dataset.labels == label
-dataset_tgt.labels = dataset_tgt.labels[idx]
+idx = dataset.targets == label
+dataset_tgt.targets = dataset_tgt.targets[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
