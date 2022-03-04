@@ -81,16 +81,17 @@ dataset_tgt = datasets.STL10(root='./data',
                               split='train',
                               transform=transform,
                               download=True)
-#dataset_tgt.targets[dataset_tgt.targets == 1] = 99
-#dataset_tgt.targets[dataset_tgt.targets == 2] = 1
-#dataset_tgt.targets[dataset_tgt.targets == 99] = 2
-#dataset_tgt.targets[dataset_tgt.targets == 7] = 99
-#dataset_tgt.targets[dataset_tgt.targets == 6] = 7
-#dataset_tgt.targets[dataset_tgt.targets == 99] = 6
+                              
+dataset_tgt.targets[dataset_tgt.targets == 1] = 99
+dataset_tgt.targets[dataset_tgt.targets == 2] = 1
+dataset_tgt.targets[dataset_tgt.targets == 99] = 2
+dataset_tgt.targets[dataset_tgt.targets == 7] = 99
+dataset_tgt.targets[dataset_tgt.targets == 6] = 7
+dataset_tgt.targets[dataset_tgt.targets == 99] = 6
 
-idx = dataset_tgt.train_labels == label
-dataset_tgt.train_labels = dataset_tgt.ttrain_labels[idx]
-dataset_tgt.train_data = dataset_tgt.train_data[idx]
+idx = dataset_tgt.targets == label
+dataset_tgt.targets = dataset_tgt.targets[idx]
+dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
