@@ -56,8 +56,8 @@ ngpu = 4
 src_obj = "female"
 tgt_obj = "male"
 
-dataroot = "datasets/gender_dataset/cifar_10//"
-dataroot_tgt = "datasets/gender_dataset/cifar10//"
+dataroot = "datasets/cifar_10/"
+dataroot_tgt = "datasets/cifar10/"
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
