@@ -71,9 +71,10 @@ dataset = datasets.CIFAR10(root='./data',
                               train='train',
                               transform=transform,
                               download=True)
-idx = dataset.train_labels == label
-dataset.train_labels = dataset.train_labels[idx]
-dataset.train_data = dataset.train_data[idx]
+
+idx = dataset.labels == label
+dataset.labels = dataset.labels[idx]
+dataset.data = dataset.data[idx]
 
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
@@ -87,9 +88,9 @@ dataset_tgt.targets[dataset_tgt.targets == 7] = 99
 dataset_tgt.targets[dataset_tgt.targets == 6] = 7
 dataset_tgt.targets[dataset_tgt.targets == 99] = 6
 
-idx = dataset.train_labels == label
-dataset_tgt.train_labels = dataset_tgt.train_labels[idx]
-dataset_tgt.train_data = dataset_tgt.train_data[idx]
+idx = dataset.labels == label
+dataset_tgt.labels = dataset_tgt.labels[idx]
+dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
