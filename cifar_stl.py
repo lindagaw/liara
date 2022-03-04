@@ -9,7 +9,7 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
-import torchvision.datasets as dset
+import torchvision.datasets as dataset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 import numpy as np
@@ -58,23 +58,23 @@ tgt_obj = "male"
 
 dataroot = "datasets/cifar_10/"
 dataroot_tgt = "datasets/cifar10/"
-
+transform=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset = dset.ImageFolder(root=dataroot,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
-dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
+dataset = datasets.CIFAR10(root='./data',
+                              train='train',
+                              transform=transform,
+                              download=True)
+
+dataset_tgt = datasets.STL10(root='./data',
+                              split='train',
+                              transform=transform,
+                              download=True)
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
