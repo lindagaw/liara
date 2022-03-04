@@ -47,47 +47,34 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 200
-lr = 0.0002
+num_epochs = 80
+lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
-src = "amazon"
-tgt = "dslr"
 
-#src_obj = tgt_obj = "ring_binder"
+src_obj = "female"
+tgt_obj = "male"
 
-try:
-    os.makedirs('generated_images//'+src + '_' + tgt + '_whole')
-except:
-    pass
-
-
-transform=transforms.Compose([
-    transforms.Resize(image_size),
-    transforms.CenterCrop(image_size),
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
-
-
-dataroot = "datasets//office-31-intact//amazon//images//"
-dataroot_tgt = "datasets//office-31-intact//dslr//images//"
+dataroot = "datasets/gender_dataset/cifar_10//"
+dataroot_tgt = "datasets/gender_dataset/cifar10//"
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=transform)
-
-dataset_tgt = torchvision.datasets.STL10(root='./data', train=True,
-                                        download=True, transform=transform)
-#dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
-#                           transform=transforms.Compose([
-#                               transforms.Resize(image_size),
-#                               transforms.CenterCrop(image_size),
-#                               transforms.ToTensor(),
-#                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-#                           ]))
+dataset = dset.ImageFolder(root=dataroot,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
@@ -114,7 +101,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(512, nz, 1, 1, device=device)
+fixed_noise = torch.randn(64, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
@@ -191,7 +178,7 @@ for epoch in range(num_epochs):
         errD_real_tgt = criterion(output, label)
         # Calculate gradients for D in backward pass
         errD_real_tgt.backward()
-        D_x = output.mean().item()
+        D_x_tgt = output.mean().item()
 
         ## Train with all-fake batch
         # Generate batch of latent vectors
@@ -205,9 +192,9 @@ for epoch in range(num_epochs):
         errD_fake_tgt = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
         errD_fake_tgt.backward()
-        D_G_z1 = output.mean().item()
+        D_G_z1_tgt = output.mean().item()
         # Compute error of D as sum over the fake and the real batches
-        errD = errD_real_tgt + errD_fake_tgt
+        errD_tgt = errD_real_tgt + errD_fake_tgt
         # Update D
         optimizerD_tgt.step()
 
@@ -222,8 +209,8 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        #errG = (criterion(output, label)+criterion(output_tgt, label))/2
         errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
@@ -268,12 +255,6 @@ plt.imshow(np.transpose(vutils.make_grid(real_batch_tgt[0].to(device)[:64], padd
 plt.subplot(1,3,3)
 plt.axis("off")
 plt.title("Fake/Transferable Images")
-transposed = np.transpose(img_list[-1],(1,2,0))
-plt.imshow(transposed)
-
+plt.imshow(np.transpose(img_list[-1],(1,2,0)))
 plt.show()
-plt.savefig('generated_images//' + src + '_' + tgt + '//' + src_obj + '_images.png')
-
-
-#fake = netG(fixed_noise).detach().cpu()
-#save_individual_images('datasets//' + src + '_' + tgt + '_fake_dataset//'+src_obj+'//', fake)
+plt.savefig('generated_images//demo_images.png')
