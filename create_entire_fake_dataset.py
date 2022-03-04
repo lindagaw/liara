@@ -63,25 +63,31 @@ except:
     pass
 
 
+transform=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+])
+
+
 dataroot = "datasets//office-31-intact//amazon//images//"
 dataroot_tgt = "datasets//office-31-intact//dslr//images//"
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset = dset.ImageFolder(root=dataroot,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
-dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
+dataset = torchvision.datasets.CIFAR10(root='./data', train=True,
+                                        download=True, transform=transform)
+
+dataset_tgt = torchvision.datasets.STL10(root='./data', train=True,
+                                        download=True, transform=transform)
+#dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
+#                           transform=transforms.Compose([
+#                               transforms.Resize(image_size),
+#                               transforms.CenterCrop(image_size),
+#                               transforms.ToTensor(),
+#                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+#                           ]))
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
