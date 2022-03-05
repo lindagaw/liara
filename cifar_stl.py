@@ -81,18 +81,15 @@ dataset_tgt = datasets.STL10(root='./data',
                               split='train',
                               transform=transform,
                               download=True)
-attrs = vars(dataset_tgt)
-for i in attrs:
-    print(i)
-dataset_tgt.targets[dataset_tgt.targets == 1] = 99
-dataset_tgt.targets[dataset_tgt.targets == 2] = 1
-dataset_tgt.targets[dataset_tgt.targets == 99] = 2
-dataset_tgt.targets[dataset_tgt.targets == 7] = 99
-dataset_tgt.targets[dataset_tgt.targets == 6] = 7
-dataset_tgt.targets[dataset_tgt.targets == 99] = 6
+dataset_tgt.labels[dataset_tgt.labels == 1] = 99
+dataset_tgt.labels[dataset_tgt.labels == 2] = 1
+dataset_tgt.labels[dataset_tgt.labels == 99] = 2
+dataset_tgt.labels[dataset_tgt.labels == 7] = 99
+dataset_tgt.labels[dataset_tgt.labels == 6] = 7
+dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-idx = dataset_tgt.targets == label
-dataset_tgt.targets = dataset_tgt.targets[idx]
+idx = dataset_tgt.labels == label
+dataset_tgt.labels = dataset_tgt.labels[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
