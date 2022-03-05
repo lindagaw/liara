@@ -76,6 +76,8 @@ idx = dataset.targets==1
 dataset.targets = dataset.targets[idx]
 dataset.data = dataset.data[idx]
 
+print(dataset.targets)
+
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
                               split='train',
