@@ -72,9 +72,9 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-idx = label
-dataset.targets = dataset.targets[idx]
-dataset.data = dataset.data[idx]
+#idx = label
+#dataset.targets = dataset.targets[idx]
+#dataset.data = dataset.data[idx]
 
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
@@ -88,9 +88,9 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-idx = label
-dataset_tgt.labels = dataset_tgt.labels[idx]
-dataset_tgt.data = dataset_tgt.data[idx]
+#idx = label
+#dataset_tgt.labels = dataset_tgt.labels[idx]
+#dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
@@ -141,7 +141,7 @@ print("Starting Training Loop...")
 for epoch in range(num_epochs):
     # For each batch in the dataloader
     # for i, data in enumerate(dataloader, 0):
-    for (data, data_tgt) in enumerate(zip(cycle(dataloader), (dataloader_tgt))):
+    for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
 
 
         ############################
