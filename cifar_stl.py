@@ -2,6 +2,7 @@ from __future__ import print_function
 #%matplotlib inline
 import argparse
 import os
+import shutil
 import random
 import torch
 import torch.nn as nn
@@ -72,7 +73,7 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-dataset.data, dataset.targets = get_particular_class(dataset, 0)
+dataset.data, dataset.targets = get_particular_class(dataset, label)
 
 
 ################################################################S
@@ -244,6 +245,12 @@ for epoch in range(num_epochs):
         if (iters % 500 == 0) or ((epoch == num_epochs-1) and (i == len(dataloader)-1)):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
+                try:
+                    shutil.rmtree('generated_images//cifar_to_stl//'+label)
+                except:
+                    pass
+                os.makedirs('generated_images//cifar_to_stl//'+label)
+                save_individual_images('generated_images//cifar_to_stl//'+label, fake)
             img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
         iters += 1
