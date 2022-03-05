@@ -120,6 +120,21 @@ def init_model(net, restore):
 
     return net
 
+def get_particular_class(dataset, category):
+    targets = dataset.targets
+    data = dataset.data
+
+    new_targets = []
+    new_data = []
+
+    for sample, target in zip(targets, data):
+        if target == category:
+            new_targets.append(target)
+            new_data.append(sample)
+
+    return new_data, new_targets
+
+
 class ConcatDataset(Dataset):
     def __init__(self, *datasets):
         self.datasets = datasets

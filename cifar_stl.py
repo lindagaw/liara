@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from misc import weights_init, save_individual_images
+from misc import weights_init, save_individual_images, get_particular_class
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
@@ -72,10 +72,8 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-print(dataset.targets[[0, 1]])
-idx = (dataset.targets==9)
-dataset.targets = dataset.targets[idx]
-dataset.data = dataset.data[idx]
+dataset.data, dataset.targets = get_particular_class(dataset, 1)
+
 
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
