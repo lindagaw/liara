@@ -72,11 +72,9 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-idx = dataset.targets==1
+idx = (dataset.targets==1)
 dataset.targets = dataset.targets[idx]
 dataset.data = dataset.data[idx]
-
-print(dataset.targets)
 
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
