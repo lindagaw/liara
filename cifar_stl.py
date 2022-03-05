@@ -48,15 +48,15 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 500
+num_epochs = 400
 lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
 label = 0
 
-for label in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
-    print('generating fake data for label {}'.format(label))
+for category in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
+    print('generating fake data for label {}'.format(category))
     src_obj = "female"
     tgt_obj = "male"
 
@@ -75,7 +75,7 @@ for label in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
                                   transform=transform,
                                   download=True)
 
-    dataset.data, dataset.targets = get_particular_class(dataset, label)
+    dataset.data, dataset.targets = get_particular_class(dataset, category)
 
 
     ################################################################S
@@ -248,11 +248,11 @@ for label in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
                 with torch.no_grad():
                     fake = netG(fixed_noise).detach().cpu()
                     try:
-                        shutil.rmtree('generated_images//cifar_to_stl//'+label)
+                        shutil.rmtree('generated_images//cifar_to_stl//'+str(category) + '//')
                     except:
                         pass
-                    os.makedirs('generated_images//cifar_to_stl//'+label)
-                    save_individual_images('generated_images//cifar_to_stl//'+label, fake)
+                    os.makedirs('generated_images//cifar_to_stl//'+str(category) + '//')
+                    save_individual_images('generated_images//cifar_to_stl//'+str(category) + '//', fake)
                 img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
             iters += 1
@@ -279,4 +279,4 @@ for label in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
     plt.title("Fake/Transferable Images")
     plt.imshow(np.transpose(img_list[-1],(1,2,0)))
     plt.show()
-    #plt.savefig('generated_images//demo_images.png')
+    plt.savefig('generated_images//demo_images.png')
