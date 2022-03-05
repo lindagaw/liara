@@ -46,8 +46,6 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-ngf = 64
-ndf = 64
 num_epochs = 250
 lr = 0.0001
 beta1 = 0.5
@@ -117,7 +115,7 @@ for category in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
 
     # Create batch of latent vectors that we will use to visualize
     #  the progression of the generator
-    fixed_noise = torch.randn(64, nz, 1, 1, device=device)
+    fixed_noise = torch.randn(1000, nz, 1, 1, device=device)
 
     # Establish convention for real and fake labels during training
     real_label = 1.
