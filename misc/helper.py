@@ -121,7 +121,11 @@ def init_model(net, restore):
     return net
 
 def get_particular_class(dataset, category):
-    targets = dataset.targets
+    try:
+        targets = dataset.targets
+    except:
+        targets = dataset.labels
+        
     data = dataset.data
     new_targets = []
     new_data = []
