@@ -47,7 +47,7 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 200
-lr = 0.00001
+lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
