@@ -72,7 +72,7 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-idx = dataset.targets == label
+idx = label
 dataset.targets = dataset.targets[idx]
 dataset.data = dataset.data[idx]
 
@@ -88,7 +88,7 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-idx = dataset_tgt.labels == label
+idx = label
 dataset_tgt.labels = dataset_tgt.labels[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
