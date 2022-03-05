@@ -123,13 +123,10 @@ def init_model(net, restore):
 def get_particular_class(dataset, category):
     targets = dataset.targets
     data = dataset.data
-
-    print(targets)
-
     new_targets = []
     new_data = []
 
-    for sample, target in zip(targets, data):
+    for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
             new_data.append(sample)
