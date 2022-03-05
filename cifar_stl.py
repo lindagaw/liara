@@ -72,7 +72,7 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-dataset.data, dataset.targets = get_particular_class(dataset, 0)
+#dataset.data, dataset.targets = get_particular_class(dataset, 0)
 
 
 ################################################################S
