@@ -128,6 +128,8 @@ def get_particular_class(dataset, category):
     new_data = []
 
     for sample, target in zip(targets, data):
+        print(target)
+        print(type(target))
         if target == category:
             new_targets.append(target)
             new_data.append(sample)
