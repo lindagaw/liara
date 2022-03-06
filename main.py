@@ -39,11 +39,13 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-dataroot_src = "datasets//office-31-intact//amazon//images//"
-dataroot_tgt = "datasets//office-31-intact//webcam//images//"
-dataroot_fake = "datasets//amazon_dslr_fake_dataset//"
-#dataroot = "celebs//"
-
+dataroot_fake = "generated_images//cifar_to_stl//"
+transform=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+])
 # Batch size during training
 batch_size = 32
 
@@ -57,20 +59,21 @@ lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
-dataset_src = dset.ImageFolder(root=dataroot_src,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
-dataset_tgt = dset.ImageFolder(root=dataroot_tgt,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
+dataset_src_train = datasets.CIFAR10(root='./data',
+                              train='train',
+                              transform=transform,
+                              download=True)
+
+dataset_tgt_train = datasets.STL10(root='./data',
+                              split='train',
+                              transform=transform,
+                              download=True)
+dataset_tgt_train.labels[dataset_tgt_train.labels == 1] = 99
+dataset_tgt_train.labels[dataset_tgt_train.labels == 2] = 1
+dataset_tgt_train.labels[dataset_tgt_train.labels == 99] = 2
+dataset_tgt_train.labels[dataset_tgt_train.labels == 7] = 99
+dataset_tgt_train.labels[dataset_tgt_train.labels == 6] = 7
+dataset_tgt_train.labels[dataset_tgt_train.labels == 99] = 6
 
 dataset_fake = dset.ImageFolder(root=dataroot_fake,
                            transform=transforms.Compose([
@@ -80,6 +83,7 @@ dataset_fake = dset.ImageFolder(root=dataroot_fake,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
+'''
 dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
                             [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
@@ -111,3 +115,4 @@ classifier = train(classifier, dataloader_src_train)
 
 acc = eval(classifier, dataloader_src_test)
 #acc = eval(classifier, dataloader_tgt_test)
+'''
