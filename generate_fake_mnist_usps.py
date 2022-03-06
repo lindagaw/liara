@@ -51,7 +51,7 @@ lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
-category = 0
+category = 2
 
 print('generating fake data for label {}'.format(category))
 
