@@ -9,7 +9,7 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
-import torchvision.datasets as dset
+import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 import numpy as np
@@ -74,7 +74,7 @@ dataset_tgt_train.labels[dataset_tgt_train.labels == 7] = 99
 dataset_tgt_train.labels[dataset_tgt_train.labels == 6] = 7
 dataset_tgt_train.labels[dataset_tgt_train.labels == 99] = 6
 
-dataset_fake = dset.ImageFolder(root=dataroot_fake,
+dataset_fake = datasets.ImageFolder(root=dataroot_fake,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
