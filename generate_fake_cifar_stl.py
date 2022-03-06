@@ -87,8 +87,6 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-print(vars(dataset_tgt))
-
 dataset.data, dataset.labels = get_particular_class(dataset_tgt, 0)
 
 # Create the dataloader
