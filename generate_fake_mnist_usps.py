@@ -60,7 +60,7 @@ transform=transforms.Compose([
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
     #transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-    transforms.functional.grayscale_to_rgb()
+    transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
 ])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
