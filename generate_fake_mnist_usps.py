@@ -47,11 +47,11 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 200
-lr = 0.0001
+lr = 0.00001
 beta1 = 0.5
 ngpu = 4
 
-category = 1
+category = 0
 
 print('generating fake data for label {}'.format(category))
 
