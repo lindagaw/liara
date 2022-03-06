@@ -46,12 +46,12 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 200
+num_epochs = 100
 lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
-category = 3
+category = 0
 
 print('generating fake data for label {}'.format(category))
 
