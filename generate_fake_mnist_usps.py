@@ -65,7 +65,7 @@ transform=transforms.Compose([
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = datasets.MNIST(root='./data',
-                              train=False,
+                              train=True,
                               transform=transform,
                               download=True)
 
