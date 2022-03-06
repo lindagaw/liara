@@ -51,7 +51,7 @@ lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
-category = 9
+category = 0
 
 print('generating fake data for label {}'.format(category))
 
@@ -79,7 +79,7 @@ dataset_tgt = datasets.USPS(root='./data',
 
 #dataset.data, dataset.labels = get_particular_class(dataset_tgt, 0)
 
-'''
+
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
@@ -236,12 +236,11 @@ for epoch in range(num_epochs):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
                 try:
-                    shutil.rmtree('generated_images//cifar_to_stl//'+str(category) + '//')
+                    shutil.rmtree('generated_images//mnist_to_usps//'+str(category) + '//')
                 except:
                     pass
-                os.makedirs('generated_images//cifar_to_stl//'+str(category) + '//')
-                save_individual_images('generated_images//cifar_to_stl//'+str(category) + '//', fake)
+                os.makedirs('generated_images//mnist_to_usps//'+str(category) + '//')
+                save_individual_images('generated_images//mnist_to_usps//'+str(category) + '//', fake)
             img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
         iters += 1
-'''
