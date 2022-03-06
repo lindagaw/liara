@@ -136,7 +136,7 @@ def get_particular_class(dataset, category):
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
-            new_data.append(sample.transpose(1,2,0))
+            new_data.append(sample.transpose(2,1,0))
 
     print(np.asarray(new_data).shape)
     return new_data, new_targets
