@@ -72,7 +72,7 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-dataset.data, dataset.targets = get_particular_class(dataset, category)
+dataset.data, dataset.targets = get_particular_class(dataset, category, 'cifar10')
 
 
 ################################################################S
@@ -87,7 +87,7 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-dataset.data, dataset.labels = get_particular_class(dataset_tgt, 0)
+dataset.data, dataset.labels = get_particular_class(dataset_tgt, category, 'stl10')
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,

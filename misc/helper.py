@@ -120,25 +120,24 @@ def init_model(net, restore):
 
     return net
 
-def get_particular_class(dataset, category):
+def get_particular_class(dataset, category, order):
     try:
         targets = dataset.targets
     except:
         targets = dataset.labels
 
     data = dataset.data
-
-    print(data.shape)
-
     new_targets = []
     new_data = []
 
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
-            new_data.append(sample.transpose(2,1,0))
+            if order == 'cifar10':
+                new_data.append(sample)
+            else:
+                new_data.append(sample.transpose(2,1,0))
 
-    print(np.asarray(new_data).shape)
     return new_data, new_targets
 
 
