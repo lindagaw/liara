@@ -33,6 +33,16 @@ import pretty_errors
 
 # Set random seed for reproducibility
 manualSeed = 999
+batch_size = 32
+image_size = 64
+nc = 3
+nz = 100
+ngf = 64
+ndf = 64
+num_epochs = 5000
+lr = 0.0002
+beta1 = 0.5
+ngpu = 4
 #manualSeed = random.randint(1, 10000) # use if you want new results
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
@@ -47,17 +57,6 @@ transform=transforms.Compose([
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
 ])
 # Batch size during training
-batch_size = 32
-
-image_size = 64
-nc = 3
-nz = 100
-ngf = 64
-ndf = 64
-num_epochs = 5000
-lr = 0.0002
-beta1 = 0.5
-ngpu = 4
 
 dataset_src_train = datasets.CIFAR10(root='./data',
                               train='train',
