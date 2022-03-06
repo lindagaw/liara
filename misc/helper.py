@@ -127,6 +127,9 @@ def get_particular_class(dataset, category):
         targets = dataset.labels
 
     data = dataset.data
+
+    print(data.shape)
+    
     new_targets = []
     new_data = []
 
