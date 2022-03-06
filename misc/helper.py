@@ -129,15 +129,16 @@ def get_particular_class(dataset, category):
     data = dataset.data
 
     print(data.shape)
-    
+
     new_targets = []
     new_data = []
 
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
-            new_data.append(np.squeeze(sample))
+            new_data.append(sample.transpose(1,2,0))
 
+    print(np.asarray(new_data).shape)
     return new_data, new_targets
 
 
