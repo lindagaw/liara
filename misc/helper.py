@@ -135,8 +135,6 @@ def get_particular_class(dataset, category):
             new_targets.append(target)
             new_data.append(sample)
 
-    print(new_data)
-
     return new_data, new_targets
 
 
