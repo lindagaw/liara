@@ -82,13 +82,23 @@ dataset_fake = datasets.ImageFolder(root=dataroot_fake,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
-'''
-dataset_src_train, dataset_src_test = torch.utils.data.random_split(dataset_src,
-                            [int(len(dataset_src)*0.8), len(dataset_src)-int(len(dataset_src)*0.8)])
 
-dataset_tgt_train, dataset_tgt_test = torch.utils.data.random_split(dataset_tgt,
-                            [int(len(dataset_tgt)*0.8), len(dataset_tgt)-int(len(dataset_tgt)*0.8)])
+dataset_src_test = datasets.CIFAR10(root='./data',
+                              train='test',
+                              transform=transform,
+                              download=True)
 
+dataset_tgt_test = datasets.STL10(root='./data',
+                              split='test',
+                              transform=transform,
+                              download=True)
+
+dataset_tgt_test.labels[dataset_tgt_test.labels == 1] = 99
+dataset_tgt_test.labels[dataset_tgt_test.labels == 2] = 1
+dataset_tgt_test.labels[dataset_tgt_test.labels == 99] = 2
+dataset_tgt_test.labels[dataset_tgt_test.labels == 7] = 99
+dataset_tgt_test.labels[dataset_tgt_test.labels == 6] = 7
+dataset_tgt_test.labels[dataset_tgt_test.labels == 99] = 6
 
 dataloader_src_train = torch.utils.data.DataLoader(dataset_src_train, batch_size=batch_size,
                                          shuffle=True)
@@ -100,7 +110,7 @@ dataloader_tgt_test = torch.utils.data.DataLoader(dataset_tgt_test, batch_size=b
                                          shuffle=True)
 dataloader_fake = torch.utils.data.DataLoader(dataset_fake, batch_size=batch_size,
                                          shuffle=True)
-
+'''
 dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
 dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_tgt_train, dataset_fake))
 
