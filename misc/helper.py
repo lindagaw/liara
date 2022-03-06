@@ -125,7 +125,8 @@ def get_particular_class(dataset, category):
         targets = dataset.targets
     except:
         targets = dataset.labels
-        print(targets)
+
+    print(targets)
 
     data = dataset.data
     new_targets = []
