@@ -133,7 +133,7 @@ def get_particular_class(dataset, category):
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
-            new_data.append(torch.squeeze(sample))
+            new_data.append(np.squeeze(sample))
 
     return new_data, new_targets
 
