@@ -69,7 +69,7 @@ dataset = datasets.MNIST(root='./data',
                               transform=transform,
                               download=True)
 
-dataset.data, dataset.targets = get_particular_class(dataset, category)
+dataset.data, dataset.targets = get_particular_class(dataset, category, 'mnist')
 
 
 ################################################################S
@@ -78,7 +78,7 @@ dataset_tgt = datasets.USPS(root='./data',
                               transform=transform,
                               download=True)
 
-#dataset.data, dataset.labels = get_particular_class(dataset_tgt, 0)
+dataset.data, dataset.targets = get_particular_class(dataset, category, 'usps')
 
 
 # Create the dataloader
