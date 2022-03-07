@@ -51,7 +51,7 @@ lr = 0.0001
 beta1 = 0.5
 ngpu = 4
 
-category = 9
+category = 0
 
 print('generating fake data for label {}'.format(category))
 src_obj = "female"
@@ -87,7 +87,7 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-dataset.data, dataset.labels = get_particular_class(dataset_tgt, category, 'stl10')
+#dataset.data, dataset.labels = get_particular_class(dataset_tgt, category, 'stl10')
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
