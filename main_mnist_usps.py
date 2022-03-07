@@ -63,7 +63,7 @@ dataset_src_train = datasets.MNIST(root='./data',
                               transform=transform,
                               download=True)
 
-dataset_tgt = datasets.USPS(root='./data',
+dataset_tgt_train = datasets.USPS(root='./data',
                               train=True,
                               transform=transform,
                               download=True)
