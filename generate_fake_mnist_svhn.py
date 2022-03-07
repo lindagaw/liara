@@ -74,7 +74,7 @@ dataset.data, dataset.targets = get_particular_class(dataset, category, 'mnist')
 
 ################################################################S
 dataset_tgt = datasets.SVHN(root='./data',
-                              train=True,
+                              split='train',
                               transform=transform,
                               download=True)
 

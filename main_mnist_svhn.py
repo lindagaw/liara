@@ -64,7 +64,7 @@ dataset_src_train = datasets.MNIST(root='./data',
                               download=True)
 
 dataset_tgt_train = datasets.SVHN(root='./data',
-                              train=True,
+                              split='test',
                               transform=transform,
                               download=True)
 
@@ -83,7 +83,7 @@ dataset_src_test = datasets.MNIST(root='./data',
                               download=True)
 
 dataset_tgt_test = datasets.SVHN(root='./data',
-                              train=False,
+                              split='test',
                               transform=transform,
                               download=True)
 
