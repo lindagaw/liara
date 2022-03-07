@@ -137,7 +137,6 @@ def get_particular_class(dataset, category, order):
                 new_data.append(sample.transpose(2,1,0))
             else:
                 new_data.append(sample)
-                print(sample.shape)
 
     return new_data, new_targets
 

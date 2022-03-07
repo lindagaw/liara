@@ -62,6 +62,13 @@ transform=transforms.Compose([
     #transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
 ])
+
+transform_rbg=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = datasets.MNIST(root='./data',
@@ -76,7 +83,7 @@ print('################################################################')
 
 dataset_tgt = datasets.SVHN(root='./data',
                               split='train',
-                              transform=transform,
+                              transform=transform_rbg,
                               download=True)
 
 dataset.data, dataset.targets = get_particular_class(dataset, category, 'svhn')

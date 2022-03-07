@@ -56,7 +56,14 @@ transform=transforms.Compose([
     transforms.ToTensor(),
     transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
 ])
-# Batch size during training
+
+
+transform_rbg=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+])
 
 dataset_src_train = datasets.MNIST(root='./data',
                               train=True,
@@ -65,7 +72,7 @@ dataset_src_train = datasets.MNIST(root='./data',
 
 dataset_tgt_train = datasets.SVHN(root='./data',
                               split='test',
-                              transform=transform,
+                              transform=transform_rbg,
                               download=True)
 
 dataset_fake = datasets.ImageFolder(root=dataroot_fake,
@@ -84,7 +91,7 @@ dataset_src_test = datasets.MNIST(root='./data',
 
 dataset_tgt_test = datasets.SVHN(root='./data',
                               split='test',
-                              transform=transform,
+                              transform=transform_rbg,
                               download=True)
 
 
