@@ -133,7 +133,7 @@ def get_particular_class(dataset, category, order):
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
-            if order == 'stl10' or order == 'svhn':
+            if order == 'stl10':
                 new_data.append(sample.transpose(2,1,0))
             else:
                 new_data.append(sample)
