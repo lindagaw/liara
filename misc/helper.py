@@ -138,6 +138,9 @@ def get_particular_class(dataset, category, order):
             else:
                 new_data.append(sample)
 
+    print(np.asarray(new_data).shape)
+    print(np.asarray(new_targets).shape)
+
     return new_data, new_targets
 
 
