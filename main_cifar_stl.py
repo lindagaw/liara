@@ -112,7 +112,7 @@ dataloader_fake = torch.utils.data.DataLoader(dataset_fake, batch_size=batch_siz
                                          shuffle=True)
 
 dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
-dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_tgt_train, dataset_fake))
+dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_fake))
 
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 src_tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_fake_train, batch_size=batch_size, shuffle=True)
