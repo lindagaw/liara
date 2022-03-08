@@ -87,7 +87,7 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-#dataset.data, dataset.labels = get_particular_class(dataset_tgt, category, 'stl10')
+dataset_tgt.data, dataset_tgt.labels = get_particular_class(dataset_tgt, category, 'stl10')
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,

@@ -86,7 +86,7 @@ dataset_tgt = datasets.SVHN(root='./data',
                               transform=transform_rbg,
                               download=True)
 
-dataset.data, dataset.targets = get_particular_class(dataset, category, 'svhn')
+dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'svhn')
 
 
 # Create the dataloader
