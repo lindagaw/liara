@@ -130,12 +130,6 @@ def get_particular_class(dataset, category, order):
     new_targets = []
     new_data = []
 
-    print(data)
-
-    print('----')
-
-    print(targets)
-
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
@@ -143,6 +137,10 @@ def get_particular_class(dataset, category, order):
                 new_data.append(sample.transpose(2,1,0))
             else:
                 new_data.append(sample)
+
+    print(new_data)
+    print('----')
+    print(new_targets)
 
     new_data = np.asarray(new_data)
     new_targets = np.asarray(new_targets)
