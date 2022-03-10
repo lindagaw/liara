@@ -79,6 +79,7 @@ dataset_tgt = datasets.USPS(root='./data',
                               download=True)
 
 dataset_tgt.targets = torch.tensor(dataset_tgt.targets)
+idx = dataset.targets==category
 dataset_tgt.targets= dataset_tgt.targets[idx]
 dataset_tgt.data = dataset_tgt.data[idx.numpy().astype(np.bool)]
 
