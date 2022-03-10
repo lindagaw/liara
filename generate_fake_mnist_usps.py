@@ -72,7 +72,7 @@ dataset = datasets.MNIST(root='./data',
 dataset.data, dataset.targets = get_particular_class(dataset, category, 'mnist')
 
 
-################################################################S
+print('################################################################')
 dataset_tgt = datasets.USPS(root='./data',
                               train=True,
                               transform=transform,
