@@ -121,6 +121,8 @@ def init_model(net, restore):
     return net
 
 def get_particular_class(dataset, category, order):
+
+    print('getting class {} in dataset {}'.format(category, order))
     try:
         targets = dataset.targets
     except:
@@ -139,7 +141,7 @@ def get_particular_class(dataset, category, order):
                 new_data.append(sample)
 
     if order == 'usps':
-        print(new_targets)
+        print(new_data)
 
     return new_data, new_targets
 
