@@ -78,8 +78,11 @@ dataset_tgt = datasets.USPS(root='./data',
                               transform=transform,
                               download=True)
 
+dataset_tgt.targets = torch.tensor(dataset_tgt.targets)
+dataset_tgt.targets= dataset_tgt.targets[idx]
+dataset_tgt.data = dataset_tgt.data[idx.numpy().astype(np.bool)]
 
-dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'usps')
+#dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'usps')
 
 
 # Create the dataloader
