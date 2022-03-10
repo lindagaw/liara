@@ -141,7 +141,7 @@ def get_particular_class(dataset, category, order):
         if target == category:
             new_targets.append(target)
             if order == 'usps':
-                print(type(sample))
+                print(sample.shape)
             if order == 'svhn':
                 new_data.append(sample.transpose(2,1,0))
             else:
