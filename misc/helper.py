@@ -138,8 +138,6 @@ def get_particular_class(dataset, category, order):
             else:
                 new_data.append(sample)
 
-    print(new_targets)
-
     return new_data, new_targets
 
 
