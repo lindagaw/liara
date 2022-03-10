@@ -142,7 +142,7 @@ def get_particular_class(dataset, category, order):
                 new_data.append(sample.float())
 
 
-    return torch.Tensor(new_data), torch.Tensor(new_targets)
+    return torch.FloatTensor(new_data), torch.FloatTensor(new_targets)
 
 
 class ConcatDataset(Dataset):
