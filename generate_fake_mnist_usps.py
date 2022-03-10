@@ -78,7 +78,7 @@ dataset_tgt = datasets.USPS(root='./data',
                               transform=transform,
                               download=True)
 
-dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'usps')
+#dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'usps')
 
 
 # Create the dataloader
