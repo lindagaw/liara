@@ -131,8 +131,8 @@ def get_particular_class(dataset, category, order):
     data = dataset.data
 
 
-    #print(np.asarray(data).shape)
-    print(np.asarray(targets).shape)
+    print(torch.Tensor(data).shape)
+    print(torch.Tensor(targets).shape)
 
     new_targets = []
     new_data = []
@@ -140,8 +140,6 @@ def get_particular_class(dataset, category, order):
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
-            if order == 'usps':
-                print(sample.shape)
             if order == 'svhn':
                 new_data.append(sample.transpose(2,1,0))
             else:
