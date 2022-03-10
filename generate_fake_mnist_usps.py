@@ -80,8 +80,6 @@ dataset_tgt = datasets.USPS(root='./data',
 
 dataset_tgt.targets = torch.tensor(dataset_tgt.targets)
 idx = get_same_index(dataset_tgt.targets, category)
-
-print(idx)
 dataset_tgt.targets= dataset_tgt.targets[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
