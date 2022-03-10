@@ -134,11 +134,11 @@ def get_particular_class(dataset, category, order):
     new_data = []
     for target, sample in zip(targets, data):
         if target == category:
-            new_targets.append(target.int())
+            new_targets.append(target)
             if order == 'svhn':
-                new_data.append(sample.transpose(2,1,0).float())
+                new_data.append(sample.transpose(2,1,0))
             else:
-                new_data.append(sample.float())
+                new_data.append(sample)
 
 
     return np.stack(new_data), np.stack(new_targets)
