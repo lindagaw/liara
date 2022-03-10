@@ -130,6 +130,12 @@ def get_particular_class(dataset, category, order):
     new_targets = []
     new_data = []
 
+    print(data)
+
+    print('----')
+
+    print(targets)
+
     for target, sample in zip(targets, data):
         if target == category:
             new_targets.append(target)
