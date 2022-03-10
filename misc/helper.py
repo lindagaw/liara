@@ -131,7 +131,7 @@ def get_particular_class(dataset, category, order):
     data = dataset.data
 
 
-    print(torch.Tensor(data.float().shape)
+    print(torch.Tensor(data.float().shape))
     print(torch.Tensor(targets).shape)
 
     new_targets = []
