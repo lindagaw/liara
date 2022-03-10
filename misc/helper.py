@@ -138,12 +138,6 @@ def get_particular_class(dataset, category, order):
             else:
                 new_data.append(sample)
 
-    new_data = torch.FloatTensor(new_data)
-    new_targets = torch.FloatTensor(new_targets)
-
-    print(new_data.shape)
-    print(new_targets.shape)
-
     return new_data, new_targets
 
 
