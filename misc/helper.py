@@ -134,14 +134,14 @@ def get_particular_class(dataset, category, order):
     new_data = []
     for target, sample in zip(targets, data):
         if target == category:
-            new_targets.append(target)
+            new_targets.append(torch.Tensor(target))
             if order == 'svhn':
-                new_data.append(sample.transpose(2,1,0))
+                new_data.append(torch.Tensor(sample).transpose(2,1,0))
             else:
-                new_data.append(sample)
+                new_data.append(torch.Tensor(sample))
 
 
-    return np.stack(new_data), np.stack(new_targets)
+    return torch.stack(new_data), torch.stack(new_targets)
 
 
 class ConcatDataset(Dataset):
