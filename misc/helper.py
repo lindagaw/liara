@@ -141,7 +141,7 @@ def get_particular_class(dataset, category, order):
                 new_data.append(sample.float())
 
 
-    return torch.stack(new_data), torch.stack(new_targets)
+    return np.stack(new_data), np.stack(new_targets)
 
 
 class ConcatDataset(Dataset):
