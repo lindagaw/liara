@@ -130,8 +130,6 @@ def get_particular_class(dataset, category, order):
 
     data = dataset.data
 
-    print([t.size() for t in data])
-
     new_targets = []
     new_data = []
     for target, sample in zip(targets, data):
@@ -143,7 +141,7 @@ def get_particular_class(dataset, category, order):
                 new_data.append(sample.float())
 
 
-    return new_data, new_targets
+    return torch.stack(new_data), torch.stack(new_targets)
 
 
 class ConcatDataset(Dataset):
