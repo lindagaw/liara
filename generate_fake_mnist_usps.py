@@ -77,10 +77,9 @@ dataset_tgt = datasets.USPS(root='./data',
                               train=True,
                               transform=transform,
                               download=True)
-
-
-dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'usps')
-
+idx = dataset_tgt.targets==category
+dataset_tgt.targets = dataset_tgt.targets[idx]
+dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
