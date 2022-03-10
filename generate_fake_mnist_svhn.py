@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from misc import weights_init, save_individual_images, get_particular_class
+from misc import weights_init, save_individual_images, get_particular_class, get_same_index
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
@@ -86,8 +86,10 @@ dataset_tgt = datasets.SVHN(root='./data',
                               transform=transform_rbg,
                               download=True)
 
-#dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'svhn')
-
+dataset_tgt.targets = torch.tensor(dataset_tgt.targets)
+idx = get_same_index(dataset_tgt.targets, category)
+dataset_tgt.targets= dataset_tgt.targets[idx]
+dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
