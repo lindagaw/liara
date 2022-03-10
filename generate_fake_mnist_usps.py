@@ -81,6 +81,8 @@ idx = dataset_tgt.targets==category
 dataset_tgt.targets = dataset_tgt.targets[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
+print(dataset_tgt.targets)
+
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True)
