@@ -129,6 +129,10 @@ def get_particular_class(dataset, category, order):
         targets = dataset.labels
 
     data = dataset.data
+
+    print(data.shape)
+    print(target.shape)
+
     new_targets = []
     new_data = []
 
@@ -140,8 +144,6 @@ def get_particular_class(dataset, category, order):
             else:
                 new_data.append(sample)
 
-    if order == 'usps':
-        print(new_data)
 
     return new_data, new_targets
 
