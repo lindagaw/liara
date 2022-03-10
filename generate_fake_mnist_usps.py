@@ -78,6 +78,8 @@ dataset_tgt = datasets.USPS(root='./data',
                               transform=transform,
                               download=True)
 
+print(vars(dataset_tgt))
+
 #dataset_tgt.data, dataset_tgt.targets = get_particular_class(dataset, category, 'usps')
 
 
