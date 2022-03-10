@@ -138,7 +138,7 @@ def get_particular_class(dataset, category, order):
             else:
                 new_data.append(sample)
 
-    return np.asarray(new_data), np.asarray(new_targets)
+    return new_data, new_targets
 
 
 class ConcatDataset(Dataset):
