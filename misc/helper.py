@@ -143,6 +143,14 @@ def get_particular_class(dataset, category, order):
 
     return new_data, new_targets
 
+def get_same_index(target, label):
+    label_indices = []
+
+    for i in range(len(target)):
+        if target[i] == label:
+            label_indices.append(i)
+
+    return label_indices
 
 class ConcatDataset(Dataset):
     def __init__(self, *datasets):

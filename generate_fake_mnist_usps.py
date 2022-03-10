@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from misc import weights_init, save_individual_images, get_particular_class
+from misc import weights_init, save_individual_images, get_particular_class, get_same_index
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
@@ -79,10 +79,9 @@ dataset_tgt = datasets.USPS(root='./data',
                               download=True)
 
 dataset_tgt.targets = torch.tensor(dataset_tgt.targets)
-idx = dataset.targets==category
+idx = get_same_index(dataset_tgt.targets, category)
 
 print(idx)
-
 dataset_tgt.targets= dataset_tgt.targets[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
