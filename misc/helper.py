@@ -131,7 +131,7 @@ def get_particular_class(dataset, category, order):
     data = dataset.data
 
     print(data.shape)
-    print(target.shape)
+    print(targets.shape)
 
     new_targets = []
     new_data = []
