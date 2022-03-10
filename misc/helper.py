@@ -130,10 +130,6 @@ def get_particular_class(dataset, category, order):
 
     data = dataset.data
 
-
-    print(torch.Tensor(data.float().shape))
-    print(torch.Tensor(targets).shape)
-
     new_targets = []
     new_data = []
 
@@ -141,9 +137,9 @@ def get_particular_class(dataset, category, order):
         if target == category:
             new_targets.append(target)
             if order == 'svhn':
-                new_data.append(sample.transpose(2,1,0))
+                new_data.append(sample.transpose(2,1,0).float())
             else:
-                new_data.append(sample)
+                new_data.append(sample.float())
 
 
     return new_data, new_targets
