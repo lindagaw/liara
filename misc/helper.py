@@ -131,7 +131,7 @@ def get_particular_class(dataset, category, order):
     data = dataset.data
 
 
-    print(np.asarray(data).shape)
+    #print(np.asarray(data).shape)
     print(np.asarray(targets).shape)
 
     new_targets = []
