@@ -86,9 +86,9 @@ dataset_tgt = datasets.SVHN(root='./data',
                               transform=transform_rbg,
                               download=True)
 
-dataset_tgt.targets = torch.tensor(dataset_tgt.targets)
-idx = get_same_index(dataset_tgt.targets, category)
-dataset_tgt.targets= dataset_tgt.targets[idx]
+dataset_tgt.labels = torch.tensor(dataset_tgt.labels)
+idx = get_same_index(dataset_tgt.labels, category)
+dataset_tgt.labels= dataset_tgt.labels[idx]
 dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
