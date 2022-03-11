@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from misc import weights_init, save_individual_images, get_particular_class
+from misc import weights_init, save_individual_images, get_particular_class, get_same_index
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
@@ -51,11 +51,9 @@ lr = 0.00001
 beta1 = 0.5
 ngpu = 4
 
-category = 9
+category = 0
 
 print('generating fake data for label {}'.format(category))
-src_obj = "female"
-tgt_obj = "male"
 
 dataroot = "datasets/cifar_10/"
 dataroot_tgt = "datasets/cifar10/"
@@ -72,8 +70,10 @@ dataset = datasets.CIFAR10(root='./data',
                               transform=transform,
                               download=True)
 
-dataset.data, dataset.targets = get_particular_class(dataset, category, 'cifar10')
-
+dataset.targets = torch.tensor(dataset.targets)
+idx = get_same_index(dataset.targets, category)
+dataset.targets= dataset.targets[idx]
+dataset.data = dataset.data[idx]
 
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
@@ -87,7 +87,10 @@ dataset_tgt.labels[dataset_tgt.labels == 7] = 99
 dataset_tgt.labels[dataset_tgt.labels == 6] = 7
 dataset_tgt.labels[dataset_tgt.labels == 99] = 6
 
-dataset_tgt.data, dataset_tgt.labels = get_particular_class(dataset_tgt, category, 'stl10')
+dataset_tgt.labels = torch.tensor(dataset_tgt.labels)
+idx = get_same_index(dataset_tgt.labels, category)
+dataset_tgt.labels = dataset_tgt.labels[idx]
+dataset_tgt.data = dataset_tgt.data[idx]
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
