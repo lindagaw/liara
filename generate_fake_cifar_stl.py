@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 2000
+num_epochs = 500
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -117,7 +117,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(64, nz, 1, 1, device=device)
+fixed_noise = torch.randn(256, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
