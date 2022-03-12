@@ -11,7 +11,6 @@ import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
 import torchvision.datasets as datasets
-import torchvision.models as models
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 import numpy as np
@@ -44,15 +43,15 @@ torch.manual_seed(manualSeed)
 # Batch size during training
 batch_size = 128
 
-image_size = 256
+image_size = 64
 nc = 3
 nz = 100
-num_epochs = 10
+num_epochs = 1000
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
 
-category = 4
+category = 5
 
 print('generating fake data for label {}'.format(category))
 
@@ -102,30 +101,15 @@ print('finished loading the datasets.')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
-resnet = models.resnet18(pretrained=True)
-resnet.fc = nn.Linear(512, 1)
-
-class MyResnet(nn.Module):
-    def __init__(self, my_pretrained_model=resnet):
-        super(MyResnet, self).__init__()
-        self.pretrained = my_pretrained_model
-        self.my_new_layers = nn.Sigmoid()
-
-    def forward(self, x):
-        x = self.pretrained(x)
-        x = self.my_new_layers(x)
-        return x
-
-
 # Create the generator
-netG = Generator().to(device)
+netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
 # Create the Discriminator
-netD = MyResnet().to(device)
+netD = Discriminator(ngpu).to(device)
 netD.apply(weights_init)
 
 # Create the Discriminator
-netD_tgt = MyResnet().to(device)
+netD_tgt = Discriminator(ngpu).to(device)
 netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
@@ -172,7 +156,6 @@ for epoch in range(num_epochs):
         # Forward pass real batch through D
         output = netD(real_cpu).view(-1)
         # Calculate loss on all-real batch
-
         errD_real = criterion(output, label)
         # Calculate gradients for D in backward pass
         errD_real.backward()
