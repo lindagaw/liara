@@ -54,7 +54,7 @@ beta1 = 0.5
 # Number of GPUs available. Use 0 for CPU mode.
 ngpu = 4
 
-
+'''
 class Generator(nn.Module):
     def __init__(self, ngpu):
         super(Generator, self).__init__()
@@ -115,4 +115,3 @@ class Generator(nn.Module):
 
     def forward(self, x):
         return self.conv(x)
-'''
