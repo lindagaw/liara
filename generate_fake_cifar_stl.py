@@ -107,7 +107,7 @@ resnet.fc = nn.Linear(512, 1)
 
 class MyResnet(nn.Module):
     def __init__(self, my_pretrained_model=resnet):
-        super(MyAlexNet, self).__init__()
+        super(MyResnet, self).__init__()
         self.pretrained = my_pretrained_model
         self.my_new_layers = nn.Sigmoid(1)
 
