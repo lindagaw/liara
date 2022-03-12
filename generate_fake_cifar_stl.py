@@ -104,7 +104,7 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 
 resnet = models.resnet18(pretrained=True)
 print(resnet)
-resnet.fc = nn.Linear(512, num_classes)
+resnet.fc = nn.Linear(512, 1)
 
 # Create the generator
 netG = Generator().to(device)
