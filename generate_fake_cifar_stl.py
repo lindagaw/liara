@@ -109,7 +109,7 @@ class MyResnet(nn.Module):
     def __init__(self, my_pretrained_model=resnet):
         super(MyResnet, self).__init__()
         self.pretrained = my_pretrained_model
-        self.my_new_layers = nn.Sigmoid(1)
+        self.my_new_layers = nn.Sigmoid()
 
     def forward(self, x):
         x = self.pretrained(x)
