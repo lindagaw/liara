@@ -56,7 +56,7 @@ ngpu = 4
 
 
 class Generator(nn.Module):
-    def __init__(self, ngpu):
+    def __init__(self, ngpu=4):
         super(Generator, self).__init__()
         self.ngpu = ngpu
         self.main = nn.Sequential(
