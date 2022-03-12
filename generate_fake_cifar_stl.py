@@ -43,7 +43,7 @@ torch.manual_seed(manualSeed)
 # Batch size during training
 batch_size = 128
 
-image_size = 256
+image_size = 224
 nc = 3
 nz = 100
 num_epochs = 1000
@@ -101,15 +101,17 @@ print('finished loading the datasets.')
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
+resnet = models.resnet18(pretrained=True)
+
 # Create the generator
 netG = Generator().to(device)
 netG.apply(weights_init)
 # Create the Discriminator
-netD = Discriminator().to(device)
+netD = resnet.to(device)
 netD.apply(weights_init)
 
 # Create the Discriminator
-netD_tgt = Discriminator().to(device)
+netD_tgt = resnet.to(device)
 netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
