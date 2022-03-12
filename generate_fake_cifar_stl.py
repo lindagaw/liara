@@ -106,7 +106,7 @@ resnet = models.resnet18(pretrained=True)
 resnet.fc = nn.Linear(512, 1)
 
 class MyResnet(nn.Module):
-    def __init__(self, my_pretrained_model):
+    def __init__(self, my_pretrained_model=resnet):
         super(MyAlexNet, self).__init__()
         self.pretrained = my_pretrained_model
         self.my_new_layers = nn.Sigmoid(1)
@@ -116,7 +116,6 @@ class MyResnet(nn.Module):
         x = self.my_new_layers(x)
         return x
 
-my_extended_model = MyAlexNet(my_pretrained_model=pretrained)
 
 # Create the generator
 netG = Generator().to(device)
