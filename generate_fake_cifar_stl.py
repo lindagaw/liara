@@ -156,10 +156,11 @@ for epoch in range(num_epochs):
         # Forward pass real batch through D
         output = netD(real_cpu).view(-1)
         # Calculate loss on all-real batch
-        errD_real = criterion(output, label)
 
         print(output.shape)
         print(label.shape)
+        
+        errD_real = criterion(output, label)
         # Calculate gradients for D in backward pass
         errD_real.backward()
         D_x = output.mean().item()
