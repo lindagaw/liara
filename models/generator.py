@@ -87,7 +87,7 @@ class Generator(nn.Module):
         return self.main(input)
 '''
 
-class ResnetGenerator(nn.Module):
+class Generator(nn.Module):
     """Resnet-based generator that consists of Resnet blocks between a few downsampling/upsampling operations.
 
     We adapt Torch code and idea from Justin Johnson's neural style transfer project(https://github.com/jcjohnson/fast-neural-style)
