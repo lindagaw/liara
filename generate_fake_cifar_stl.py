@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 200
+num_epochs = 1000
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -256,6 +256,7 @@ for epoch in range(num_epochs):
             img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
         iters += 1
+
 
 # Grab a batch of real images from the dataloader
 real_batch_src = next(iter(dataloader))
