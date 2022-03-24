@@ -125,19 +125,32 @@ tgt_train_data = resize_images(tgt_train_data.reshape(a, c, d, b))
 green = tgt_train_data_y = np.asarray([1]*len(tgt_train_data))
 yellow = fake_data_y = np.asarray([2]*len(fake_data))
 
-print(src_train_data.shape)
-print(tgt_train_data.shape)
-print(fake_data.shape)
+#print(src_train_data.shape)
+#print(tgt_train_data.shape)
+#print(fake_data.shape)
 
-all_data = np.vstack((src_train_data, tgt_train_data))
-all_data_y = np.vstack((red, green))
+X = np.vstack((src_train_data, tgt_train_data))
+y = np.vstack((red, green))
 
-tsne = manifold.TSNE(
-        n_components=n_components,
-        init="random",
-        random_state=0,
-        perplexity=5,
-        learning_rate="auto",
-        n_iter=3,
-    )
-Y = tsne.fit_transform(all_data)
+from sklearn.manifold import TSNE
+import pandas as pd
+import seaborn as sns
+
+# We want to get TSNE embedding with 2 dimensions
+n_components = 2
+tsne = TSNE(n_components)
+tsne_result = tsne.fit_transform(X)
+tsne_result.shape
+# (1000, 2)
+# Two dimensions for each of our images
+
+# Plot the result of our TSNE with the label color coded
+# A lot of the stuff here is about making the plot look pretty and not TSNE
+tsne_result_df = pd.DataFrame({'tsne_1': tsne_result[:,0], 'tsne_2': tsne_result[:,1], 'label': y})
+fig, ax = plt.subplots(1)
+sns.scatterplot(x='tsne_1', y='tsne_2', hue='label', data=tsne_result_df, ax=ax,s=120)
+lim = (tsne_result.min()-5, tsne_result.max()+5)
+ax.set_xlim(lim)
+ax.set_ylim(lim)
+ax.set_aspect('equal')
+ax.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
