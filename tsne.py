@@ -97,6 +97,8 @@ fake_data = np.asarray(fake_data)
 
 
 ################################################################################
+src_train_data = dataset_src_train.data
+tgt_train_data = dataset_tgt_train.data
 
 print(src_train_data.shape)
 print(tgt_train_data.shape)
