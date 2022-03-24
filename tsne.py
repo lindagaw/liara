@@ -103,6 +103,8 @@ def resize_images(images_array):
     imgs = []
     for image in images_array:
         image = resize(image, (image_size, image_size))
+        a, b, c = image.shape
+        image = image.reshape(a*b*c)
         imgs.append(image)
     return np.asarray(imgs)
 
@@ -122,12 +124,13 @@ tgt_train_data = dataset_tgt_train.data
 a, b, c, d = tgt_train_data.shape
 tgt_train_data = resize_images(tgt_train_data.reshape(a, c, d, b))
 
+resize_images = resize_images(resize_images)
 green = tgt_train_data_y = np.asarray([1]*len(tgt_train_data))
 yellow = fake_data_y = np.asarray([2]*len(fake_data))
 
-#print(src_train_data.shape)
-#print(tgt_train_data.shape)
-#print(fake_data.shape)
+print(src_train_data.shape)
+print(tgt_train_data.shape)
+print(fake_data.shape)
 
 X = np.vstack((src_train_data, tgt_train_data))
 y = np.vstack((red, green))
