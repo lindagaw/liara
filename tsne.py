@@ -132,8 +132,8 @@ print(src_train_data.shape)
 print(tgt_train_data.shape)
 print(fake_data.shape)
 
-X = np.vstack((src_train_data, tgt_train_data))
-y = np.asarray(red + green)
+X = np.vstack((src_train_data, tgt_train_data, fake_data))
+y = np.asarray(red + green + yellow)
 
 from sklearn.manifold import TSNE
 import pandas as pd
@@ -153,10 +153,13 @@ print(Y.shape)
 
 red = get_same_index(y, 0)
 green = get_same_index(y, 1)
+yellow = get_same_index(y, 2)
 
 fig, ax = plt.subplots(1)
 ax.scatter(Y[red, 0], Y[red, 1], c="r")
 ax.scatter(Y[green, 0], Y[green, 1], c="g")
+ax.scatter(Y[yellow, 0], Y[yellow, 1], c="y")
+
 ax.xaxis.set_major_formatter(NullFormatter())
 ax.yaxis.set_major_formatter(NullFormatter())
 ax.axis("tight")
