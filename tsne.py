@@ -85,7 +85,7 @@ idx = get_same_index(dataset_tgt_train.labels, category)
 dataset_tgt_train.labels = dataset_tgt_train.labels[idx]
 dataset_tgt_train.data = dataset_tgt_train.data[idx]
 
-print(var(dataset_tgt_train))
+print((dataset_tgt_train.var()))
 
 dataset_fake = datasets.ImageFolder(root=dataroot_fake,
                            transform=transforms.Compose([
