@@ -50,7 +50,7 @@ print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
-category = 0
+category = 2
 
 # Root directory for dataset
 dataroot_fake = "generated_images//cifar_to_stl//" + str(category)
