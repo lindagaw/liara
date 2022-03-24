@@ -97,22 +97,33 @@ fake_data = np.asarray(fake_data)
 
 
 ################################################################################
-src_train_data = dataset_src_train.data
-tgt_train_data = dataset_tgt_train.data
+import numpy as np
+import matplotlib.pyplot as plt
 
+from matplotlib.ticker import NullFormatter
+from sklearn import manifold, datasets
+from time import time
+
+
+src_train_data = dataset_src_train.data[:500]
+red = src_train_data_y = np.asarray([0]*len(src_train_data))
+
+tgt_train_data = dataset_tgt_train.data
 a, b, c, d = tgt_train_data.shape
 tgt_train_data = tgt_train_data.reshape(a, c, d, b)
+green = tgt_train_data_y = np.asarray([1]*len(tgt_train_data))
 
-print(src_train_data.shape)
-print(tgt_train_data.shape)
-print(fake_data.shape)
+yellow = fake_data_y = np.asarray([2]*len(fake_data))
 
-import time
-import numpy as np
-import pandas as pd
-from sklearn.datasets import fetch_mldata
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sns
+all_data = np.vstack((src_train_data, tgt_train_data))
+all_data_y = np.vstack((red, green))
+
+tsne = manifold.TSNE(
+        n_components=n_components,
+        init="random",
+        random_state=0,
+        perplexity=5,
+        learning_rate="auto",
+        n_iter=3,
+    )
+Y = tsne.fit_transform(all_data)
