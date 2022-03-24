@@ -143,7 +143,7 @@ import seaborn as sns
 n_components = 2
 tsne = TSNE(n_components)
 Y = tsne.fit_transform(X)
-print(tsne_result.shape)
+print(Y.shape)
 # (1000, 2)
 # Two dimensions for each of our images
 
