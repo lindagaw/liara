@@ -141,15 +141,15 @@ import seaborn as sns
 
 # We want to get TSNE embedding with 2 dimensions
 n_components = 2
-tsne = TSNE(n_components)
-tsne_result = tsne.fit_transform(X)
-print(tsne_result.shape)
-# (1000, 2)
-# Two dimensions for each of our images
-
-# Plot the result of our TSNE with the label color coded
-# A lot of the stuff here is about making the plot look pretty and not TSNE
-
+tsne = TSNE(
+        n_components=2,
+        init="random",
+        random_state=0,
+        perplexity=5,
+        learning_rate="auto",
+        n_iter=5,
+    )
+Y = tsne.fit_transform(X)
 
 red = get_same_index(y, 0)
 green = get_same_index(y, 1)
