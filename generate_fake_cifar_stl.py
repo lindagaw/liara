@@ -179,7 +179,7 @@ for epoch in range(num_epochs):
         # Update D
         optimizerD.step()
 
-'''
+        '''
         ############################
         # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
@@ -214,7 +214,7 @@ for epoch in range(num_epochs):
         errD_tgt = errD_real_tgt + errD_fake_tgt
         # Update D
         optimizerD_tgt.step()
-'''
+        '''
         ############################
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
