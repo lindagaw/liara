@@ -149,6 +149,9 @@ print(tsne_result.shape)
 
 # Plot the result of our TSNE with the label color coded
 # A lot of the stuff here is about making the plot look pretty and not TSNE
+
+print(y)
+
 red = get_same_index(y, 0)
 green = get_same_index(y, 1)
 
