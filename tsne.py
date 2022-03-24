@@ -85,6 +85,8 @@ idx = get_same_index(dataset_tgt_train.labels, category)
 dataset_tgt_train.labels = dataset_tgt_train.labels[idx]
 dataset_tgt_train.data = dataset_tgt_train.data[idx]
 
+print(Var(dataset_tgt_train))
+
 dataset_fake = datasets.ImageFolder(root=dataroot_fake,
                            transform=transforms.Compose([
                                transforms.Resize(image_size),
@@ -95,7 +97,6 @@ dataset_fake = datasets.ImageFolder(root=dataroot_fake,
 dataset_fake.targets = torch.tensor(dataset_fake.targets)
 idx = get_same_index(dataset_fake.targets, category)
 dataset_fake.targets = dataset_fake.targets[idx]
-print(dataset_fake.variables)
 dataset_fake.data = dataset_fake.data[idx]
 
 ################################################################################
