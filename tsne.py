@@ -90,7 +90,7 @@ dataset_tgt_train.data = dataset_tgt_train.data[idx]
 
 dataset_fake = []
 for file in os.listdir(dataroot_fake):
-    image = Image.open(os.path.join(dataroot_fake, file))
+    image = np.asarray(Image.open(os.path.join(dataroot_fake, file)))
     print(image.shape)
 
 
