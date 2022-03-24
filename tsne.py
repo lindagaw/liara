@@ -147,7 +147,7 @@ tsne = TSNE(
         random_state=0,
         perplexity=5,
         learning_rate="auto",
-        n_iter=5,
+        n_iter=250,
     )
 Y = tsne.fit_transform(X)
 
