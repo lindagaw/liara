@@ -88,20 +88,19 @@ idx = get_same_index(dataset_tgt_train.labels, category)
 dataset_tgt_train.labels = dataset_tgt_train.labels[idx]
 dataset_tgt_train.data = dataset_tgt_train.data[idx]
 
-dataset_fake = []
+fake_data = []
 for file in os.listdir(dataroot_fake):
     image = np.asarray(Image.open(os.path.join(dataroot_fake, file)))
-    print(image.shape)
+    fake_data.append(image)
 
+fake_data = np.asarray(fake_data)
 
 
 ################################################################################
 
-src_train_data = dataset_src_train.data.numpy()
-tgt_train_data = dataset_tgt_train.data.numpy()
-
 print(src_train_data.shape)
 print(tgt_train_data.shape)
+print(fake_data.shape)
 
 import time
 import numpy as np
