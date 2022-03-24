@@ -92,9 +92,9 @@ dataset_fake = datasets.ImageFolder(root=dataroot_fake,
                                transforms.ToTensor(),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
-dataset_fake.labels = torch.tensor(dataset_fake.labels)
-idx = get_same_index(dataset_fake.labels, category)
-dataset_fake.labels = dataset_fake.labels[idx]
+dataset_fake.targets = torch.tensor(dataset_fake.targets)
+idx = get_same_index(dataset_fake.targets, category)
+dataset_fake.targets = dataset_fake.targets[idx]
 dataset_fake.data = dataset_fake.data[idx]
 
 ################################################################################
@@ -106,3 +106,13 @@ fake_data = dataset_fake.data.numpy()
 print(src_train_data.shape)
 print(tgt_train_data.shape)
 print(fake_data.shape)
+
+import time
+import numpy as np
+import pandas as pd
+from sklearn.datasets import fetch_mldata
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import seaborn as sns
