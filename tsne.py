@@ -124,7 +124,7 @@ tgt_train_data = dataset_tgt_train.data
 a, b, c, d = tgt_train_data.shape
 tgt_train_data = resize_images(tgt_train_data.reshape(a, c, d, b))
 
-resize_images = resize_images(resize_images)
+resize_images = resize_images(fake_data)
 green = tgt_train_data_y = np.asarray([1]*len(tgt_train_data))
 yellow = fake_data_y = np.asarray([2]*len(fake_data))
 
