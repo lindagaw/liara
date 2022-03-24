@@ -95,7 +95,7 @@ dataset_fake = datasets.ImageFolder(root=dataroot_fake,
 dataset_fake.targets = torch.tensor(dataset_fake.targets)
 idx = get_same_index(dataset_fake.targets, category)
 dataset_fake.targets = dataset_fake.targets[idx]
-print(Variable(dataset_fake))
+print(dataset_fake.variables)
 dataset_fake.data = dataset_fake.data[idx]
 
 ################################################################################
