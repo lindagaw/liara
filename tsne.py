@@ -154,3 +154,5 @@ ax.set_xlim(lim)
 ax.set_ylim(lim)
 ax.set_aspect('equal')
 ax.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
+
+plt.savefig('generated_images//tsne_cifar_fake_stl.png')
