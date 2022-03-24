@@ -100,6 +100,9 @@ fake_data = np.asarray(fake_data)
 src_train_data = dataset_src_train.data
 tgt_train_data = dataset_tgt_train.data
 
+a, b, c, d = tgt_train_data.shape
+tgt_train_data = tgt_train_data.reshape(a, c, d, b)
+
 print(src_train_data.shape)
 print(tgt_train_data.shape)
 print(fake_data.shape)
