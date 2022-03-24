@@ -19,7 +19,7 @@ from IPython.display import HTML
 
 from torch.utils.data import TensorDataset, ConcatDataset, DataLoader
 
-from misc import weights_init, save_individual_images
+from misc import weights_init, save_individual_images, get_particular_class, get_same_index
 from models import Generator
 from models import Discriminator
 from models import get_classifier
