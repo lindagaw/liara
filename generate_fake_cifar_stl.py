@@ -42,21 +42,18 @@ torch.manual_seed(manualSeed)
 
 # Batch size during training
 batch_size = 128
-
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 500
+num_epochs = 1000
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
-
 category = 0
 
 print('generating fake data for label {}'.format(category))
 
-dataroot = "datasets/cifar_10/"
-dataroot_tgt = "datasets/cifar10/"
+
 transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
@@ -179,7 +176,7 @@ for epoch in range(num_epochs):
         # Update D
         optimizerD.step()
 
-        '''
+
         ############################
         # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
@@ -214,7 +211,7 @@ for epoch in range(num_epochs):
         errD_tgt = errD_real_tgt + errD_fake_tgt
         # Update D
         optimizerD_tgt.step()
-        '''
+
         ############################
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
