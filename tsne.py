@@ -96,3 +96,13 @@ dataset_fake.labels = torch.tensor(dataset_fake.labels)
 idx = get_same_index(dataset_fake.labels, category)
 dataset_fake.labels = dataset_fake.labels[idx]
 dataset_fake.data = dataset_fake.data[idx]
+
+################################################################################
+
+src_train_data = dataset_src_train.data.numpy()
+tgt_train_data = dataset_tgt_train.data.numpy()
+fake_data = dataset_fake.data.numpy()
+
+print(src_train_data.shape)
+print(tgt_train_data.shape)
+print(fake_data.shape)
