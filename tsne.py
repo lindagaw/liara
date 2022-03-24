@@ -16,6 +16,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
+import PIL
+from PIL import Image
 
 from torch.utils.data import TensorDataset, ConcatDataset, DataLoader
 
@@ -51,7 +53,8 @@ torch.manual_seed(manualSeed)
 category = 1
 
 # Root directory for dataset
-dataroot_fake = "generated_images//cifar_to_stl//"
+dataroot_fake = "generated_images//cifar_to_stl//" + str(category)
+
 transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
@@ -85,30 +88,20 @@ idx = get_same_index(dataset_tgt_train.labels, category)
 dataset_tgt_train.labels = dataset_tgt_train.labels[idx]
 dataset_tgt_train.data = dataset_tgt_train.data[idx]
 
+dataset_fake = []
+for file in os.listdir(dataroot_fake):
+    image = Image.open(os.path.join(dataroot_fake, file))
+    print(image.shape)
 
 
-dataset_fake = datasets.ImageFolder(root=dataroot_fake,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
-dataset_fake.targets = torch.tensor(dataset_fake.targets)
-idx = get_same_index(dataset_fake.targets, category)
-dataset_fake.targets = dataset_fake.targets[idx]
-print(variable(dataset_fake))
-dataset_fake.data = dataset_fake.data[idx]
 
 ################################################################################
 
 src_train_data = dataset_src_train.data.numpy()
 tgt_train_data = dataset_tgt_train.data.numpy()
-fake_data = dataset_fake.data.numpy()
 
 print(src_train_data.shape)
 print(tgt_train_data.shape)
-print(fake_data.shape)
 
 import time
 import numpy as np
