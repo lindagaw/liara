@@ -149,13 +149,14 @@ print(tsne_result.shape)
 
 # Plot the result of our TSNE with the label color coded
 # A lot of the stuff here is about making the plot look pretty and not TSNE
-tsne_result_df = pd.DataFrame({'tsne_1': tsne_result[:,0], 'tsne_2': tsne_result[:,1], 'label': y})
+red = get_same_index(y, 0)
+green = get_same_index(y, 1)
+
 fig, ax = plt.subplots(1)
-sns.scatterplot(x='tsne_1', y='tsne_2', hue='label', data=tsne_result_df, ax=ax,s=120)
-lim = (tsne_result.min()-5, tsne_result.max()+5)
-ax.set_xlim(lim)
-ax.set_ylim(lim)
-ax.set_aspect('equal')
-ax.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
+ax.scatter(Y[red, 0], Y[red, 1], c="r")
+ax.scatter(Y[green, 0], Y[green, 1], c="g")
+ax.xaxis.set_major_formatter(NullFormatter())
+ax.yaxis.set_major_formatter(NullFormatter())
+ax.axis("tight")
 
 plt.savefig('generated_images//tsne_cifar_fake_stl.png')
