@@ -118,22 +118,22 @@ from time import time
 
 
 src_train_data = resize_images(dataset_src_train.data[:500])
-red = src_train_data_y = np.asarray([0]*len(src_train_data))
+red = src_train_data_y = [0]*len(src_train_data)
 
 tgt_train_data = dataset_tgt_train.data
 a, b, c, d = tgt_train_data.shape
 tgt_train_data = resize_images(tgt_train_data.reshape(a, c, d, b))
 
 fake_data = resize_images(fake_data)
-green = tgt_train_data_y = np.asarray([1]*len(tgt_train_data))
-yellow = fake_data_y = np.asarray([2]*len(fake_data))
+green = tgt_train_data_y = [1]*len(tgt_train_data)
+yellow = fake_data_y = [2]*len(fake_data)
 
 print(src_train_data.shape)
 print(tgt_train_data.shape)
 print(fake_data.shape)
 
 X = np.vstack((src_train_data, tgt_train_data))
-y = np.vstack((red, green))
+y = np.asarray(red + green)
 
 from sklearn.manifold import TSNE
 import pandas as pd
@@ -150,7 +150,6 @@ print(tsne_result.shape)
 # Plot the result of our TSNE with the label color coded
 # A lot of the stuff here is about making the plot look pretty and not TSNE
 
-print(y)
 
 red = get_same_index(y, 0)
 green = get_same_index(y, 1)
