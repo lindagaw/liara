@@ -142,6 +142,10 @@ for epoch in range(num_epochs):
     # for i, data in enumerate(dataloader, 0):
     for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
 
+        print(data.shape)
+        print(data_tgt.shape)
+        print('-------------')
+        noise = torch.randn(b_size, nz, 1, 1, device=device)
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
@@ -162,7 +166,7 @@ for epoch in range(num_epochs):
 
         ## Train with all-fake batch
         # Generate batch of latent vectors
-        noise = torch.randn(b_size, nz, 1, 1, device=device)
+        # noise = torch.randn(b_size, nz, 1, 1, device=device)
         # Generate fake image batch with G
         fake = netG(noise)
         label.fill_(fake_label)
