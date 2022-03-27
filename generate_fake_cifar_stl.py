@@ -142,8 +142,8 @@ for epoch in range(num_epochs):
     # for i, data in enumerate(dataloader, 0):
     for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
 
-        print(data.shape)
-        print(data_tgt.shape)
+        print(len(data))
+        print(len(data_tgt))
         print('-------------')
         noise = torch.randn(b_size, nz, 1, 1, device=device)
 
