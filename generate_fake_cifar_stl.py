@@ -45,11 +45,11 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 1000
-lr = 0.00001
+num_epochs = 20
+lr = 0.00002
 beta1 = 0.5
 ngpu = 4
-category = 9
+category = 0
 
 print('generating fake data for label {}'.format(category))
 
@@ -114,7 +114,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(64, nz, 1, 1, device=device)
+fixed_noise = torch.randn(256, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
@@ -195,8 +195,7 @@ for epoch in range(num_epochs):
         D_x_tgt = output.mean().item()
 
         ## Train with all-fake batch
-        # Generate batch of latent vectors
-        noise = torch.randn(b_size, nz, 1, 1, device=device)
+
         # Generate fake image batch with G
         fake = netG(noise)
         label.fill_(fake_label)
@@ -218,13 +217,13 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
+        #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
 
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        #errG = (criterion(output, label)+criterion(output_tgt, label))/2
-        errG = criterion(output, label)
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
