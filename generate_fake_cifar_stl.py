@@ -201,12 +201,20 @@ for epoch in range(num_epochs):
         # Generate batch of latent vectors
         # noise = torch.randn(b_size, nz, 1, 1, device=device)
         # Generate fake image batch with G
-        fake = netG(noise)
-        label.fill_(fake_label)
-        # Classify all fake batch with D
-        output = netD_tgt(fake.detach()).view(-1)
-        # Calculate D's loss on the all-fake batch
-        errD_fake_tgt = criterion(output, label)
+        try:
+            fake = netG(noise)
+            label.fill_(fake_label)
+            # Classify all fake batch with D
+            output = netD_tgt(fake.detach()).view(-1)
+            # Calculate D's loss on the all-fake batch
+            errD_fake_tgt = criterion(output, label)
+        except:
+            fake = netG(noise[:b_size])
+            label.fill_(fake_label)
+            # Classify all fake batch with D
+            output = netD_tgt(fake.detach()).view(-1)
+            # Calculate D's loss on the all-fake batch
+            errD_fake_tgt = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
         errD_fake_tgt.backward()
         D_G_z1_tgt = output.mean().item()
