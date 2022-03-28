@@ -191,7 +191,7 @@ for epoch in range(num_epochs):
         # Calculate G's loss based on this output
         errG = criterion(output, label)
         # Calculate gradients for G
-        errG.backward(retain_graph=True)
+        errG.backward()
         D_G_z2 = output.mean().item()
         # Update G
         optimizerG.step()
@@ -235,7 +235,7 @@ for epoch in range(num_epochs):
         # Compute error of D as sum over the fake and the real batches
         errD = errD_real + errD_fake
         # Update D
-        optimizerD.step()
+        optimizerD_tgt.step()
 
         ############################
         # (4) Update G network: maximize log(D(G(z)))
@@ -248,7 +248,7 @@ for epoch in range(num_epochs):
         # Calculate G's loss based on this output
         errG = criterion(output, label)
         # Calculate gradients for G
-        errG.backward()
+        errG.backward(retain_graph=True)
         D_G_z2 = output.mean().item()
         # Update G
         optimizerG.step()
