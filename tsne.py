@@ -141,8 +141,8 @@ import seaborn as sns
 
 # We want to get TSNE embedding with 2 dimensions
 n_components = 2
-tsne = TSNE(n_components)
-Y = tsne.fit_transform(X, perplexity=5)
+tsne = TSNE(n_components, perplexity=5)
+Y = tsne.fit_transform(X)
 print(Y.shape)
 # (1000, 2)
 # Two dimensions for each of our images
