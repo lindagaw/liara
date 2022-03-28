@@ -226,7 +226,8 @@ for epoch in range(num_epochs):
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
         #errG = (criterion(output, label)+criterion(output_tgt, label))/2
-        errG = criterion(output, label)
+        #errG = criterion(output, label)
+        errG = criterion(output_tgt, label)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
