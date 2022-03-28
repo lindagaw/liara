@@ -246,9 +246,9 @@ for epoch in range(num_epochs):
         #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = criterion(output, label)
+        errG = criterion(output_tgt, label)
         # Calculate gradients for G
-        errG.backward(retain_graph=True)
+        errG.backward()
         D_G_z2 = output.mean().item()
         # Update G
         optimizerG.step()
