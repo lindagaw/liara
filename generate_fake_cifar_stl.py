@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 20
+num_epochs = 0
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -238,7 +238,7 @@ for epoch in range(num_epochs):
         optimizerD_tgt.step()
 
         ############################
-        # (4) Update G network: maximize log(D(G(z)))
+        # (4) Update G network: maximize log(D_tgt(G(z)))
         ###########################
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
