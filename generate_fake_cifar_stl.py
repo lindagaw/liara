@@ -191,7 +191,7 @@ for epoch in range(num_epochs):
         # Calculate G's loss based on this output
         errG = criterion(output, label)
         # Calculate gradients for G
-        errG.backward()
+        errG.backward(retain_graph=True)
         D_G_z2 = output.mean().item()
         # Update G
         optimizerG.step()
