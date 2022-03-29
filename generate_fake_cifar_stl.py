@@ -206,7 +206,7 @@ for epoch in range(num_epochs):
         # (3) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
         ## Train with all-real batch
-        netD_tgt.zero_grad()
+        # netD_tgt.zero_grad()
         # Format batch
         real_cpu = data_tgt[0].to(device)
         b_size = real_cpu.size(0)
