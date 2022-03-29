@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 200
+num_epochs = 20
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -249,7 +249,7 @@ for epoch in range(num_epochs):
         errG = criterion(output_tgt, label)
         # Calculate gradients for G
         errG.backward()
-        D_G_z2 = output.mean().item()
+        D_G_z2 = output_tgt.mean().item()
         # Update G
         optimizerG.step()
 
