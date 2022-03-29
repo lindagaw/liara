@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 200
+num_epochs = 20
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -140,14 +140,14 @@ print("Starting Training Loop...")
 for epoch in range(num_epochs):
     # For each batch in the dataloader
     # for i, data in enumerate(dataloader, 0):
-    for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
-
+    #for i, (data, data_tgt) in enumerate(zip(dataloader, cycle(dataloader_tgt)), 0):
+    for i, data in enumerate(dataloader, 0):
 
         ############################
         # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
         ###########################
         ## Train with all-real batch
-        # netD.zero_grad()
+        netD.zero_grad()
         # Format batch
         real_cpu = data[0].to(device)
         b_size = real_cpu.size(0)
@@ -202,11 +202,12 @@ for epoch in range(num_epochs):
                   % (epoch, num_epochs, i, len(dataloader),
                      errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
 
+    for i, data_tgt in enumerate(dataloader_tgt, 0):
         ############################
         # (3) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
         ## Train with all-real batch
-        # netD_tgt.zero_grad()
+        netD_tgt.zero_grad()
         # Format batch
         real_cpu = data_tgt[0].to(device)
         b_size = real_cpu.size(0)
@@ -278,6 +279,7 @@ for epoch in range(num_epochs):
         iters += 1
 
 
+######################################################################################################
 # Grab a batch of real images from the dataloader
 real_batch_src = next(iter(dataloader))
 real_batch_tgt = next(iter(dataloader_tgt))
