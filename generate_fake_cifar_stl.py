@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 500
+num_epochs = 200
 lr = 0.00001
 beta1 = 0.5
 ngpu = 4
@@ -116,7 +116,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(64, nz, 1, 1, device=device)
+fixed_noise = torch.randn(200, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
@@ -206,7 +206,7 @@ for epoch in range(num_epochs):
         # (3) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
         ## Train with all-real batch
-        netD.zero_grad()
+        netD_tgt.zero_grad()
         # Format batch
         real_cpu = data_tgt[0].to(device)
         b_size = real_cpu.size(0)
