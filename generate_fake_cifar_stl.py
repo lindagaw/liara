@@ -202,6 +202,7 @@ for epoch in range(num_epochs):
                   % (epoch, num_epochs, i, len(dataloader),
                      errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
 
+        '''
         ############################
         # (3) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
@@ -237,6 +238,7 @@ for epoch in range(num_epochs):
         # Update D
         optimizerD_tgt.step()
 
+
         ############################
         # (4) Update G network: maximize log(D_tgt(G(z)))
         ###########################
@@ -258,7 +260,7 @@ for epoch in range(num_epochs):
             print('tgt [%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.8f / %.8f'
                   % (epoch, num_epochs, i, len(dataloader),
                      errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
-
+        '''
         # Save Losses for plotting later
         #G_losses.append(errG.item())
         #D_losses.append(errD.item())
