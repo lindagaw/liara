@@ -115,7 +115,7 @@ netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
-criterion_b = nn.KLDivLoss(reduction="batchmean")
+criterion_b = nn.MSELoss()
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
 fixed_noise = torch.randn(64, nz, 1, 1, device=device)
@@ -171,6 +171,7 @@ for epoch in range(num_epochs):
         label.fill_(fake_label)
 
         MSELoss = criterion_b(fake, real_cpu)
+        print(MSEloss)
         # Classify all fake batch with D
         output = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
