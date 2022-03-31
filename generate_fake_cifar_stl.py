@@ -207,6 +207,7 @@ for epoch in range(num_epochs):
         # Generate fake image batch with G
         fake = netG(noise)
         label.fill_(fake_label)
+        MSELoss_tgt = criterion_b(fake, real_cpu_tgt)
         # Classify all fake batch with D
         output = netD_tgt(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
@@ -230,7 +231,7 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2 + MSELoss_tgt + MSELoss
         #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
