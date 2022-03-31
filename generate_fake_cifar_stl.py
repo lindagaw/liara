@@ -47,7 +47,8 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 1000
-lr = 0.00001
+lr = 0.00005
+lr_g = 0.000005
 beta1 = 0.5
 ngpu = 4
 
@@ -116,7 +117,7 @@ criterion = nn.BCELoss()
 
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
-fixed_noise = torch.randn(200, nz, 1, 1, device=device)
+fixed_noise = torch.randn(64, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
 real_label = 1.
@@ -124,7 +125,7 @@ fake_label = 0.
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr_g, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
 # Training Loop
@@ -178,33 +179,9 @@ for epoch in range(num_epochs):
         # Update D
         optimizerD.step()
 
+
         ############################
-        # (2) Update G network: maximize log(D(G(z)))
-        ###########################
-        netG.zero_grad()
-        label.fill_(real_label)  # fake labels are real for generator cost
-        # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
-
-        output = netD(fake).view(-1)
-        output_tgt = netD_tgt(fake).view(-1)
-        # Calculate G's loss based on this output
-        errG = criterion(output, label)
-        # Calculate gradients for G
-        errG.backward()
-        D_G_z2 = output.mean().item()
-        # Update G
-        optimizerG.step()
-
-        # Output training stats
-        if i % 50 == 0:
-            print('src [%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.8f / %.8f'
-                  % (epoch, num_epochs, i, len(dataloader),
-                     errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
-
-        '''
-        ############################
-        # (3) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
+        # (2) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
         ## Train with all-real batch
         netD_tgt.zero_grad()
@@ -240,7 +217,7 @@ for epoch in range(num_epochs):
 
 
         ############################
-        # (4) Update G network: maximize log(D_tgt(G(z)))
+        # (3) Update G network: maximize log(D_tgt(G(z)))
         ###########################
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
@@ -248,7 +225,7 @@ for epoch in range(num_epochs):
         #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = criterion(output_tgt, label)
+        errG = (criterion(output_tgt, label) + criterion(output, label))/2
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output_tgt.mean().item()
@@ -260,7 +237,7 @@ for epoch in range(num_epochs):
             print('tgt [%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.8f / %.8f'
                   % (epoch, num_epochs, i, len(dataloader),
                      errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
-        '''
+
         # Save Losses for plotting later
         #G_losses.append(errG.item())
         #D_losses.append(errD.item())
