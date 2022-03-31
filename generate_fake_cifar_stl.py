@@ -171,7 +171,7 @@ for epoch in range(num_epochs):
         label.fill_(fake_label)
 
         MSELoss = criterion_b(fake, real_cpu)
-        print(MSEloss)
+        print(MSELoss)
         # Classify all fake batch with D
         output = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
