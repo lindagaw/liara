@@ -47,8 +47,8 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 200
-lr = 0.00005
-lr_g = 0.000005
+lr = 0.00001
+lr_g = 0.000001
 beta1 = 0.5
 ngpu = 4
 
@@ -56,7 +56,8 @@ category = 0
 
 print('generating fake data for label {}'.format(category))
 
-
+dataroot = "datasets/cifar_10/"
+dataroot_tgt = "datasets/cifar10/"
 transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
@@ -181,7 +182,7 @@ for epoch in range(num_epochs):
 
 
         ############################
-        # (2) Update D network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
+        # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
         ## Train with all-real batch
         netD_tgt.zero_grad()
@@ -192,10 +193,10 @@ for epoch in range(num_epochs):
         # Forward pass real batch through D
         output = netD_tgt(real_cpu).view(-1)
         # Calculate loss on all-real batch
-        errD_real = criterion(output, label)
+        errD_real_tgt = criterion(output, label)
         # Calculate gradients for D in backward pass
-        errD_real.backward()
-        D_x = output.mean().item()
+        errD_real_tgt.backward()
+        D_x_tgt = output.mean().item()
 
         ## Train with all-fake batch
         # Generate batch of latent vectors
@@ -206,41 +207,43 @@ for epoch in range(num_epochs):
         # Classify all fake batch with D
         output = netD_tgt(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        errD_fake = criterion(output, label)
+        errD_fake_tgt = criterion(output, label)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
-        errD_fake.backward()
-        D_G_z1 = output.mean().item()
+        errD_fake_tgt.backward()
+        D_G_z1_tgt = output.mean().item()
         # Compute error of D as sum over the fake and the real batches
-        errD = errD_real + errD_fake
+        errD_tgt = errD_real_tgt + errD_fake_tgt
         # Update D
         optimizerD_tgt.step()
 
-
         ############################
-        # (3) Update G network: maximize log(D_tgt(G(z)))
+        # (2) Update G network: maximize log(D(G(z)))
         ###########################
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
+        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
+
+        output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output_tgt, label) + criterion(output, label))/2
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
-        D_G_z2 = output_tgt.mean().item()
+        D_G_z2 = output.mean().item()
         # Update G
         optimizerG.step()
 
         # Output training stats
         if i % 50 == 0:
-            print('tgt [%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.8f / %.8f'
+            print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f / %.4f'
                   % (epoch, num_epochs, i, len(dataloader),
                      errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
 
         # Save Losses for plotting later
-        #G_losses.append(errG.item())
-        #D_losses.append(errD.item())
+        G_losses.append(errG.item())
+        D_losses.append(errD.item())
 
         # Check how the generator is doing by saving G's output on fixed_noise
         if (iters % 500 == 0) or ((epoch == num_epochs-1) and (i == len(dataloader)-1)):
@@ -257,7 +260,6 @@ for epoch in range(num_epochs):
         iters += 1
 
 
-#####################################################################################################
 # Grab a batch of real images from the dataloader
 real_batch_src = next(iter(dataloader))
 real_batch_tgt = next(iter(dataloader_tgt))
