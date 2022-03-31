@@ -47,8 +47,8 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 200
-lr = 0.00001
-lr_g = 0.000001
+lr = 1e-5
+lr_g = 1e-7
 beta1 = 0.5
 ngpu = 4
 
@@ -115,7 +115,7 @@ netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
-
+criterion_b = nn.MSELoss()
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
 fixed_noise = torch.randn(64, nz, 1, 1, device=device)
@@ -152,6 +152,7 @@ for epoch in range(num_epochs):
         netD.zero_grad()
         # Format batch
         real_cpu = data[0].to(device)
+
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
@@ -168,6 +169,8 @@ for epoch in range(num_epochs):
         # Generate fake image batch with G
         fake = netG(noise)
         label.fill_(fake_label)
+
+        MSELoss = criterion_b(fake, real_cpu)
         # Classify all fake batch with D
         output = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
@@ -187,11 +190,11 @@ for epoch in range(num_epochs):
         ## Train with all-real batch
         netD_tgt.zero_grad()
         # Format batch
-        real_cpu = data_tgt[0].to(device)
-        b_size = real_cpu.size(0)
+        real_cpu_tgt = data_tgt[0].to(device)
+        b_size = real_cpu_tgt.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
-        output = netD_tgt(real_cpu).view(-1)
+        output = netD_tgt(real_cpu_tgt).view(-1)
         # Calculate loss on all-real batch
         errD_real_tgt = criterion(output, label)
         # Calculate gradients for D in backward pass
@@ -222,7 +225,7 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
+        #m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
 
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
