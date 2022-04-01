@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from misc import weights_init, save_individual_images, get_particular_class, get_same_index
+from misc import weights_init, save_individual_images, get_particular_class, get_same_index, AddGaussianNoise
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
@@ -47,8 +47,8 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 200
-lr = 1e-5
-lr_g = 1e-5
+lr = 5e-5
+lr_g = 1e-6
 beta1 = 0.5
 ngpu = 4
 
@@ -63,6 +63,7 @@ transform=transforms.Compose([
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    AddGaussianNoise(0., 1.)
 ])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
@@ -231,8 +232,7 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        #errG = (criterion(output, label)+criterion(output_tgt, label))/2 + MSELoss_tgt + MSELoss
-        errG = sum([criterion(output, label), criterion(output_tgt, label), MSELoss_tgt, MSELoss])
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2 + MSELoss_tgt + MSELoss
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()

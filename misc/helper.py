@@ -22,6 +22,18 @@ from torch.utils.data import Dataset
 
 import torchvision
 # custom weights initialization called on netG and netD
+
+class AddGaussianNoise(object):
+    def __init__(self, mean=0., std=1.):
+        self.std = std
+        self.mean = mean
+
+    def __call__(self, tensor):
+        return tensor + torch.randn(tensor.size()) * self.std + self.mean
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(mean={0}, std={1})'.format(self.mean, self.std)
+
 def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
