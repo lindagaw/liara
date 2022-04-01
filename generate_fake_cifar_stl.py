@@ -63,7 +63,7 @@ transform=transforms.Compose([
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-    AddGaussianNoise(0., 1.)
+    #AddGaussianNoise(0., 1.)
 ])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
