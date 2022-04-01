@@ -172,6 +172,7 @@ for epoch in range(num_epochs):
         label.fill_(fake_label)
 
         MSELoss = criterion_b(fake, real_cpu)
+        MSELoss.backward()
         # Classify all fake batch with D
         output = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
@@ -209,6 +210,7 @@ for epoch in range(num_epochs):
         fake = netG(noise)
         label.fill_(fake_label)
         MSELoss_tgt = criterion_b(fake, real_cpu_tgt)
+        MSELoss_tgt.backward()
         # Classify all fake batch with D
         output = netD_tgt(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
