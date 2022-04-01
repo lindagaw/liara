@@ -171,7 +171,6 @@ for epoch in range(num_epochs):
         label.fill_(fake_label)
 
         MSELoss = criterion_b(fake, real_cpu)
-        print(MSELoss)
         # Classify all fake batch with D
         output = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
@@ -232,8 +231,8 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2 + MSELoss_tgt + MSELoss
-        #errG = criterion(output, label)
+        #errG = (criterion(output, label)+criterion(output_tgt, label))/2 + MSELoss_tgt + MSELoss
+        errG = sum(criterion(output, label), criterion(output_tgt, label), MSELoss_tgt, MSELoss)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
