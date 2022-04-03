@@ -175,7 +175,6 @@ class ConcatDataset(Dataset):
         return min(len(d) for d in self.datasets)
 
 def remove_non_pic(folder):
-
     for file in os.listdir(folder):
         path = os.path.join(folder, file)
         if file.endswith('.csv'):
