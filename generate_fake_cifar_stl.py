@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 200
+num_epochs = 500
 lr = 5e-5
 lr_g = 1e-6
 beta1 = 0.5
@@ -224,8 +224,8 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = balance(real_cpu.cpu(), fake.cpu())
-        m_loss_tgt = balance(real_cpu_tgt.cpu(), fake.cpu())
+        m_loss = mahalanobis_loss(real_cpu.cpu(), fake.cpu())
+        m_loss_tgt = mahalanobis_loss(real_cpu_tgt.cpu(), fake.cpu())
 
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
