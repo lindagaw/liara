@@ -224,12 +224,13 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
+        m_loss = mahalanobis_loss(real_cpu, fake)
+        m_loss_tgt = mahalanobis_loss(real_cpu_tgt, fake)
 
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2 + m_loss
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2 + m_loss + m_loss_tgt
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
