@@ -22,7 +22,7 @@ from misc import weights_init, save_individual_images, get_particular_class, get
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
-from models import balance
+
 
 from itertools import cycle
 
@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 500
+num_epochs = 200
 lr = 5e-5
 lr_g = 1e-6
 beta1 = 0.5
