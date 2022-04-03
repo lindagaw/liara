@@ -22,7 +22,7 @@ from misc import weights_init, save_individual_images, get_particular_class, get
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
-
+from models import balance
 
 from itertools import cycle
 
@@ -224,8 +224,8 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), fake.cpu())
-        m_loss_tgt = mahalanobis_loss(real_cpu_tgt.cpu(), fake.cpu())
+        m_loss = balance(real_cpu.cpu(), fake.cpu())
+        m_loss_tgt = balance(real_cpu_tgt.cpu(), fake.cpu())
 
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)

@@ -24,6 +24,7 @@ from models import Generator
 from models import Discriminator
 from models import get_classifier
 from models import mahalanobis_loss
+from models import balance
 
 from train_and_eval import train, eval
 
