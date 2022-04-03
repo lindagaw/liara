@@ -24,11 +24,11 @@ def balance(real, fake):
     # calculate np.linalg.norm for real for real ones
     real_norms = []
     for sample in real:
-        real_norms.append(np.linalg.norm(sample))
+        real_norms.append(np.linalg.norm(sample.detach().numpy()))
 
     fake_norms = []
     for sample in fake:
-        fake_norms.append(np.linalg.norm(sample))
+        fake_norms.append(np.linalg.norm(sample.detach().numpy()))
 
     real_norms = torch.FloatTensor(real_norms)
     fake_norms = torch.FloatTensor(fake_norms)
