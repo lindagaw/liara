@@ -47,7 +47,7 @@ image_size = 64
 nc = 3
 nz = 100
 num_epochs = 500
-lr = 5e-5
+lr = 1e-7
 lr_g = 1e-7
 beta1 = 0.5
 ngpu = 4
@@ -66,13 +66,13 @@ transform=transforms.Compose([
     #AddGaussianNoise(0., 1.)
 ])
 
-#transform_tgt=transforms.Compose([
-#    transforms.Resize(image_size),
-#    transforms.CenterCrop(image_size),
-#    transforms.ToTensor(),
-#    transforms.Normalize((0.4431, 0.4463, 0.4455), (0.2664, 0.2644, 0.2637)),
-#    #AddGaussianNoise(0., 1.)
-#])
+transform_tgt=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.4431, 0.4463, 0.4455), (0.2664, 0.2644, 0.2637)),
+    #AddGaussianNoise(0., 1.)
+])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = datasets.CIFAR10(root='./data',
