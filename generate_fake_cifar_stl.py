@@ -190,11 +190,11 @@ for epoch in range(num_epochs):
         # Format batch
         real_cpu_tgt = data_tgt[0].to(device)
         b_size = real_cpu_tgt.size(0)
-        label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
+        label_tgt = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
         output = netD_tgt(real_cpu_tgt).view(-1)
         # Calculate loss on all-real batch
-        errD_real_tgt = criterion(output, label)
+        errD_real_tgt = criterion(output, label_tgt)
         # Calculate gradients for D in backward pass
         errD_real_tgt.backward()
         D_x_tgt = output.mean().item()
@@ -204,12 +204,12 @@ for epoch in range(num_epochs):
         noise = torch.randn(b_size, nz, 1, 1, device=device)
         # Generate fake image batch with G
         fake_tgt = netG(noise)
-        label.fill_(fake_label)
+        label_tgt.fill_(fake_label)
 
         # Classify all fake batch with D
         output = netD_tgt(fake_tgt.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        errD_fake_tgt = criterion(output, label)
+        errD_fake_tgt = criterion(output, label_tgt)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
         errD_fake_tgt.backward()
         D_G_z1_tgt = output.mean().item()
@@ -222,12 +222,14 @@ for epoch in range(num_epochs):
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
         netG.zero_grad()
-        label.fill_(real_label)  # fake labels are real for generator cost
+        label.fill_(real_label)
+        label_tgt.fill_(real_label)
+        # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
