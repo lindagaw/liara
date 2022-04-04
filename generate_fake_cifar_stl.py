@@ -66,13 +66,13 @@ transform=transforms.Compose([
     #AddGaussianNoise(0., 1.)
 ])
 
-transform_tgt=transforms.Compose([
-    transforms.Resize(image_size),
-    transforms.CenterCrop(image_size),
-    transforms.ToTensor(),
-    transforms.Normalize((0.4431, 0.4463, 0.4455), (0.2664, 0.2644, 0.2637)),
-    #AddGaussianNoise(0., 1.)
-])
+#transform_tgt=transforms.Compose([
+#    transforms.Resize(image_size),
+#    transforms.CenterCrop(image_size),
+#    transforms.ToTensor(),
+#    transforms.Normalize((0.4431, 0.4463, 0.4455), (0.2664, 0.2644, 0.2637)),
+#    #AddGaussianNoise(0., 1.)
+#])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = datasets.CIFAR10(root='./data',
@@ -88,7 +88,7 @@ dataset.data = dataset.data[idx]
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
                               split='train',
-                              transform=transform_tgt,
+                              transform=transform,
                               download=True)
 dataset_tgt.labels[dataset_tgt.labels == 1] = 99
 dataset_tgt.labels[dataset_tgt.labels == 2] = 1
