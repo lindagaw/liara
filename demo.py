@@ -48,7 +48,8 @@ nz = 100
 ngf = 64
 ndf = 64
 num_epochs = 80
-lr = 0.0001
+lr = 5e-5
+lr_g = 1e-7
 beta1 = 0.5
 ngpu = 4
 
@@ -109,7 +110,7 @@ fake_label = 0.
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr_g, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
 # Training Loop
@@ -135,6 +136,7 @@ for epoch in range(num_epochs):
         netD.zero_grad()
         # Format batch
         real_cpu = data[0].to(device)
+
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
@@ -163,19 +165,20 @@ for epoch in range(num_epochs):
         # Update D
         optimizerD.step()
 
+
         ############################
         # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
         ###########################
         ## Train with all-real batch
         netD_tgt.zero_grad()
         # Format batch
-        real_cpu = data_tgt[0].to(device)
-        b_size = real_cpu.size(0)
-        label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
+        real_cpu_tgt = data_tgt[0].to(device)
+        b_size = real_cpu_tgt.size(0)
+        label_tgt = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
-        output = netD_tgt(real_cpu).view(-1)
+        output = netD_tgt(real_cpu_tgt).view(-1)
         # Calculate loss on all-real batch
-        errD_real_tgt = criterion(output, label)
+        errD_real_tgt = criterion(output, label_tgt)
         # Calculate gradients for D in backward pass
         errD_real_tgt.backward()
         D_x_tgt = output.mean().item()
@@ -184,12 +187,13 @@ for epoch in range(num_epochs):
         # Generate batch of latent vectors
         noise = torch.randn(b_size, nz, 1, 1, device=device)
         # Generate fake image batch with G
-        fake = netG(noise)
-        label.fill_(fake_label)
+        fake_tgt = netG(noise)
+        label_tgt.fill_(fake_label)
+
         # Classify all fake batch with D
-        output = netD_tgt(fake.detach()).view(-1)
+        output = netD_tgt(fake_tgt.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        errD_fake_tgt = criterion(output, label)
+        errD_fake_tgt = criterion(output, label_tgt)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
         errD_fake_tgt.backward()
         D_G_z1_tgt = output.mean().item()
@@ -202,15 +206,14 @@ for epoch in range(num_epochs):
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
         netG.zero_grad()
-        label.fill_(real_label)  # fake labels are real for generator cost
+        label.fill_(real_label)
+        label_tgt.fill_(real_label)
+        # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), netG(noise).cpu())
-
         output = netD(fake).view(-1)
-        output_tgt = netD_tgt(fake).view(-1)
+        output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2
-        #errG = criterion(output, label)
+        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
