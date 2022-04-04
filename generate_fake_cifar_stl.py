@@ -62,15 +62,7 @@ transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.247, 0.243, 0.261)),
-    #AddGaussianNoise(0., 1.)
-])
-
-transform_tgt=transforms.Compose([
-    transforms.Resize(image_size),
-    transforms.CenterCrop(image_size),
-    transforms.ToTensor(),
-    transforms.Normalize((0.4431, 0.4463, 0.4455), (0.2664, 0.2644, 0.2637)),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     #AddGaussianNoise(0., 1.)
 ])
 # We can use an image folder dataset the way we have it setup.
@@ -88,7 +80,7 @@ dataset.data = dataset.data[idx]
 ################################################################S
 dataset_tgt = datasets.STL10(root='./data',
                               split='train',
-                              transform=transform_tgt,
+                              transform=transform,
                               download=True)
 dataset_tgt.labels[dataset_tgt.labels == 1] = 99
 dataset_tgt.labels[dataset_tgt.labels == 2] = 1
@@ -114,29 +106,16 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 # Create the generator
 netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
-
-# Create the reverse generator for src
-netF_src = Generator(ngpu).to(device)
-netF_src.apply(weights_init)
-netD_F_src = Discriminator(ngpu).to(device)
-netD_F_src.apply(weights_init)
-
-# Create the reverse generator for tgt
-netF_tgt = Generator(ngpu).to(device)
-netF_tgt.apply(weights_init)
-netD_F_tgt = Discriminator(ngpu).to(device)
-netD_F_tgt.apply(weights_init)
-
 # Create the Discriminator
 netD = Discriminator(ngpu).to(device)
 netD.apply(weights_init)
+
 # Create the Discriminator
 netD_tgt = Discriminator(ngpu).to(device)
 netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
-criterion_b = nn.MSELoss()
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
 fixed_noise = torch.randn(64, nz, 1, 1, device=device)
@@ -147,9 +126,8 @@ fake_label = 0.
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr_g, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
-
 
 # Training Loop
 
@@ -251,7 +229,7 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2 + (criterion_b(fake, real_cpu) + criterion_b(fake_tgt, real_cpu_tgt))/2
+        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
