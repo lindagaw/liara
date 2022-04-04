@@ -88,7 +88,7 @@ class Generator(nn.Module):
 
 class Generator_Reverse(nn.Module):
     def __init__(self, ngpu):
-        super(Generator, self).__init__()
+        super(Generator_Reverse, self).__init__()
         self.ngpu = ngpu
         self.main = nn.Sequential(
             # input is Z, going into a convolution
