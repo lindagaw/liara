@@ -48,7 +48,7 @@ nc = 3
 nz = 100
 num_epochs = 500
 lr = 5e-5
-lr_g = 1e-6
+lr_g = 1e-7
 beta1 = 0.5
 ngpu = 4
 
