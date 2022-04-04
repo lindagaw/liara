@@ -34,9 +34,9 @@ print(train_set.train_data.std(axis=(0,1,2))/255)
 
 # mnist
 train_set = datasets.STL10(root='../data/', train=True, download=True, transform=train_transform)
-print(list(train_set.train_data.size()))
-print(train_set.train_data.float().mean()/255)
-print(train_set.train_data.float().std()/255)
+print(train_set.train_data.shape)
+print(train_set.train_data.mean(axis=(0,1,2))/255)
+print(train_set.train_data.std(axis=(0,1,2))/255)
 # [60000, 28, 28]
 # 0.1306604762738429
 # 0.30810780717887876
