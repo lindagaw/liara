@@ -116,6 +116,7 @@ netD_tgt.apply(weights_init)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
+criterion_b = nn.MSELoss()
 # Create batch of latent vectors that we will use to visualize
 #  the progression of the generator
 fixed_noise = torch.randn(64, nz, 1, 1, device=device)
@@ -229,7 +230,7 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
+        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2 + (criterion_b(output, label)+criterion_b(output_tgt, label_tgt))/2
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
