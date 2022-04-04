@@ -169,7 +169,6 @@ for epoch in range(num_epochs):
         # Generate fake image batch with G
         fake = netG(noise)
         label.fill_(fake_label)
-
         # Classify all fake batch with D
         output = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
@@ -206,6 +205,7 @@ for epoch in range(num_epochs):
         # Generate fake image batch with G
         fake = netG(noise)
         label.fill_(fake_label)
+
         # Classify all fake batch with D
         output = netD_tgt(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
@@ -224,13 +224,11 @@ for epoch in range(num_epochs):
         netG.zero_grad()
         label.fill_(real_label)  # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
-        m_loss = mahalanobis_loss(real_cpu.cpu(), fake.cpu())
-        m_loss_tgt = mahalanobis_loss(real_cpu_tgt.cpu(), fake.cpu())
-
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label))/2 + m_loss + m_loss_tgt
+        errG = (criterion(output, label)+criterion(output_tgt, label))/2
+        print(errG.shape)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
