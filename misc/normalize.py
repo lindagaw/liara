@@ -25,7 +25,7 @@ print(train_set.data.std(axis=(0,1,2))/255)
 
 
 # mnist
-train_set = datasets.STL10(root='../data/', train=True, download=True, transform=train_transform)
+train_set = datasets.STL10(root='../data/', split='train', download=True, transform=train_transform)
 print(train_set.data.shape)
 print(train_set.data.mean(axis=(0,1,2))/255)
 print(train_set.data.std(axis=(0,1,2))/255)
