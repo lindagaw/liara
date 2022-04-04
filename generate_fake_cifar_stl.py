@@ -215,8 +215,6 @@ for epoch in range(num_epochs):
         D_G_z1_tgt = output.mean().item()
         # Compute error of D as sum over the fake and the real batches
         errD_tgt = errD_real_tgt + errD_fake_tgt
-
-        print(errD_tgt.shape)
         # Update D
         optimizerD_tgt.step()
 
@@ -230,7 +228,7 @@ for epoch in range(num_epochs):
         output_tgt = netD_tgt(fake).view(-1)
         # Calculate G's loss based on this output
         errG = (criterion(output, label)+criterion(output_tgt, label))/2
-
+        print(errG)
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
