@@ -19,7 +19,7 @@ import matplotlib.animation as animation
 from IPython.display import HTML
 
 from misc import weights_init, save_individual_images, get_particular_class, get_same_index, AddGaussianNoise
-from models import Generator
+from models import Generator, Generator_Reverse
 from models import Discriminator
 from models import mahalanobis_loss
 
@@ -116,13 +116,13 @@ netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
 
 # Create the reverse generator for src
-netF_src = Generator(ngpu).to(device)
+netF_src = Generator_Reverse(ngpu).to(device)
 netF_src.apply(weights_init)
 #netD_F_src = Discriminator(ngpu).to(device)
 #netD_F_src.apply(weights_init)
 
 # Create the reverse generator for tgt
-netF_tgt = Generator(ngpu).to(device)
+netF_tgt = Generator_Reverse(ngpu).to(device)
 netF_tgt.apply(weights_init)
 #netD_F_tgt = Discriminator(ngpu).to(device)
 #netD_F_tgt.apply(weights_init)
