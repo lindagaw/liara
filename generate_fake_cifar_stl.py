@@ -114,10 +114,22 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 # Create the generator
 netG = Generator(ngpu).to(device)
 netG.apply(weights_init)
+
+# Create the reverse generator for src
+netF_src = Generator(ngpu).to(device)
+netF_src.apply(weights_init)
+#netD_F_src = Discriminator(ngpu).to(device)
+#netD_F_src.apply(weights_init)
+
+# Create the reverse generator for tgt
+netF_tgt = Generator(ngpu).to(device)
+netF_tgt.apply(weights_init)
+#netD_F_tgt = Discriminator(ngpu).to(device)
+#netD_F_tgt.apply(weights_init)
+
 # Create the Discriminator
 netD = Discriminator(ngpu).to(device)
 netD.apply(weights_init)
-
 # Create the Discriminator
 netD_tgt = Discriminator(ngpu).to(device)
 netD_tgt.apply(weights_init)
@@ -135,8 +147,13 @@ fake_label = 0.
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr_g, betas=(beta1, 0.999))
-optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerD_tgt = optim.Adam(netD_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerG = optim.Adam(netG.parameters(), lr=lr_g, betas=(beta1, 0.999))
+
+optimizerF_src = optim.Adam(netF_src.parameters(), lr=lr_g, betas=(beta1, 0.999))
+optimizerF_tgt = optim.Adam(netF_tgt.parameters(), lr=lr_g, betas=(beta1, 0.999))
+#optimizerD_F_src = optim.Adam(netD_F_src.parameters(), lr=lr, betas=(beta1, 0.999))
+#optimizerD_F_tgt = optim.Adam(netD_F_tgt.parameters(), lr=lr, betas=(beta1, 0.999))
 
 # Training Loop
 
@@ -210,9 +227,9 @@ for epoch in range(num_epochs):
 
         ## Train with all-fake batch
         # Generate batch of latent vectors
-        noise = torch.randn(b_size, nz, 1, 1, device=device)
+        noise_tgt = torch.randn(b_size, nz, 1, 1, device=device)
         # Generate fake image batch with G
-        fake_tgt = netG(noise)
+        fake_tgt = netG(noise_tgt)
         label_tgt.fill_(fake_label)
 
         # Classify all fake batch with D
@@ -230,7 +247,10 @@ for epoch in range(num_epochs):
         ############################
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
+        netF_src.zero_grad()
+        netF_tgt.zero_grad()
         netG.zero_grad()
+
         label.fill_(real_label)
         label_tgt.fill_(real_label)
         # fake labels are real for generator cost
@@ -238,7 +258,12 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2 + (criterion_b(fake, real_cpu) + criterion_b(fake_tgt, real_cpu_tgt))/2
+        reconstruct_loss_src = criterion_b(netF_src(fake), real_cpu) + criterion_b(netG(netF_src(noise)), noise)
+        reconstruct_loss_tgt = criterion_b(netF_tgt(fake_tgt), real_cpu_tgt) + criterion_b(netG(netF_tgt(noise_tgt)), noise_tgt)
+
+        gan_loss = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
+        balance_loss = (criterion_b(fake, real_cpu) + criterion_b(fake_tgt, real_cpu_tgt))/2
+        errG = gan_loss + reconstruct_loss_src + reconstruct_loss_tgt
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
