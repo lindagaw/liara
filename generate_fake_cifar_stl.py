@@ -66,13 +66,6 @@ transform=transforms.Compose([
     #AddGaussianNoise(0., 1.)
 ])
 
-transform_tgt=transforms.Compose([
-    transforms.Resize(image_size),
-    transforms.CenterCrop(image_size),
-    transforms.ToTensor(),
-    transforms.Normalize((0.4431, 0.4463, 0.4455), (0.2664, 0.2644, 0.2637)),
-    #AddGaussianNoise(0., 1.)
-])
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = datasets.CIFAR10(root='./data',
@@ -258,12 +251,12 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        #reconstruct_loss_src = criterion_b(netF_src(fake), real_cpu) + criterion_b(netG(netF_src(noise)), noise)
-        #reconstruct_loss_tgt = criterion_b(netF_tgt(fake_tgt), real_cpu_tgt) + criterion_b(netG(netF_tgt(noise_tgt)), noise_tgt)
+        reconstruct_loss_src = criterion_b(netF_src(fake), real_cpu) + criterion_b(netG(netF_src(noise)), noise)
+        reconstruct_loss_tgt = criterion_b(netF_tgt(fake_tgt), real_cpu_tgt) + criterion_b(netG(netF_tgt(noise_tgt)), noise_tgt)
 
         gan_loss = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
         balance_loss = (criterion_b(fake, real_cpu) + criterion_b(fake_tgt, real_cpu_tgt))/2
-        errG = gan_loss + balance_loss
+        errG = gan_loss + reconstruct_loss_src + reconstruct_loss_tgt
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
