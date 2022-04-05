@@ -140,7 +140,7 @@ import pandas as pd
 import seaborn as sns
 
 # We want to get TSNE embedding with 2 dimensions
-n_components = 4
+n_components = 3
 tsne = TSNE(n_components)
 Y = tsne.fit_transform(X)
 print(Y.shape)
