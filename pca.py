@@ -135,20 +135,20 @@ print(fake_data.shape)
 X = np.vstack((src_train_data, tgt_train_data, fake_data))
 y = np.asarray(red + green + yellow)
 
-from sklearn.manifold import TSNE
+from sklearn.manifold import PC
 import pandas as pd
 import seaborn as sns
 
-# We want to get TSNE embedding with 2 dimensions
+# We want to get PCA embedding with 2 dimensions
 n_components = 2
-tsne = TSNE(n_components)
-Y = tsne.fit_transform(X)
+pca = PCA(n_components)
+Y = pca.fit_transform(X)
 print(Y.shape)
 # (1000, 2)
 # Two dimensions for each of our images
 
-# Plot the result of our TSNE with the label color coded
-# A lot of the stuff here is about making the plot look pretty and not TSNE
+# Plot the result of our PCA with the label color coded
+# A lot of the stuff here is about making the plot look pretty and not PCA
 
 
 red = get_same_index(y, 0)
@@ -164,4 +164,4 @@ ax.xaxis.set_major_formatter(NullFormatter())
 ax.yaxis.set_major_formatter(NullFormatter())
 ax.axis("tight")
 
-plt.savefig('generated_images//tsne_cifar_fake_stl.png')
+plt.savefig('generated_images//pca_cifar_fake_stl.png')
