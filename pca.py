@@ -140,7 +140,7 @@ import pandas as pd
 import seaborn as sns
 
 # We want to get PCA embedding with 2 dimensions
-n_components = 2
+n_components = 3
 pca = PCA(n_components)
 Y = pca.fit_transform(X)
 print(Y.shape)
@@ -156,9 +156,9 @@ green = get_same_index(y, 1)
 yellow = get_same_index(y, 2)
 
 fig, ax = plt.subplots(1)
-ax.scatter(Y[red, 0], Y[red, 1], c="r")
-ax.scatter(Y[green, 0], Y[green, 1], c="g")
-ax.scatter(Y[yellow, 0], Y[yellow, 1], c="y")
+ax.scatter(Y[red, 0], Y[red, 1], Y[red, 2], c="r")
+ax.scatter(Y[green, 0], Y[green, 1], Y[green, 2], c="g")
+ax.scatter(Y[yellow, 0], Y[yellow, 1], Y[yellow, 2], c="y")
 
 ax.xaxis.set_major_formatter(NullFormatter())
 ax.yaxis.set_major_formatter(NullFormatter())
