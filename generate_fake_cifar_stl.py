@@ -230,7 +230,9 @@ for epoch in range(num_epochs):
         output = netD(fake).view(-1)
         output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        errG = (criterion(output, label)+criterion(output_tgt, label_tgt))/2 + (criterion_b(real_cpu, fake), criterion_b(real_cpu_tgt, fake_tgt))/2
+        loss = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
+        balance_loss = (criterion_b(real_cpu, fake) + criterion_b(real_cpu_tgt, fake_tgt))/2
+        errG = loss + balance_loss
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
