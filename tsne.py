@@ -158,7 +158,7 @@ yellow = get_same_index(y, 2)
 fig, ax = plt.subplots(1)
 ax.scatter(Y[red, 0], Y[red, 1], Y[red, 2], c="r")
 ax.scatter(Y[green, 0], Y[green, 1], Y[green, 2], c="g")
-ax.scatter(Y[yellow, 0], Y[yellow, 1], Y[yellow], 2], c="y")
+ax.scatter(Y[yellow, 0], Y[yellow, 1], Y[yellow, 2], c="y")
 
 ax.xaxis.set_major_formatter(NullFormatter())
 ax.yaxis.set_major_formatter(NullFormatter())
