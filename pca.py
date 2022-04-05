@@ -165,3 +165,5 @@ ax.yaxis.set_major_formatter(NullFormatter())
 ax.axis("tight")
 
 plt.savefig('generated_images//pca_cifar_fake_stl.png')
+
+print('finished')
