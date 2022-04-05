@@ -135,7 +135,7 @@ print(fake_data.shape)
 X = np.vstack((src_train_data, tgt_train_data, fake_data))
 y = np.asarray(red + green + yellow)
 
-from sklearn.manifold import PCA
+from sklearn.decomposition import PCA
 import pandas as pd
 import seaborn as sns
 
