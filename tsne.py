@@ -162,6 +162,8 @@ ax.scatter(Y[yellow, 0], Y[yellow, 1], Y[yellow, 2], c="y")
 
 ax.xaxis.set_major_formatter(NullFormatter())
 ax.yaxis.set_major_formatter(NullFormatter())
+ax.zaxis.set_major_formatter(NullFormatter())
+
 ax.axis("tight")
 
 plt.savefig('generated_images//tsne_cifar_fake_stl.png')
