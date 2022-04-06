@@ -189,7 +189,7 @@ for epoch in range(num_epochs):
         # Classify all fake batch with D
         output = netD_tgt(fake_tgt.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        errD_fake_tgt = criterion(output, label)
+        errD_fake_tgt = criterion(output, label_tgt)
         # Calculate the gradients for this batch, accumulated (summed) with previous gradients
         errD_fake_tgt.backward()
         D_G_z1_tgt = output.mean().item()
