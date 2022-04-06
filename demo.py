@@ -212,7 +212,7 @@ for epoch in range(num_epochs):
         # Calculate G's loss based on this output
         balance_loss = (criterion_b(real_cpu, fake) + criterion_b(real_cpu_tgt, fake_tgt))/2
         loss = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
-        errG = bslance_loss + loss
+        errG = balance_loss + loss
         #errG = criterion(output, label)
         # Calculate gradients for G
         errG.backward()
