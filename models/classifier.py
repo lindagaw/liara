@@ -61,17 +61,17 @@ def get_classifier(name='googlenet', pretrain=True):
     print('using {}...'.format(name))
 
     if name == "alexnet":
-        model = models.alexnet(pretrained)
+        model = models.alexnet(pretrained=pretrain)
     elif name == 'resnet50':
-        model = models.resnet50(pretrained)
+        model = models.resnet50(pretrained=pretrain)
     elif name == 'vgg16':
-        model = models.vgg16(pretrained)
+        model = models.vgg16(pretrained=pretrain)
     elif name == 'inception_v3':
-        model = models.inception_v3(pretrained)
+        model = models.inception_v3(pretrained=pretrain)
     elif name == 'densenet':
-        model = models.densenet161(pretrained)
+        model = models.densenet161(pretrained=pretrain)
     else:
-        model = models.googlenet(pretrained)
+        model = models.googlenet(pretrained=pretrain)
     return model
 
 #classifier.fc = nn.Linear(1024, 31)
