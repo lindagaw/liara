@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 1000
+num_epochs = 500
 lr = 5e-5
 lr_g = 1e-7
 beta1 = 0.5
@@ -62,7 +62,7 @@ transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.247, 0.243, 0.261)),
     #AddGaussianNoise(0., 1.)
 ])
 # We can use an image folder dataset the way we have it setup.
@@ -232,7 +232,7 @@ for epoch in range(num_epochs):
         # Calculate G's loss based on this output
         loss = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
         balance_loss = (criterion_b(real_cpu, fake) + criterion_b(real_cpu_tgt, fake_tgt))/2
-        errG = loss + balance_loss
+        errG = loss + balance
         # Calculate gradients for G
         errG.backward()
         D_G_z2 = output.mean().item()
