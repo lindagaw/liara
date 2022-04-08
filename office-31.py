@@ -65,7 +65,11 @@ train_set, test_set = torch.utils.data.random_split(dataset, [int(len(dataset)*0
 dataloader_train = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
 dataloader_test = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True)
 
-f = get_classifier('resnet50', pretrain=False)
+f = get_classifier('resnet50', pretrain=True)
+
+print(f)
+
+f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
 classifier = train(classifier, dataloader_train)
