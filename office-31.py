@@ -59,7 +59,7 @@ dataset = datasets.ImageFolder(root=dataroot,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
-train_set, val_set = torch.utils.data.random_split(dataset, [int(len(dataset)*0.8), len(dataset)-int(len(dataset)*0.8)])
+train_set, test_set = torch.utils.data.random_split(dataset, [int(len(dataset)*0.8), len(dataset)-int(len(dataset)*0.8)])
 
 
 dataloader_train = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
