@@ -41,7 +41,7 @@ torch.manual_seed(manualSeed)
 batch_size = 32
 image_size = 64
 
-dataroot = "..//datasets//office-31-intact//webcam//images//"
+dataroot = "datasets//office-31-intact//webcam//images//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
