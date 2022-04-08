@@ -38,7 +38,10 @@ print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
-dataroot = "..//datasets//office-31-intact//amazon//images//"
+batch_size = 32
+image_size = 64
+
+dataroot = "..//datasets//office-31-intact//webcam//images//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
@@ -59,8 +62,8 @@ dataset = datasets.ImageFolder(root=dataroot,
 train_set, val_set = torch.utils.data.random_split(dataset, [int(len(dataset)*0.8), len(dataset)-int(len(dataset)*0.8)])
 
 
-dataloader_train = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
-dataloader_test = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
+dataloader_train = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
+dataloader_test = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True)
 
 f = get_classifier('resnet50', pretrain=False)
 
