@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 100
+num_epochs = 1000
 lr = 5e-5
 lr_g = 1e-7
 beta1 = 0.5
@@ -170,7 +170,7 @@ for epoch in range(num_epochs):
         # Classify all fake batch with D
         output_fake = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        D_loss = -(torch.mean(output_real) - torch.mean(output_fake))
+        D_loss = (torch.mean(output_real) - torch.mean(output_fake))
         D_loss.backward()
         # Update D
         optimizerD.step()
