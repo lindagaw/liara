@@ -113,15 +113,17 @@ dataloader_fake = torch.utils.data.DataLoader(dataset_fake, batch_size=batch_siz
                                          shuffle=True)
 
 dataset_src_tgt_train = ConcatDataset((dataset_src_train, dataset_tgt_train))
-dataset_src_tgt_fake_train = ConcatDataset((dataset_fake, dataset_tgt_train))
+dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_fake, dataset_tgt_train))
+dataset_tgt_fake_train = ConcatDataset((dataset_fake, dataset_tgt_train))
 
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 src_tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_fake_train, batch_size=batch_size, shuffle=True)
+tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_tgt_fake_train, batch_size=batch_size, shuffle=True)
 
 f = get_classifier('googlenet')
 
 classifier = f.cuda()
-classifier = train(classifier, src_tgt_fake_train_loader)
+classifier = train(classifier, tgt_fake_train_loader)
 
 acc_src = eval(classifier, dataloader_src_test)
 acc_tgt = eval(classifier, dataloader_tgt_test)
