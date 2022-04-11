@@ -155,14 +155,11 @@ for epoch in range(num_epochs):
         real_cpu = data[0].to(device)
 
         b_size = real_cpu.size(0)
-        label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
+
+        label_real = torch.full((b_size,), real_label, dtype=torch.float, device=device)
         # Forward pass real batch through D
-        output = netD(real_cpu).view(-1)
+        output_real = netD(real_cpu).view(-1)
         # Calculate loss on all-real batch
-        errD_real = criterion(output, label)
-        # Calculate gradients for D in backward pass
-        errD_real.backward()
-        D_x = output.mean().item()
 
         ## Train with all-fake batch
         # Generate batch of latent vectors
@@ -171,79 +168,34 @@ for epoch in range(num_epochs):
         fake = netG(noise)
         label.fill_(fake_label)
         # Classify all fake batch with D
-        output = netD(fake.detach()).view(-1)
+        output_fake = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        errD_fake = criterion(output, label)
-        # Calculate the gradients for this batch, accumulated (summed) with previous gradients
-        errD_fake.backward()
-        D_G_z1 = output.mean().item()
-        # Compute error of D as sum over the fake and the real batches
-        errD = errD_real + errD_fake
+        D_loss = -(torch.mean(output_real) - torch.mean(output_fake))
+        D_loss.backward()
         # Update D
         optimizerD.step()
-
-
-        ############################
-        # (1.5) Update D_tgt network: maximize log(D_tgt(x)) + log(1 - D_tgt(G(z)))
-        ###########################
-        ## Train with all-real batch
-        netD_tgt.zero_grad()
-        # Format batch
-        real_cpu_tgt = data_tgt[0].to(device)
-        b_size = real_cpu_tgt.size(0)
-        label_tgt = torch.full((b_size,), real_label, dtype=torch.float, device=device)
-        # Forward pass real batch through D
-        output = netD_tgt(real_cpu_tgt).view(-1)
-        # Calculate loss on all-real batch
-        errD_real_tgt = criterion(output, label_tgt)
-        # Calculate gradients for D in backward pass
-        errD_real_tgt.backward()
-        D_x_tgt = output.mean().item()
-
-        ## Train with all-fake batch
-        # Generate batch of latent vectors
-        noise = torch.randn(b_size, nz, 1, 1, device=device)
-        # Generate fake image batch with G
-        fake_tgt = netG(noise)
-        label_tgt.fill_(fake_label)
-
-        # Classify all fake batch with D
-        output = netD_tgt(fake_tgt.detach()).view(-1)
-        # Calculate D's loss on the all-fake batch
-        errD_fake_tgt = criterion(output, label_tgt)
-        # Calculate the gradients for this batch, accumulated (summed) with previous gradients
-        errD_fake_tgt.backward()
-        D_G_z1_tgt = output.mean().item()
-        # Compute error of D as sum over the fake and the real batches
-        errD_tgt = errD_real_tgt + errD_fake_tgt
-        # Update D
-        optimizerD_tgt.step()
 
         ############################
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
         netG.zero_grad()
         label.fill_(real_label)
-        label_tgt.fill_(real_label)
         # fake labels are real for generator cost
         # Since we just updated D, perform another forward pass of all-fake batch through D
         output = netD(fake).view(-1)
-        output_tgt = netD_tgt(fake_tgt).view(-1)
         # Calculate G's loss based on this output
-        loss = (criterion(output, label)+criterion(output_tgt, label_tgt))/2
-        balance_loss = (criterion_b(real_cpu, fake) + criterion_b(real_cpu_tgt, fake_tgt))/2
-        errG = loss + balance
+        G_loss = -torch.mean(output)
         # Calculate gradients for G
-        errG.backward()
+        G_loss.backward()
         D_G_z2 = output.mean().item()
         # Update G
         optimizerG.step()
 
         # Output training stats
         if i % 50 == 0:
-            print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f / %.4f'
+            print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f'
                   % (epoch, num_epochs, i, len(dataloader),
-                     errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
+                     D_loss.item(), G_loss.item()))
 
         # Save Losses for plotting later
         G_losses.append(errG.item())
