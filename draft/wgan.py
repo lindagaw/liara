@@ -95,10 +95,10 @@ if cuda:
     discriminator.cuda()
 
 # Configure data loader
-os.makedirs("../../data/mnist", exist_ok=True)
+os.makedirs("../../data/cifar10", exist_ok=True)
 dataloader = torch.utils.data.DataLoader(
-    datasets.MNIST(
-        "../../data/mnist",
+    datasets.CIFAR10(
+        "../../data/cifar10",
         train=True,
         download=True,
         transform=transforms.Compose(
