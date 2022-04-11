@@ -123,7 +123,7 @@ tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_tgt_fake_train, batc
 f = get_classifier('googlenet')
 
 classifier = f.cuda()
-classifier = train(classifier, tgt_fake_train_loader)
+classifier = train(classifier, dataloader_fake)
 
 acc_src = eval(classifier, dataloader_src_test)
 acc_tgt = eval(classifier, dataloader_tgt_test)
