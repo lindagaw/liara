@@ -30,7 +30,7 @@ parser.add_argument("--img_size", type=int, default=28, help="size of each image
 parser.add_argument("--channels", type=int, default=3, help="number of image channels")
 parser.add_argument("--n_critic", type=int, default=5, help="number of training steps for discriminator per iter")
 parser.add_argument("--clip_value", type=float, default=0.01, help="lower and upper clip value for disc. weights")
-parser.add_argument("--sample_interval", type=int, default=400, help="interval betwen image samples")
+parser.add_argument("--sample_interval", type=int, default=4000, help="interval betwen image samples")
 opt = parser.parse_args()
 print(opt)
 
@@ -38,6 +38,14 @@ img_shape = (opt.channels, opt.img_size, opt.img_size)
 
 cuda = True if torch.cuda.is_available() else False
 
+def get_same_index(target, label):
+    label_indices = []
+
+    for i in range(len(target)):
+        if target[i] == label:
+            label_indices.append(i)
+
+    return label_indices
 
 class Generator(nn.Module):
     def __init__(self):
@@ -96,15 +104,23 @@ if cuda:
 
 # Configure data loader
 os.makedirs("../../data/cifar10", exist_ok=True)
+
+dataset = datasets.CIFAR10(
+    "../../data/cifar10",
+    train=True,
+    download=True,
+    transform=transforms.Compose(
+        [transforms.Resize(opt.img_size), transforms.ToTensor(), transforms.Normalize([0.5], [0.5])]
+    ))
+
+dataset.targets = torch.tensor(dataset.targets)
+idx = get_same_index(dataset.targets, category)
+dataset.targets= dataset.targets[idx]
+dataset.data = dataset.data[idx]
+
 dataloader = torch.utils.data.DataLoader(
-    datasets.CIFAR10(
-        "../../data/cifar10",
-        train=True,
-        download=True,
-        transform=transforms.Compose(
-            [transforms.Resize(opt.img_size), transforms.ToTensor(), transforms.Normalize([0.5], [0.5])]
-        ),
-    ),
+    dataset,
+
     batch_size=opt.batch_size,
     shuffle=True,
 )
