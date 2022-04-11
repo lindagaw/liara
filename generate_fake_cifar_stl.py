@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 500
+num_epochs = 100
 lr = 5e-5
 lr_g = 1e-7
 beta1 = 0.5
@@ -197,9 +197,7 @@ for epoch in range(num_epochs):
                   % (epoch, num_epochs, i, len(dataloader),
                      D_loss.item(), G_loss.item()))
 
-        # Save Losses for plotting later
-        G_losses.append(errG.item())
-        D_losses.append(errD.item())
+
 
         # Check how the generator is doing by saving G's output on fixed_noise
         if (iters % 500 == 0) or ((epoch == num_epochs-1) and (i == len(dataloader)-1)):
