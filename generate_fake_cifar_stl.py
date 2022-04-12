@@ -174,7 +174,7 @@ for epoch in range(num_epochs):
         # Calculate D's loss on the all-fake batch
         #gradient_penalty = compute_gradient_penalty(netD, real_cpu.data, fake.data)
         # lambda_gp * gradient_penalty
-        D_loss = -(torch.mean(output_real) + torch.mean(output_fake))
+        D_loss = -torch.mean(output_real) + torch.mean(output_fake)
 
 
         D_loss.backward()
