@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from IPython.display import HTML
 
-from misc import weights_init, save_individual_images, get_particular_class, get_same_index, AddGaussianNoise
+from misc import weights_init, save_individual_images, get_particular_class, get_same_index, AddGaussianNoise, compute_gradient_penalty
 from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
@@ -51,6 +51,8 @@ lr = 5e-5
 lr_g = 1e-7
 beta1 = 0.5
 ngpu = 4
+# Loss weight for gradient penalty
+lambda_gp = 10
 
 category = 0
 
@@ -170,7 +172,9 @@ for epoch in range(num_epochs):
         # Classify all fake batch with D
         output_fake = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        D_loss = -(torch.mean(output_real) - torch.mean(output_fake))
+        gradient_penalty = compute_gradient_penalty(netD, real_cpu.data, fake.data)
+        D_loss = -(torch.mean(output_real) + torch.mean(output_fake)) + lambda_gp * gradient_penalty
+        
         D_loss.backward()
         # Update D
         optimizerD.step()
