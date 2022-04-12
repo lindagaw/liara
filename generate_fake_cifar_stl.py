@@ -46,7 +46,7 @@ batch_size = 128
 image_size = 64
 nc = 3
 nz = 100
-num_epochs = 200
+num_epochs = 100
 lr = 5e-5
 lr_g = 1e-7
 beta1 = 0.5
@@ -172,9 +172,11 @@ for epoch in range(num_epochs):
         # Classify all fake batch with D
         output_fake = netD(fake.detach()).view(-1)
         # Calculate D's loss on the all-fake batch
-        gradient_penalty = compute_gradient_penalty(netD, real_cpu.data, fake.data)
-        D_loss = -(torch.mean(output_real) + torch.mean(output_fake)) + lambda_gp * gradient_penalty
-        
+        #gradient_penalty = compute_gradient_penalty(netD, real_cpu.data, fake.data)
+        # lambda_gp * gradient_penalty
+        D_loss = -(torch.mean(output_real) + torch.mean(output_fake))
+
+
         D_loss.backward()
         # Update D
         optimizerD.step()
