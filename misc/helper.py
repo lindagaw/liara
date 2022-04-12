@@ -181,6 +181,7 @@ def remove_non_pic(folder):
             os.remove(path)
             print('removed '.format(path))
 
+cuda = True if torch.cuda.is_available() else False
 Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
 
 def compute_gradient_penalty(D, real_samples, fake_samples):
