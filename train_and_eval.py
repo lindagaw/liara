@@ -63,7 +63,7 @@ def train(classifier, data_loader, dataloader_test):
 
             except Exception as e:
                 print(e)
-        eval(classifier, data_loader_test)
+        eval(classifier, dataloader_test)
 
     return classifier
 

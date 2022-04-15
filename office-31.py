@@ -39,7 +39,7 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 batch_size = 32
-image_size = 64
+image_size = 299
 
 dataroot = "datasets//office-31-intact//amazon//images//"
 
