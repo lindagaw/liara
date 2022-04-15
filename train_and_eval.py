@@ -84,7 +84,7 @@ def eval(classifier, data_loader):
         images = make_variable(images, volatile=True)
         labels = make_variable(labels)
 
-        preds = classifier(images)
+        preds, aux = classifier(images)
         loss += criterion(preds, labels).data
 
         pred_cls = preds.data.max(1)[1]
