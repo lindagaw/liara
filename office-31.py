@@ -72,7 +72,7 @@ print(f)
 f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
-classifier = train(classifier, dataloader_train)
+classifier = train(classifier, dataloader_train, dataloader_test)
 
 acc = eval(classifier, dataloader_test)
 

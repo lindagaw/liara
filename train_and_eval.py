@@ -9,13 +9,13 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 20
+num_epochs = 200
 
-lr = 0.00002
+lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
-def train(classifier, data_loader):
+def train(classifier, data_loader, dataloader_test):
     """Train classifier for source domain."""
     ####################
     # 1. setup network #
@@ -63,7 +63,7 @@ def train(classifier, data_loader):
 
             except Exception as e:
                 print(e)
-
+        eval(classifier, data_loader_test)
 
     return classifier
 
