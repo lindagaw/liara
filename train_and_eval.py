@@ -44,7 +44,7 @@ def train(classifier, data_loader, dataloader_test):
             optimizer.zero_grad()
 
             # compute loss for critic
-            preds = classifier(images)
+            preds, aux = classifier(images)
 
             loss = criterion(preds, labels)
 
