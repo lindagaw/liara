@@ -67,7 +67,7 @@ def get_classifier(name='googlenet', pretrain=True):
     elif name == 'vgg16':
         model = models.vgg16(pretrained=pretrain)
     elif name == 'inception_v3':
-        model = models.inception_v3(pretrained=pretrain)
+        model = models.inception_v3(pretrained=pretrain, aux_logits=False)
     elif name == 'densenet':
         model = models.densenet161(pretrained=pretrain)
     else:
