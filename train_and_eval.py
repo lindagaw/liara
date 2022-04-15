@@ -44,7 +44,10 @@ def train(classifier, data_loader, dataloader_test):
             optimizer.zero_grad()
 
             # compute loss for critic
-            preds, aux = classifier(images)
+            try:
+                preds, aux = classifier(images)
+            except:
+                preds = classifier(images)
 
             loss = criterion(preds, labels)
 
@@ -84,7 +87,7 @@ def eval(classifier, data_loader):
         images = make_variable(images, volatile=True)
         labels = make_variable(labels)
 
-        preds, aux = classifier(images)
+        preds = classifier(images)
         loss += criterion(preds, labels).data
 
         pred_cls = preds.data.max(1)[1]
