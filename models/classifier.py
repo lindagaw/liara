@@ -64,6 +64,8 @@ def get_classifier(name='googlenet', pretrain=True):
         model = models.alexnet(pretrained=pretrain)
     elif name == 'resnet50':
         model = models.resnet50(pretrained=pretrain)
+    elif name == 'resnet101':
+        model = models.resnet101(pretrained=pretrain)
     elif name == 'vgg16':
         model = models.vgg16(pretrained=pretrain)
     elif name == 'inception_v3':
