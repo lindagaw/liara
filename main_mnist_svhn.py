@@ -113,6 +113,7 @@ src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_
 src_tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_fake_train, batch_size=batch_size, shuffle=True)
 
 f = get_classifier('inception_v3', pretrain=True)
+f.fc = nn.Linear(2048, 10)
 
 classifier = f.cuda()
 classifier = train(classifier, src_tgt_fake_train_loader)
