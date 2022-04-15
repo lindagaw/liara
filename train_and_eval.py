@@ -9,7 +9,7 @@ nc = 3
 nz = 100
 ngf = 64
 ndf = 64
-num_epochs = 200
+num_epochs = 10
 
 lr = 0.0002
 beta1 = 0.5
@@ -60,9 +60,6 @@ def train(classifier, data_loader, dataloader_test):
                               step + 1,
                               len(data_loader),
                               loss.data))
-
-
-        eval(classifier, dataloader_test)
 
     return classifier
 
