@@ -15,7 +15,7 @@ lr = 0.0002
 beta1 = 0.5
 ngpu = 4
 
-def train(classifier, data_loader, dataloader_test):
+def train(classifier, data_loader):
     """Train classifier for source domain."""
     ####################
     # 1. setup network #
