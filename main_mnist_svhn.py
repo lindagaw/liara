@@ -34,7 +34,7 @@ import pretty_errors
 # Set random seed for reproducibility
 manualSeed = 999
 batch_size = 32
-image_size = 64
+image_size = 299
 nc = 3
 nz = 100
 ngf = 64
@@ -112,7 +112,7 @@ dataset_src_tgt_fake_train = ConcatDataset((dataset_src_train, dataset_fake, dat
 src_tgt_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_train, batch_size=batch_size, shuffle=True)
 src_tgt_fake_train_loader = torch.utils.data.DataLoader(dataset_src_tgt_fake_train, batch_size=batch_size, shuffle=True)
 
-f = get_classifier('googlenet')
+f = get_classifier('inception_v3', pretrain=True)
 
 classifier = f.cuda()
 classifier = train(classifier, src_tgt_fake_train_loader)
