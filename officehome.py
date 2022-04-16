@@ -87,7 +87,7 @@ f = get_classifier('inception_v3', pretrain=True)
 
 print(f)
 
-f.fc = nn.Linear(2048, 31)
+f.fc = nn.Linear(2048, 65)
 
 classifier = f.cuda()
 classifier = train(classifier, dataloader_train_clipart)
