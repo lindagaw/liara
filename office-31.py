@@ -61,7 +61,7 @@ dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
                            transform=transform)
 
 train_set_amazon, test_set_amazon = torch.utils.data.random_split(dataset_amazon, [int(len(dataset_amazon)*0.8), len(dataset_amazon)-int(len(dataset_amazon)*0.8)])
-train_set_dslr, test_set_dslr = torch.utils.data.random_split(dataset_dslr, [int(len(dataset_dlsr)*0.8), len(dataset_dlsr)-int(len(dataset_dlsr)*0.8)])
+train_set_dslr, test_set_dslr = torch.utils.data.random_split(dataset_dslr, [int(len(dataset_dslr)*0.8), len(dataset_dslr)-int(len(dataset_dslr)*0.8)])
 train_set_webcam, test_set_webcam = torch.utils.data.random_split(dataset_webcam, [int(len(dataset_webcam)*0.8), len(dataset_webcam)-int(len(dataset_webcam)*0.8)])
 
 train_amazon_dslr = ConcatDataset((train_set_amazon, train_set_dslr))
