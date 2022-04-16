@@ -83,25 +83,23 @@ dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
                            transform=transform)
 
 
+dataset_amazon.targets = torch.tensor(dataset_amazon.targets)
+idx = get_same_index(dataset_amazon.targets, category)
+dataset_amazon.targets= dataset_amazon.targets[idx]
+dataset_amazon.data = dataset_amazon.data[idx]
+
+
+dataset_dslr.labels = torch.tensor(dataset_dslr.labels)
+idx = get_same_index(dataset_dslr.labels, category)
+dataset_dslr.labels = dataset_dslr.labels[idx]
+dataset_dslr.data = dataset_dslr.data[idx]
+
 train_set_amazon, test_set_amazon = torch.utils.data.random_split(dataset_amazon, [int(len(dataset_amazon)*0.8), len(dataset_amazon)-int(len(dataset_amazon)*0.8)])
 train_set_dslr, test_set_dslr = torch.utils.data.random_split(dataset_dslr, [int(len(dataset_dslr)*0.8), len(dataset_dslr)-int(len(dataset_dslr)*0.8)])
 train_set_webcam, test_set_webcam = torch.utils.data.random_split(dataset_webcam, [int(len(dataset_webcam)*0.8), len(dataset_webcam)-int(len(dataset_webcam)*0.8)])
 
 dataset = train_set_amazon
 dataset_tgt = train_set_dslr
-
-print(dataset_amazon.targets)
-
-dataset.targets = torch.tensor(dataset.targets)
-idx = get_same_index(dataset.targets, category)
-dataset.targets= dataset.targets[idx]
-dataset.data = dataset.data[idx]
-
-
-dataset_tgt.labels = torch.tensor(dataset_tgt.labels)
-idx = get_same_index(dataset_tgt.labels, category)
-dataset_tgt.labels = dataset_tgt.labels[idx]
-dataset_tgt.data = dataset_tgt.data[idx]
 
 
 # Create the dataloader
