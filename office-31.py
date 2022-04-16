@@ -41,7 +41,7 @@ torch.manual_seed(manualSeed)
 batch_size = 32
 image_size = 299
 
-dataroot = "datasets//office-31-intact//webcam//images//"
+dataroot = "datasets//office-31-intact//amazon//images//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
@@ -72,7 +72,7 @@ print(f)
 f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
-classifier = train(classifier, dataloader_train, dataloader_test)
+classifier = train(classifier, dataloader_train)
 
 acc = eval(classifier, dataloader_test)
 
