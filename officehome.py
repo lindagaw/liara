@@ -42,8 +42,8 @@ batch_size = 32
 image_size = 299
 
 dataroot_art = "datasets//OfficeHome//Art//"
-dataroot_clipart = "datasets//OfficeHome//Clipart"
-dataroot_product = "datasets//OfficeHome//Product"
+dataroot_clipart = "datasets//OfficeHome//Clipart//"
+dataroot_product = "datasets//OfficeHome//Product//"
 dataroot_realworld = "datasets//OfficeHome//Real World//"
 
 transform=transforms.Compose([
