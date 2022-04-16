@@ -41,13 +41,13 @@ torch.manual_seed(manualSeed)
 batch_size = 32
 image_size = 299
 
-dataroot = "datasets//office-31-intact//amazon//images//"
+dataroot_amazon = "datasets//office-31-intact//amazon//images//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
     #AddGaussianNoise(0., 1.)
 ])
 
@@ -59,7 +59,7 @@ dataset = datasets.ImageFolder(root=dataroot,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
-train_set, test_set = torch.utils.data.random_split(dataset, [int(len(dataset)*0.8), len(dataset)-int(len(dataset)*0.8)])
+train_set, test_set = torch.utils.data.random_split(dataset_amazon, [int(len(dataset)*0.8), len(dataset)-int(len(dataset)*0.8)])
 
 
 dataloader_train = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
