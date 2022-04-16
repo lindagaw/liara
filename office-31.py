@@ -42,6 +42,8 @@ batch_size = 32
 image_size = 299
 
 dataroot_amazon = "datasets//office-31-intact//amazon//images//"
+dataroot_dslr = "datasets//office-31-intact//dslr//images//"
+dataroot_webcam = "datasets//office-31-intact//webcam//images//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
@@ -51,19 +53,20 @@ transform=transforms.Compose([
     #AddGaussianNoise(0., 1.)
 ])
 
-dataset = datasets.ImageFolder(root=dataroot,
-                           transform=transforms.Compose([
-                               transforms.Resize(image_size),
-                               transforms.CenterCrop(image_size),
-                               transforms.ToTensor(),
-                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                           ]))
+dataset_amazon = datasets.ImageFolder(root=dataroot_amazon,
+                           transform=transform)
+dataset_dslr = datasets.ImageFolder(root=dataroot_dslr,
+                           transform=transform)
+dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
+                           transform=transform)
 
 train_set, test_set = torch.utils.data.random_split(dataset_amazon, [int(len(dataset)*0.8), len(dataset)-int(len(dataset)*0.8)])
 
 
 dataloader_train = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
 dataloader_test = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=True)
+dataloader_dslr = torch.utils.data.DataLoader(dataset_dslr, batch_size=batch_size, shuffle=True)
+dataloader_webcam = torch.utils.data.DataLoader(dataset_webcam, batch_size=batch_size, shuffle=True)
 
 f = get_classifier('inception_v3', pretrain=True)
 
@@ -74,6 +77,9 @@ f.fc = nn.Linear(2048, 31)
 classifier = f.cuda()
 classifier = train(classifier, dataloader_train)
 
+print('eval on amazon')
 acc = eval(classifier, dataloader_test)
-
-print(acc)
+print('eval on webcam')
+acc = eval(classifier, dataloader_webcam)
+print('eval on dslr')
+acc = eval(classifier, dataloader_dslr)
