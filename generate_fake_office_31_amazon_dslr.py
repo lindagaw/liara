@@ -90,6 +90,8 @@ train_set_webcam, test_set_webcam = torch.utils.data.random_split(dataset_webcam
 dataset = train_set_amazon
 dataset_tgt = train_set_dslr
 
+print(var(dataset))
+
 dataset.targets = torch.tensor(dataset.targets)
 idx = get_same_index(dataset.targets, category)
 dataset.targets= dataset.targets[idx]
