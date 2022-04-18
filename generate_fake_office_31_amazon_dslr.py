@@ -249,11 +249,11 @@ for epoch in range(num_epochs):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
                 try:
-                    shutil.rmtree('generated_images//mnist_to_svhn//'+str(category) + '//')
+                    shutil.rmtree('generated_images//office_31_amazon_to_dslr//'+str(category) + '//')
                 except:
                     pass
-                os.makedirs('generated_images//mnist_to_svhn//'+str(category) + '//')
-                save_individual_images('generated_images//mnist_to_svhn//'+str(category) + '//', fake)
+                os.makedirs('generated_images//office_31_amazon_to_dslr//'+str(category) + '//')
+                save_individual_images('generated_images//office_31_amazon_to_dslr//'+str(category) + '//', fake)
             img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
         iters += 1
