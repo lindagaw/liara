@@ -60,13 +60,20 @@ dataset_dslr = datasets.ImageFolder(root=dataroot_dslr,
 dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
                            transform=transform)
 
+dataset_amazon_webcam = datasets.ImageFolder(root='generated_images//office_31_amazon_to_webcam//',
+                           transform=transform)
+dataset_amazon_dslr = datasets.ImageFolder(root='generated_images//office_31_dslr_to_webcam',
+                           transform=transform)
+dataset_dslr_webcam = datasets.ImageFolder(root='generated_images//office_31_dslr_to_webcam',
+                           transform=transform)
+
 train_set_amazon, test_set_amazon = torch.utils.data.random_split(dataset_amazon, [int(len(dataset_amazon)*0.8), len(dataset_amazon)-int(len(dataset_amazon)*0.8)])
 train_set_dslr, test_set_dslr = torch.utils.data.random_split(dataset_dslr, [int(len(dataset_dslr)*0.8), len(dataset_dslr)-int(len(dataset_dslr)*0.8)])
 train_set_webcam, test_set_webcam = torch.utils.data.random_split(dataset_webcam, [int(len(dataset_webcam)*0.8), len(dataset_webcam)-int(len(dataset_webcam)*0.8)])
 
-train_amazon_dslr = ConcatDataset((train_set_amazon, train_set_dslr))
-train_amazon_webcam = ConcatDataset((train_set_amazon, train_set_webcam))
-train_webcam_dslr = ConcatDataset((train_set_webcam, train_set_dslr))
+train_amazon_dslr = ConcatDataset((train_set_amazon, train_set_dslr, dataset_amazon_dslr))
+train_amazon_webcam = ConcatDataset((train_set_amazon, train_set_webcam, dataset_amazon_webcam))
+train_webcam_dslr = ConcatDataset((train_set_webcam, train_set_dslr, dataset_dslr_webcam))
 
 dataloader_train_amazon_dslr = torch.utils.data.DataLoader(train_amazon_dslr, batch_size=batch_size, shuffle=True)
 dataloader_train_amazon_webcam = torch.utils.data.DataLoader(train_amazon_webcam, batch_size=batch_size, shuffle=True)
@@ -88,10 +95,13 @@ print(f)
 f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
-classifier = train(classifier, dataloader_train_webcam_dslr)
 
-#print('eval on amazon')
-#acc = eval(classifier, dataloader_test)
+classifier = train(classifier, dataloader_train_amazon_webcam)
+#classifier = train(classifier, dataloader_train_amazon_dslr)
+#classifier = train(classifier, dataloader_train_webcam_dslr)
+
+print('eval on amazon')
+acc = eval(classifier, dataloader_test)
 print('eval on webcam')
 acc = eval(classifier, dataloader_test_webcam)
 print('eval on dslr')
