@@ -28,7 +28,7 @@ from itertools import cycle
 import pretty_errors
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--which_class", type=int, default=0, help="generate fake samples of this class.")
+parser.add_argument("--which_class", type=int, default=1, help="generate fake samples of this class.")
 opt = parser.parse_args()
 print(opt)
 
