@@ -101,7 +101,7 @@ classifier = f.cuda()
 classifier = train(classifier, dataloader_train_webcam_dslr)
 
 print('eval on amazon')
-acc = eval(classifier, dataloader_test)
+acc = eval(classifier, dataloader_test_amazon)
 print('eval on webcam')
 acc = eval(classifier, dataloader_test_webcam)
 print('eval on dslr')
