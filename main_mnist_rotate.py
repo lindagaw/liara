@@ -50,10 +50,19 @@ torch.manual_seed(manualSeed)
 
 # Root directory for dataset
 dataroot_fake = "generated_images//mnist_to_usps//"
+
 transform=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
+    transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
+])
+
+transform_rotate=transforms.Compose([
+    transforms.Resize(image_size),
+    transforms.CenterCrop(image_size),
+    transforms.ToTensor(),
+    transforms.Rotate(180),
     transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
 ])
 # Batch size during training
@@ -63,9 +72,9 @@ dataset_src_train = datasets.MNIST(root='./data',
                               transform=transform,
                               download=True)
 
-dataset_tgt_train = datasets.USPS(root='./data',
+dataset_tgt_train = datasets.MNIST(root='./data',
                               train=True,
-                              transform=transform,
+                              transform=transform_rotate,
                               download=True)
 
 dataset_fake = datasets.ImageFolder(root=dataroot_fake,
