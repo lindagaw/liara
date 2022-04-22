@@ -49,7 +49,7 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
-dataroot_fake = "generated_images//mnist_to_usps//"
+dataroot_fake = "generated_images//mnist_to_rotated_mnist//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
