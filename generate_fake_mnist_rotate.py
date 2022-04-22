@@ -67,7 +67,7 @@ transform_rotate=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
-    transforms.Rotate(180),
+    transforms.RandomRotation((180,180)),
     transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
 ])
 # We can use an image folder dataset the way we have it setup.
