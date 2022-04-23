@@ -34,7 +34,7 @@ import pretty_errors
 # Set random seed for reproducibility
 manualSeed = 999
 batch_size = 32
-image_size = 64
+image_size = 299
 nc = 3
 nz = 100
 ngf = 64
