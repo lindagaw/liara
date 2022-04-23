@@ -82,6 +82,7 @@ dataset_fake = datasets.ImageFolder(root=dataroot_fake,
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
                                transforms.ToTensor(),
+                               transforms.RandomRotation((180,180)),
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
