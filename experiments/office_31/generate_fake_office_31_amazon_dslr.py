@@ -64,7 +64,7 @@ category = opt.which_class
 
 
 for category in range(0, 31):
-    
+
     category_name = os.listdir("datasets//office-31-intact//amazon//images//")[category]
     print('generating fake data for label {} with class name {}'.format(category, category_name))
 
@@ -121,7 +121,7 @@ for category in range(0, 31):
     criterion_b = nn.MSELoss()
     # Create batch of latent vectors that we will use to visualize
     #  the progression of the generator
-    fixed_noise = torch.randn(512, nz, 1, 1, device=device)
+    fixed_noise = torch.randn(32, nz, 1, 1, device=device)
 
     # Establish convention for real and fake labels during training
     real_label = 1.
