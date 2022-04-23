@@ -121,6 +121,6 @@ classifier = f.cuda()
 classifier = train(classifier, src_tgt_fake_train_loader)
 
 acc_src = eval(classifier, dataloader_src_test)
-acc_tgt = eval(classifier, dataloader_tgt_test)
+#acc_tgt = eval(classifier, dataloader_tgt_test)
 
 print('src acc {}, target acc {}'.format(acc_src, acc_tgt))
