@@ -62,7 +62,7 @@ transform_rotate=transforms.Compose([
     transforms.Resize(image_size),
     transforms.CenterCrop(image_size),
     transforms.ToTensor(),
-    #transforms.RandomRotation((180,180)),
+    transforms.RandomRotation((180,180)),
     transforms.Lambda(lambda x: x.repeat(3, 1, 1) )
 ])
 # Batch size during training
@@ -92,9 +92,9 @@ dataset_src_test = datasets.MNIST(root='./data',
                               transform=transform,
                               download=True)
 
-dataset_tgt_test = datasets.USPS(root='./data',
+dataset_tgt_test = datasets.MNIST(root='./data',
                               train=False,
-                              transform=transform,
+                              transform=transform_rotate,
                               download=True)
 
 
