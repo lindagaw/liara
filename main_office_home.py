@@ -69,12 +69,12 @@ train_set_clipart, test_set_clipart = torch.utils.data.random_split(dataset_clip
 train_set_product, test_set_product = torch.utils.data.random_split(dataset_product, [int(len(dataset_product)*0.8), len(dataset_product)-int(len(dataset_product)*0.8)])
 train_set_realworld, test_set_realworld = torch.utils.data.random_split(dataset_realworld, [int(len(dataset_realworld)*0.8), len(dataset_realworld)-int(len(dataset_realworld)*0.8)])
 
-dataset_art_product = datasets.ImageFolder(root='generated_images//office_home_art_to_product//',
-                           transform=transform)
-dataset_art_clipart = datasets.ImageFolder(root='generated_images//office_home_clipart_to_product',
-                           transform=transform)
-dataset_clipart_product = datasets.ImageFolder(root='generated_images//office_home_clipart_to_product',
-                           transform=transform)
+#dataset_art_product = datasets.ImageFolder(root='generated_images//office_home_art_to_product//',
+#                           transform=transform)
+#dataset_art_clipart = datasets.ImageFolder(root='generated_images//office_home_clipart_to_product',
+#                           transform=transform)
+#dataset_clipart_product = datasets.ImageFolder(root='generated_images//office_home_clipart_to_product',
+#                           transform=transform)
 
 
 train_art_clipart = ConcatDataset((train_set_art, train_set_clipart))
