@@ -46,6 +46,8 @@ def train(classifier, data_loader):
             # compute loss for critic
             preds = classifier(images)
 
+            print(preds.shape, labels.shape)
+
             loss = criterion(preds, labels)
 
             # optimize source classifier
