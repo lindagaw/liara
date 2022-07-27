@@ -75,11 +75,13 @@ train_set_amazon, _ = torch.utils.data.random_split(train_set_amazon, [int(len(t
 train_set_dslr, _ = torch.utils.data.random_split(train_set_dslr, [int(len(train_set_dslr)*0.2), len(train_set_dslr)-int(len(train_set_dslr)*0.2)])
 train_set_webcam, _ = torch.utils.data.random_split(train_set_webcam, [int(len(train_set_webcam)*0.2), len(train_set_webcam)-int(len(train_set_webcam)*0.2)])
 
+train_amazon_dslr = ConcatDataset((train_set_amazon, train_set_dslr))
+train_amazon_webcam = ConcatDataset((train_set_amazon, train_set_webcam))
+train_webcam_dslr = ConcatDataset((train_set_webcam, train_set_dslr))
 
-
-train_amazon_dslr = ConcatDataset((train_set_amazon,dataset_amazon_dslr, train_set_dslr))
-train_amazon_webcam = ConcatDataset((train_set_amazon, dataset_amazon_webcam, train_set_webcam))
-train_webcam_dslr = ConcatDataset((train_set_webcam, dataset_dslr_webcam, train_set_dslr))
+#train_amazon_dslr = ConcatDataset((train_set_amazon,dataset_amazon_dslr, train_set_dslr))
+#train_amazon_webcam = ConcatDataset((train_set_amazon, dataset_amazon_webcam, train_set_webcam))
+#train_webcam_dslr = ConcatDataset((train_set_webcam, dataset_dslr_webcam, train_set_dslr))
 
 dataloader_train_amazon_dslr = torch.utils.data.DataLoader(train_amazon_dslr, batch_size=batch_size, shuffle=True)
 dataloader_train_amazon_webcam = torch.utils.data.DataLoader(train_amazon_webcam, batch_size=batch_size, shuffle=True)
@@ -102,13 +104,13 @@ f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
 
-classifier = train(classifier, dataloader_train_amazon_webcam)
+#classifier = train(classifier, dataloader_train_amazon_webcam)
 #classifier = train(classifier, dataloader_train_amazon_dslr)
-#classifier = train(classifier, dataloader_train_webcam_dslr)
+classifier = train(classifier, dataloader_train_webcam_dslr)
 
-print('eval on amazon')
+print('####eval on amazon')
 acc = eval(classifier, dataloader_test_amazon)
 print('eval on webcam')
 acc = eval(classifier, dataloader_test_webcam)
-print('####eval on dslr')
+print('eval on dslr')
 acc = eval(classifier, dataloader_test_dslr)
