@@ -102,13 +102,13 @@ f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
 
-classifier = train(classifier, dataloader_train_amazon_webcam)
-#classifier = train(classifier, dataloader_train_amazon_dslr)
+#classifier = train(classifier, dataloader_train_amazon_webcam)
+classifier = train(classifier, dataloader_train_amazon_dslr)
 #classifier = train(classifier, dataloader_train_webcam_dslr)
 
 print('eval on amazon')
 acc = eval(classifier, dataloader_test_amazon)
-print('eval on webcam')
+print('####eval on webcam')
 acc = eval(classifier, dataloader_test_webcam)
 print('eval on dslr')
 acc = eval(classifier, dataloader_test_dslr)
