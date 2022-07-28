@@ -32,7 +32,7 @@ from itertools import cycle
 
 import pretty_errors
 # Set random seed for reproducibility
-manualSeed = 999
+manualSeed = 100
 #manualSeed = random.randint(1, 10000) # use if you want new results
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
