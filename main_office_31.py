@@ -75,8 +75,8 @@ train_portion_set_amazon, _ = torch.utils.data.random_split(train_set_amazon, [i
 train_portion_set_dslr, _ = torch.utils.data.random_split(train_set_dslr, [int(len(train_set_dslr)*0.2), len(train_set_dslr)-int(len(train_set_dslr)*0.2)])
 train_portion_set_webcam, _ = torch.utils.data.random_split(train_set_webcam, [int(len(train_set_webcam)*0.2), len(train_set_webcam)-int(len(train_set_webcam)*0.2)])
 
-train_amazon_webcam = ConcatDataset((train_portion_set_amazon, train_set_webcam))
-train_amazon_dslr = ConcatDataset((train_set_amazon, train_set_dslr))
+train_amazon_webcam = ConcatDataset((train_set_amazon, train_set_webcam))
+train_amazon_dslr = ConcatDataset((train_set_amazon, train_portion_set_dslr))
 train_webcam_dslr = ConcatDataset((train_set_webcam, train_set_dslr))
 
 #train_amazon_dslr = ConcatDataset((train_set_amazon,dataset_amazon_dslr, train_set_dslr))
@@ -104,8 +104,8 @@ f.fc = nn.Linear(2048, 31)
 
 classifier = f.cuda()
 
-classifier = train(classifier, dataloader_train_amazon_webcam)
-#classifier = train(classifier, dataloader_train_amazon_dslr)
+#classifier = train(classifier, dataloader_train_amazon_webcam)
+classifier = train(classifier, dataloader_train_amazon_dslr)
 #classifier = train(classifier, dataloader_train_webcam_dslr)
 
 print('eval on amazon')
