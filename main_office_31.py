@@ -87,6 +87,9 @@ dataloader_train_amazon_dslr = torch.utils.data.DataLoader(train_amazon_dslr, ba
 dataloader_train_amazon_webcam = torch.utils.data.DataLoader(train_amazon_webcam, batch_size=batch_size, shuffle=True)
 dataloader_train_webcam_dslr = torch.utils.data.DataLoader(train_webcam_dslr, batch_size=batch_size, shuffle=True)
 
+dataloader_train_amazon = torch.utils.data.DataLoader(train_set_amazon, batch_size=batch_size, shuffle=True)
+dataloader_train_webcam = torch.utils.data.DataLoader(train_set_webcam, batch_size=batch_size, shuffle=True)
+dataloader_train_dslr = torch.utils.data.DataLoader(train_set_dslr, batch_size=batch_size, shuffle=True)
 
 #dataloader_train_amazon = torch.utils.data.DataLoader(train_set_amazon, batch_size=batch_size, shuffle=True)
 dataloader_test_amazon = torch.utils.data.DataLoader(test_set_amazon, batch_size=batch_size, shuffle=True)
@@ -107,6 +110,8 @@ classifier = f.cuda()
 #classifier = train(classifier, dataloader_train_amazon_webcam)
 #classifier = train(classifier, dataloader_train_amazon_dslr)
 classifier = train(classifier, dataloader_train_webcam_dslr)
+
+classifier = train(classifier, dataloader_train_amazon)
 
 print('eval on amazon')
 acc = eval(classifier, dataloader_test_amazon)
