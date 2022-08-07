@@ -113,8 +113,8 @@ f.fc = nn.Linear(2048, 31)
 classifier = f.cuda()
 
 #classifier = train(classifier, dataloader_train_amazon_webcam)
-classifier = train(classifier, dataloader_train_amazon_dslr)
-#classifier = train(classifier, dataloader_train_webcam_dslr)
+#classifier = train(classifier, dataloader_train_amazon_dslr)
+classifier = train(classifier, dataloader_train_webcam_dslr)
 
 #classifier = train(classifier, dataloader_train_amazon)
 
