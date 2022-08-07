@@ -75,13 +75,13 @@ train_set_webcam, test_set_webcam = torch.utils.data.random_split(dataset_webcam
 #train_portion_set_dslr, _ = torch.utils.data.random_split(train_set_dslr, [31*3, len(train_set_dslr)-31*3])
 #train_portion_set_webcam, _ = torch.utils.data.random_split(train_set_webcam, [31*3, len(train_set_webcam)-31*3])
 
-#train_amazon_webcam = ConcatDataset((train_set_amazon, train_set_webcam))
-#train_amazon_dslr = ConcatDataset((train_portion_set_amazon, train_set_dslr))
-#train_webcam_dslr = ConcatDataset((train_set_webcam, train_set_dslr))
+train_amazon_webcam = ConcatDataset((train_set_amazon, train_set_webcam))
+train_amazon_dslr = ConcatDataset((train_portion_set_amazon, train_set_dslr))
+train_webcam_dslr = ConcatDataset((train_set_webcam, train_set_dslr))
 
-train_amazon_dslr = ConcatDataset((train_set_amazon,dataset_amazon_dslr, train_set_dslr))
-train_amazon_webcam = ConcatDataset((train_set_amazon, dataset_amazon_webcam, train_set_webcam))
-train_webcam_dslr = ConcatDataset((train_set_webcam, dataset_dslr_webcam, train_set_dslr))
+#train_amazon_dslr = ConcatDataset((train_set_amazon,dataset_amazon_dslr, train_set_dslr))
+#train_amazon_webcam = ConcatDataset((train_set_amazon, dataset_amazon_webcam, train_set_webcam))
+#train_webcam_dslr = ConcatDataset((train_set_webcam, dataset_dslr_webcam, train_set_dslr))
 
 dataloader_train_amazon = torch.utils.data.DataLoader(train_set_amazon, batch_size=batch_size, shuffle=True)
 dataloader_train_webcam = torch.utils.data.DataLoader(train_set_webcam, batch_size=batch_size, shuffle=True)
