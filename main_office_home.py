@@ -111,6 +111,11 @@ classifier = train(classifier, dataloader_train_art_product)
 #classifier = train(classifier, dataloader_train_product_realworld)
 #classifier = train(classifier, dataloader_train_clipart_realworld)
 
+print('eval on art')
+acc = eval(classifier, dataloader_test_art)
+print('eval on product')
+acc = eval(classifier, dataloader_test_product)
+
 print('eval on clipart')
 acc = eval(classifier, dataloader_test_clipart)
 print('eval on realworld')
