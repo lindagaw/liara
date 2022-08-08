@@ -104,8 +104,8 @@ f.fc = nn.Linear(2048, 65)
 
 classifier = f.cuda()
 
-classifier = train(classifier, dataloader_train_art_product)
-#classifier = train(classifier, dataloader_train_art_clipart)
+#classifier = train(classifier, dataloader_train_art_product)
+classifier = train(classifier, dataloader_train_art_clipart)
 #classifier = train(classifier, dataloader_train_art_realworld)
 #classifier = train(classifier, dataloader_train_product_clipart)
 #classifier = train(classifier, dataloader_train_product_realworld)
