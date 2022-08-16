@@ -65,12 +65,12 @@ category = opt.which_class
 
 for category in range(0, 31):
 
-    category_name = os.listdir("datasets//office-31-intact//amazon//images//")[category]
+    category_name = os.listdir("datasets//office-31-pseudo//amazon//images//")[category]
     print('generating fake data for label {} with class name {}'.format(category, category_name))
 
-    dataroot_amazon = "datasets//office-31//amazon//images//" + category_name
-    dataroot_dslr = "datasets//office-31//dslr//images//" + category_name
-    dataroot_webcam = "datasets//office-31//webcam//images//" + category_name
+    dataroot_amazon = "datasets//office-31-pseudo//amazon//images//" + category_name
+    dataroot_dslr = "datasets//office-31-pseudo//dslr//images//" + category_name
+    dataroot_webcam = "datasets//office-31-pseudo//webcam//images//" + category_name
 
     transform=transforms.Compose([
         transforms.Resize(image_size),

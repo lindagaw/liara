@@ -41,9 +41,9 @@ torch.manual_seed(manualSeed)
 batch_size = 32
 image_size = 299
 
-dataroot_amazon = "datasets//office-31-intact//amazon//images//"
-dataroot_dslr = "datasets//office-31-intact//dslr//images//"
-dataroot_webcam = "datasets//office-31-intact//webcam//images//"
+dataroot_amazon = "datasets//office-31-pseudo//amazon//images//"
+dataroot_dslr = "datasets//office-31-pseudo//dslr//images//"
+dataroot_webcam = "datasets//office-31-pseudo//webcam//images//"
 
 transform=transforms.Compose([
     transforms.Resize(image_size),
