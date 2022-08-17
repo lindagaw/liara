@@ -75,6 +75,13 @@ for category in range(0, 31):
     dataset = amazon_data_loader_train
     dataset_tgt = dslr_data_loader_pseudo_train
 
+    idx = dataset.train_labels==category
+    dataset.train_labels = dataset.train_labels[idx]
+    dataset.train_data = dataset.train_data[idx]
+
+    idx = dataset_tgt.train_labels==category
+    dataset_tgt.train_labels = dataset_tgt.train_labels[idx]
+    dataset_tgt.train_data = dataset_tgt.train_data[idx]
 
     # Create the dataloader
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
