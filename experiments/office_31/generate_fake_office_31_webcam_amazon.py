@@ -68,9 +68,9 @@ for category in range(0, 31):
     category_name = os.listdir("datasets//office-31-intact//amazon//images//")[category]
     print('generating fake data for label {} with class name {}'.format(category, category_name))
 
-    dataroot_amazon = "datasets//office-31-intact//amazon//images//" + category_name
-    dataroot_dslr = "datasets//office-31-pseudo//dslr//images//" + category_name
-    dataroot_webcam = "datasets//office-31-inract//webcam//images//" + category_name
+    dataroot_amazon = "datasets//office-31-pseudo//amazon//images//" + category_name
+    dataroot_dslr = "datasets//office-31-intact//dslr//images//" + category_name
+    dataroot_webcam = "datasets//office-31-intact//webcam//images//" + category_name
 
     transform=transforms.Compose([
         transforms.Resize(image_size),
@@ -101,8 +101,8 @@ for category in range(0, 31):
     test_set_webcam = datasets.ImageFolder(root="datasets//office-31-test//webcam//images//",
                                transform=transform)
 
-    dataset = train_set_amazon
-    dataset_tgt = dataset_dslr
+    dataset = train_set_webcam
+    dataset_tgt = dataset_amazon
 
 
     # Create the dataloader
@@ -261,11 +261,11 @@ for category in range(0, 31):
                 with torch.no_grad():
                     fake = netG(fixed_noise).detach().cpu()
                     try:
-                        shutil.rmtree('generated_images//office_31_amazon_to_dslr//'+str(category) + '//')
+                        shutil.rmtree('generated_images//office_31_webcam_to_amazon//'+str(category) + '//')
                     except:
                         pass
-                    os.makedirs('generated_images//office_31_amazon_to_dslr//'+str(category) + '//')
-                    save_individual_images('generated_images//office_31_amazon_to_dslr//'+str(category) + '//', fake)
+                    os.makedirs('generated_images//office_31_webcam_to_amazon//'+str(category) + '//')
+                    save_individual_images('generated_images//office_31_webcam_to_amazon//'+str(category) + '//', fake)
                 img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
             iters += 1

@@ -68,8 +68,8 @@ for category in range(0, 31):
     category_name = os.listdir("datasets//office-31-pseudo//amazon//images//")[category]
     print('generating fake data for label {} with class name {}'.format(category, category_name))
 
-    dataroot_amazon = "datasets//office-31-pseudo//amazon//images//" + category_name
-    dataroot_dslr = "datasets//office-31-pseudo//dslr//images//" + category_name
+    dataroot_amazon = "datasets//office-31-intact//amazon//images//" + category_name
+    dataroot_dslr = "datasets//office-31-intact//dslr//images//" + category_name
     dataroot_webcam = "datasets//office-31-pseudo//webcam//images//" + category_name
 
     transform=transforms.Compose([
@@ -88,12 +88,21 @@ for category in range(0, 31):
                                transform=transform)
 
 
-    train_set_amazon, test_set_amazon = torch.utils.data.random_split(dataset_amazon, [int(len(dataset_amazon)*0.8), len(dataset_amazon)-int(len(dataset_amazon)*0.8)])
-    train_set_dslr, test_set_dslr = torch.utils.data.random_split(dataset_dslr, [int(len(dataset_dslr)*0.8), len(dataset_dslr)-int(len(dataset_dslr)*0.8)])
-    train_set_webcam, test_set_webcam = torch.utils.data.random_split(dataset_webcam, [int(len(dataset_webcam)*0.8), len(dataset_webcam)-int(len(dataset_webcam)*0.8)])
+    train_set_amazon = datasets.ImageFolder(root="datasets//office-31-train//amazon//images//",
+                               transform=transform)
+    test_set_amazon = datasets.ImageFolder(root="datasets//office-31-test//amazon//images//",
+                               transform=transform)
+    train_set_dslr = datasets.ImageFolder(root="datasets//office-31-train//dslr/images//",
+                               transform=transform)
+    test_set_dslr = datasets.ImageFolder(root="datasets//office-31-test//dslr//images//",
+                               transform=transform)
+    train_set_webcam = datasets.ImageFolder(root="datasets//office-31-train//webcam//images//",
+                               transform=transform)
+    test_set_webcam = datasets.ImageFolder(root="datasets//office-31-test//webcam//images//",
+                               transform=transform)
 
     dataset = train_set_dslr
-    dataset_tgt = train_set_webcam
+    dataset_tgt = dataset_webcam
 
 
     # Create the dataloader
