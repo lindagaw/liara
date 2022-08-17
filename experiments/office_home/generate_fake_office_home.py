@@ -23,6 +23,7 @@ from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
 
+from datasets_code import get_stl_10_datasets, get_cifar_10_datasets, get_office_31_datasets, get_office_home_datasets
 
 from itertools import cycle
 import pretty_errors
@@ -39,11 +40,6 @@ manualSeed = 999
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
-
-# Root directory for dataset
-#dataroot = "office-31-intact//amazon//images//"
-#dataroot_tgt = "office-31-intact//dslr//images//"
-#dataroot = "celebs//"
 
 # Batch size during training
 batch_size = 128
@@ -63,46 +59,16 @@ category = opt.which_class
 
 
 
-for category in range(0, 31):
+for category in range(0, 65):
 
-    category_name = os.listdir("datasets//office-31-pseudo//amazon//images//")[category]
+    category_name = os.listdir("datasets//office-home//Art//images//")[category]
     print('generating fake data for label {} with class name {}'.format(category, category_name))
 
-    dataroot_amazon = "datasets//office-31-intact//amazon//images//" + category_name
-    dataroot_dslr = "datasets//office-31-pseudo//dslr//images//" + category_name
-    dataroot_webcam = "datasets//office-31-intact//webcam//images//" + category_name
+    art_data_loader_pseudo_train, art_data_loader_train, art_data_loader_test = get_office_home_datasets('Art')
+    product_data_loader_pseudo_train, product_data_loader_train, product_data_loader_test = get_office_home_datasets('Product')
 
-    transform=transforms.Compose([
-        transforms.Resize(image_size),
-        transforms.CenterCrop(image_size),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        #AddGaussianNoise(0., 1.)
-    ])
-
-    dataset_amazon = datasets.ImageFolder(root=dataroot_amazon,
-                               transform=transform)
-    dataset_dslr = datasets.ImageFolder(root=dataroot_dslr,
-                               transform=transform)
-    dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
-                               transform=transform)
-
-
-    train_set_amazon = datasets.ImageFolder(root="datasets//office-31-train//amazon//images//",
-                               transform=transform)
-    test_set_amazon = datasets.ImageFolder(root="datasets//office-31-test//amazon//images//",
-                               transform=transform)
-    train_set_dslr = datasets.ImageFolder(root="datasets//office-31-train//dslr/images//",
-                               transform=transform)
-    test_set_dslr = datasets.ImageFolder(root="datasets//office-31-test//dslr//images//",
-                               transform=transform)
-    train_set_webcam = datasets.ImageFolder(root="datasets//office-31-train//webcam//images//",
-                               transform=transform)
-    test_set_webcam = datasets.ImageFolder(root="datasets//office-31-test//webcam//images//",
-                               transform=transform)
-
-    dataset = train_set_webcam
-    dataset_tgt = dataset_dslr
+    dataset = art_data_loader_train
+    dataset_tgt = product_data_loader_pseudo_train
 
 
     # Create the dataloader
@@ -261,11 +227,11 @@ for category in range(0, 31):
                 with torch.no_grad():
                     fake = netG(fixed_noise).detach().cpu()
                     try:
-                        shutil.rmtree('generated_images//office_31_webcam_to_dslr//'+str(category) + '//')
+                        shutil.rmtree('generated_images//office_home_amazon_to_dslr//'+str(category) + '//')
                     except:
                         pass
-                    os.makedirs('generated_images//office_31_webcam_to_dslr//'+str(category) + '//')
-                    save_individual_images('generated_images//office_31_webcam_to_dslr//'+str(category) + '//', fake)
+                    os.makedirs('generated_images//office_home_amazon_to_dslr//'+str(category) + '//')
+                    save_individual_images('generated_images//office_home_amazon_to_dslr//'+str(category) + '//', fake)
                 img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 
             iters += 1

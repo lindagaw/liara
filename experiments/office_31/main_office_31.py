@@ -30,6 +30,8 @@ from train_and_eval import train, eval
 
 from itertools import cycle
 
+from datasets_code import get_stl_10, get_cifar_10, get_office_31, get_office_home
+from datasets_code import get_stl_10_datasets, get_cifar_10_datasets, get_office_31_datasets, get_office_home_datasets
 import pretty_errors
 # Set random seed for reproducibility
 manualSeed =999
@@ -41,24 +43,6 @@ torch.manual_seed(manualSeed)
 batch_size = 32
 image_size = 299
 
-dataroot_amazon = "datasets//office-31-intact//amazon//images//"
-dataroot_dslr = "datasets//office-31-intact//dslr//images//"
-dataroot_webcam = "datasets//office-31-intact//webcam//images//"
-
-transform=transforms.Compose([
-    transforms.Resize(image_size),
-    transforms.CenterCrop(image_size),
-    transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-    #AddGaussianNoise(0., 1.)
-])
-
-dataset_amazon = datasets.ImageFolder(root=dataroot_amazon,
-                           transform=transform)
-dataset_dslr = datasets.ImageFolder(root=dataroot_dslr,
-                           transform=transform)
-dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
-                           transform=transform)
 
 dataset_amazon_webcam = datasets.ImageFolder(root='generated_images//office_31_amazon_to_webcam',
                            transform=transform)
@@ -73,34 +57,9 @@ dataset_dslr_amazon = datasets.ImageFolder(root='generated_images//office_31_dsl
 dataset_webcam_dslr = datasets.ImageFolder(root='generated_images//office_31_webcam_to_dslr',
                            transform=transform)
 
-dataroot_pseudo_amazon = "datasets//office-31-pseudo//amazon//images//" + category_name
-dataroot_pseudo_dslr = "datasets//office-31-pseudo//dslr//images//" + category_name
-dataroot_pseudo_webcam = "datasets//office-31-pseudo//webcam//images//" + category_name
-
-dataset_pseudo_amazon = datasets.ImageFolder(root=dataroot_pseudo_amazon,
-                           transform=transform)
-dataset_pseudo_dslr = datasets.ImageFolder(root=dataroot_pseudo_dslr,
-                           transform=transform)
-dataset_pseudo_webcam = datasets.ImageFolder(root=dataroot_pseudo_webcam,
-                           transform=transform)
-################################################################################
-
-train_set_amazon = datasets.ImageFolder(root="datasets//office-31-train//amazon//images//",
-                           transform=transform)
-test_set_amazon = datasets.ImageFolder(root="datasets//office-31-test//amazon//images//",
-                           transform=transform)
-train_set_dslr = datasets.ImageFolder(root="datasets//office-31-train//dslr/images//",
-                           transform=transform)
-test_set_dslr = datasets.ImageFolder(root="datasets//office-31-test//dslr//images//",
-                           transform=transform)
-train_set_webcam = datasets.ImageFolder(root="datasets//office-31-train//webcam//images//",
-                           transform=transform)
-test_set_webcam = datasets.ImageFolder(root="datasets//office-31-test//webcam//images//",
-                           transform=transform)
-
-#train_portion_set_amazon, _ = torch.utils.data.random_split(train_set_amazon, [31*3, len(train_set_amazon)-31*3])
-#train_portion_set_dslr, _ = torch.utils.data.random_split(train_set_dslr, [31*3, len(train_set_dslr)-31*3])
-#train_portion_set_webcam, _ = torch.utils.data.random_split(train_set_webcam, [31*3, len(train_set_webcam)-31*3])
+dataset_pseudo_amazon, train_set_amazon, test_set_amazon = get_office_31_datasets('Amazon')
+dataset_pseudo_dslr, train_set_dslr, test_set_dslr = get_office_31_datasets('Dslr')
+dataset_pseudo_webcam, train_set_webcam, test_set_webcam = get_office_31_datasets('Webcam')
 
 train_amazon_webcam = ConcatDataset((train_set_amazon, dataset_pseudo_webcam, dataset_amazon_webcam))
 train_amazon_dslr = ConcatDataset((train_set_amazon, dataset_pseudo_dslr, dataset_amazon_dslr))

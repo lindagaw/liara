@@ -23,6 +23,7 @@ from models import Generator
 from models import Discriminator
 from models import mahalanobis_loss
 
+from datasets_code import get_stl_10_datasets, get_cifar_10_datasets, get_office_31_datasets, get_office_home_datasets
 
 from itertools import cycle
 import pretty_errors
@@ -68,41 +69,11 @@ for category in range(0, 31):
     category_name = os.listdir("datasets//office-31-intact//amazon//images//")[category]
     print('generating fake data for label {} with class name {}'.format(category, category_name))
 
-    dataroot_amazon = "datasets//office-31-intact//amazon//images//" + category_name
-    dataroot_dslr = "datasets//office-31-pseudo//dslr//images//" + category_name
-    dataroot_webcam = "datasets//office-31-inract//webcam//images//" + category_name
+    amazon_data_loader_pseudo_train, amazon_data_loader_train, amazon_data_loader_test = get_office_31_datasets('Amazon')
+    dslr_data_loader_pseudo_train, dslr_data_loader_train, dslr_data_loader_test = get_office_31_datasets('Dslr')
 
-    transform=transforms.Compose([
-        transforms.Resize(image_size),
-        transforms.CenterCrop(image_size),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        #AddGaussianNoise(0., 1.)
-    ])
-
-    dataset_amazon = datasets.ImageFolder(root=dataroot_amazon,
-                               transform=transform)
-    dataset_dslr = datasets.ImageFolder(root=dataroot_dslr,
-                               transform=transform)
-    dataset_webcam = datasets.ImageFolder(root=dataroot_webcam,
-                               transform=transform)
-
-
-    train_set_amazon = datasets.ImageFolder(root="datasets//office-31-train//amazon//images//",
-                               transform=transform)
-    test_set_amazon = datasets.ImageFolder(root="datasets//office-31-test//amazon//images//",
-                               transform=transform)
-    train_set_dslr = datasets.ImageFolder(root="datasets//office-31-train//dslr/images//",
-                               transform=transform)
-    test_set_dslr = datasets.ImageFolder(root="datasets//office-31-test//dslr//images//",
-                               transform=transform)
-    train_set_webcam = datasets.ImageFolder(root="datasets//office-31-train//webcam//images//",
-                               transform=transform)
-    test_set_webcam = datasets.ImageFolder(root="datasets//office-31-test//webcam//images//",
-                               transform=transform)
-
-    dataset = train_set_amazon
-    dataset_tgt = dataset_dslr
+    dataset = amazon_data_loader_train
+    dataset_tgt = dslr_data_loader_pseudo_train
 
 
     # Create the dataloader
